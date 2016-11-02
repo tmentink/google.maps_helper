@@ -2,92 +2,48 @@
 // ===========================================
 // Utility
 // ===========================================
-
-  !(function (root) {
+  
+  var GMapsHelper = (function(GMH) {
     "use strict";
-
-    // Debounce
+  
+    // Google Maps Helper Object
     // =======================================
-    var debounce = function (fn, delay) {
-      if (delay === undefined) { delay = 250; }
-
-      var timer = null;
-      return function () {
-        var context = this, args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-          fn.apply(context, args);
-        }, delay);
-      };
-    }
+    GMH.Utility = {};
 
 
-    // Trottle
+    // To LatLng Array
     // =======================================
-    var throttle = function(fn, delay) {
-      if (delay === undefined) { delay = 250; }
+    var toLatLngArray = function(str) {
+      try {
+        var latLngArray = [];
 
-      var deferTimer,
-          last;
-      return function () {
-        var context = this;
+        // split the string into an array of coordinatePairs
+        var coordPairs = str.split("|");
 
-        var now = +new Date,
-            args = arguments;
-        if (last && now < last + delay) {
-          // hold on to it
-          clearTimeout(deferTimer);
-          deferTimer = setTimeout(function () {
-            last = now;
-            fn.apply(context, args);
-          }, delay);
-        } else {
-          last = now;
-          fn.apply(context, args);
+        for (var i = 0, i_len = coordPairs.length; i < i_len; i++) {
+          var points = coordPairs[i].split(",");
+          
+          // create a latLng object
+          var latLng = { lat: parseFloat(points[0]), lng: parseFloat(points[1]) };
+
+          // add to latLngArray
+          latLngArray.push(latLng);
         }
-      };
-    }
 
-
-    // Selector Cache
-    // =======================================
-    if (root.jQuery) {
-      var selector_cache = function() {
-        var elementCache = {};
-
-        var get_from_cache = function( selector, $ctxt, reset ) {
-          if ( "boolean" === typeof $ctxt ) {
-            reset = $ctxt;
-            $ctxt = false;
-          }
-          var cacheKey = $ctxt ? $ctxt.selector + ' ' + selector : selector;
-
-          if ( undefined === elementCache[ cacheKey ] || reset ) {
-            elementCache[ cacheKey ] = $ctxt ? $ctxt.find( selector ) : jQuery( selector );
-          }
-
-          return elementCache[ cacheKey ];
-        };
-
-        get_from_cache.elementCache = elementCache;
-        return get_from_cache;
+        return latLngArray;
+      }
+      catch (ex) {
+        console.log(ex);
+        return [];
       }
     }
-    
+
 
     // Public Methods
     // =======================================
-    root.utility = {
-      debounce: debounce,
-      throttle: throttle
-    };
-
-    if (selector_cache) {
-      root.$cache = new selector_cache();
-    } 
-
-  })(this);
+    GMH.Utility.toLatLngArray = toLatLngArray;
 
 
 
-
+    return GMH;
+  })(GMapsHelper || {});
