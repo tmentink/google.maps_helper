@@ -3,7 +3,7 @@
 // Polygons
 // ===========================================
   
-  var GMapsHelper = (function(GMH) {
+  var GMH = (function(GMH) {
     "use strict";
   
     // Default Options
@@ -19,13 +19,28 @@
     }
 
 
-    // GMapsHelper Object
+    // Google Maps Helper Object
     // =======================================
-    GMH.Polygon = {};
+    GMH.Polygon = {};    
+
+
+    // Get Index
+    // =======================================
+    // create an index variable for auto creating an id
+    GMH.Data.Polygons._index = 0;
+
+    var _getIndex = function() {
+      var i = GMH.Data.Polygons._index;
+
+      // increment the index
+      GMH.Data.Polygons._index++;
+
+      return i;
+    }
 
 
     // Add Polygon
-    // ===========================================
+    // =======================================
     var addPolygon = function(id, path, options) {
       return _executeAdd(id, path, options);
     }
@@ -70,18 +85,16 @@
 
         // default id to next index in the Polygons object
         if (id == null) { 
-          id = Object.keys(GMH.Data.Polygons).length;
+          id = _getIndex();
         }
 
         // check if path is supplied
         if (path == null) {
-          console.log("Must supply a path parameter");
+          console.log("Must supply a path");
           return false;
         }
 
-        _add(id, path, userOptions);
-
-        return true;
+        return _add(id, path, userOptions);
       }
       catch (ex) {
         console.log(ex);
@@ -91,6 +104,8 @@
 
     var _executeMultiAdd = function(polygons) {
       try {
+        var results = [];
+
         for (var i = 0, i_len = polygons.length; i < i_len; i++) {
           var id = polygons[i].id;
           var path = polygons[i].path;
@@ -98,7 +113,7 @@
 
           // default id to next index in the Polygons object
           if (id == null) { 
-            id = Object.keys(GMH.Data.Polygons).length;
+            id = _getIndex();
           }
 
           // skip over if path is null
@@ -106,10 +121,11 @@
             continue; 
           }
 
-          _add(id, path, options);
+          // push the result of the add into the array
+          results.push(_add(id, path, options));
         }
 
-        return true;
+        return results;
       }
       catch (ex) {
         console.log(ex);
@@ -145,19 +161,23 @@
 
     var _executeMulti = function(action, ids) {
       try {
+        var results = [];
+
         // loop through each id
         for (var i = 0, i_len = ids.length; i < i_len; i++) {
           var id = ids[i];
           
           // skip over ids that dont match an existing polygon
           if (GMH.Data.Polygons[id] == undefined) { 
+            results.push(false);
             continue; 
           }
 
+          results.push(true);
           _switch(action, id);
         }
 
-        return true;
+        return results;
       }
       catch (ex) {
         console.log(ex);
@@ -189,6 +209,12 @@
     // Actions
     // =======================================
     var _add = function(id, path, userOptions) {
+      
+      // cancel add if id already exists
+      if (GMH.Data.Polygons[id]) {
+        return false;
+      }
+
       // get default options
       var defaults = _DEFAULTS.polygon;
       
@@ -211,6 +237,8 @@
 
       // store polygon with id in Polygons object
       GMH.Data.Polygons[id] = poly;
+
+      return true;
     }
 
     var _toggle = function(id) {
@@ -246,4 +274,4 @@
 
 
     return GMH;
-  })(GMapsHelper || {});
+  })(GMH || {});

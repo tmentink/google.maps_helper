@@ -3,7 +3,7 @@
 // Map
 // ===========================================
   
-  var GMapsHelper = (function(GMH) {
+  var GMH = (function(GMH) {
     "use strict";
   
     // Default Options
@@ -50,4 +50,4 @@
 
 
     return GMH;
-  })(GMapsHelper || {});
+  })(GMH || {});

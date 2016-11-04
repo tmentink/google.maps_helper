@@ -3,7 +3,7 @@
 // Utility
 // ===========================================
   
-  var GMapsHelper = (function(GMH) {
+  var GMH = (function(GMH) {
     "use strict";
   
     // Google Maps Helper Object
@@ -46,4 +46,4 @@
 
 
     return GMH;
-  })(GMapsHelper || {});
+  })(GMH || {});
