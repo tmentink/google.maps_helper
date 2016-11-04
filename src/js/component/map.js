@@ -6,16 +6,6 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Default Options
-    // =======================================
-    var _DEFAULTS = {
-      map: {
-        zoom: 6,
-        center: { lat: 37.5, lng: -120 },
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-    }
-
 
     // Google Maps Helper Object
     // =======================================
@@ -27,7 +17,7 @@
     var initMap = function(container, userOptions) {
       try {
         // get default options
-        var defaults = _DEFAULTS.map;
+        var defaults = $.extend({}, {}, GMH.Defaults.Map); 
 
         // combine user and default options
         var options = $.extend({}, defaults, userOptions)
