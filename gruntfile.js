@@ -25,21 +25,17 @@ module.exports = function(grunt) {
           preserveComments: 'all'
         },
         src: 'src/js/application.js',
-        dest: 'dist/js/main.min.js'
+        dest: 'dist/js/google.maps-helper.js'
       },
       dist: {
         src: 'src/js/application.js',
-        dest: 'dist/js/main.min.js'
+        dest: 'dist/js/google.maps-helper.min.js'
       }
     },
     watch: {
       js: {
         files: ['src/js/**/*.js'],
         tasks: ['concat','uglify:dev']
-      },
-      css: {
-        files: ['src/scss/**/*.scss'],
-        tasks: ['sass:dev']
       }
     } 
   });
