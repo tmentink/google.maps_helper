@@ -1,0 +1,25 @@
+
+Tasks:
+  ☐ Add markers
+  ☐ Add marker clustering
+  ☐ Add labels
+
+
+Map:
+  ☐ Possibly allow multiple maps
+    ~ would need add optional parameter for map id
+
+  ☐ Add methods for event listeners
+  ☐ Add methods for changing center/bounds
+
+
+Polygons:
+  ☐ Allow complex polygons
+    ~ need to update string toLatLngArray method
+  
+  ☐ Think about Data.Polygons object structure
+    ~ will need to store user values for labels
+
+  ☐ Add methods for event listeners
+  ☐ Add methods for editting path
+
