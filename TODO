@@ -14,12 +14,12 @@ Map:
 
 
 Polygons:
-  ☐ Allow complex polygons
+  ☐ Allow complex polygons?
     ~ need to update string toLatLngArray method
   
   ☐ Think about Data.Polygons object structure
     ~ will need to store user values for labels
 
   ☐ Add methods for event listeners
-  ☐ Add methods for editting path
+  ☐ Add methods for dragging and moving to edit path
 

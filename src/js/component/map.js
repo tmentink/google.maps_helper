@@ -9,7 +9,9 @@
 
     // Google Maps Helper Object
     // =======================================
-    GMH.Map = {};
+    if (typeof GMH.Map == "undefined") {
+      GMH.Map = {};
+    } 
 
 
     // Init Map
@@ -23,7 +25,7 @@
         var options = $.extend({}, defaults, userOptions)
        
         // create new map and save reference
-        GMH.Data.Map = new google.maps.Map(document.getElementById(container), options);
+        GMH.Data.Map.Obj = new google.maps.Map(document.getElementById(container), options);
 
         return true;
       }
@@ -41,3 +43,8 @@
 
     return GMH;
   })(GMH || {});
+
+
+
+
+

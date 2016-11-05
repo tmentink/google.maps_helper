@@ -9,7 +9,7 @@
     // Google Maps Helper Object
     // =======================================
     GMH.Data = {};
-    GMH.Data.Map;
+    GMH.Data.Map = {};
     GMH.Data.Polygons = {};
 
 
