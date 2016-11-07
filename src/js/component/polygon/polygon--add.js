@@ -90,8 +90,8 @@
             continue;
           }
 
-          results.push(true);
           _add(id, path, options);
+          results.push(true);
         }
 
         return results;
@@ -106,35 +106,34 @@
     // Actions
     // =======================================
     var _add = function(id, path, userOptions) {
-      if (userOptions == null) {
-        userOptions = {};
-      }
-
-      // get default options
-      var defaults = GMH.Defaults.Polygon;
-      
       // convert the path if it is a string
       if (typeof path == "string") {
         path = GMH.Utility.toLatLngArray(path);
       }
 
-      // add path to userOptions
-      userOptions.paths = path;
-
       // combine user and default options
-      var options = $.extend({}, defaults, userOptions);
+      var options = $.extend({}, GMH.Defaults.Polygon, userOptions);
 
-      // create new polygon
+      // add path to options
+      options.paths = path;
+
+      // create new google polygon
       var poly = new google.maps.Polygon(options);
-
-      // add polygon to map
-      poly.setMap(GMH.Data.Map.Obj);
 
       // store the id in the Data.Polygons object
       GMH.Data.Polygons[id] = {};
 
+      // add GMH object to polygon
+      poly.GMH = {
+        ID: id,
+        Parent: GMH.Data.Polygons[id]
+      };
+
       // save the google polygon object
       GMH.Data.Polygons[id].Obj = poly;
+
+      // add polygon to map
+      poly.setMap(GMH.Data.Map.Obj);
     }
 
 

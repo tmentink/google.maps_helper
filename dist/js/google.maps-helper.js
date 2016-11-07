@@ -224,8 +224,8 @@ var GMH = function(GMH) {
           results.push(false);
           continue;
         }
-        results.push(true);
         _add(id, path, options);
+        results.push(true);
       }
       return results;
     } catch (ex) {
@@ -236,27 +236,27 @@ var GMH = function(GMH) {
   // Actions
   // =======================================
   var _add = function(id, path, userOptions) {
-    if (userOptions == null) {
-      userOptions = {};
-    }
-    // get default options
-    var defaults = GMH.Defaults.Polygon;
     // convert the path if it is a string
     if (typeof path == "string") {
       path = GMH.Utility.toLatLngArray(path);
     }
-    // add path to userOptions
-    userOptions.paths = path;
     // combine user and default options
-    var options = $.extend({}, defaults, userOptions);
-    // create new polygon
+    var options = $.extend({}, GMH.Defaults.Polygon, userOptions);
+    // add path to options
+    options.paths = path;
+    // create new google polygon
     var poly = new google.maps.Polygon(options);
-    // add polygon to map
-    poly.setMap(GMH.Data.Map.Obj);
     // store the id in the Data.Polygons object
     GMH.Data.Polygons[id] = {};
+    // add GMH object to polygon
+    poly.GMH = {
+      ID: id,
+      Parent: GMH.Data.Polygons[id]
+    };
     // save the google polygon object
     GMH.Data.Polygons[id].Obj = poly;
+    // add polygon to map
+    poly.setMap(GMH.Data.Map.Obj);
   };
   // Public Methods
   // =======================================
@@ -436,6 +436,78 @@ var GMH = function(GMH) {
   GMH.Polygon.toggle = togglePolygon;
   GMH.Polygon.show = showPolygon;
   GMH.Polygon.hide = hidePolygon;
+  return GMH;
+}(GMH || {});
+
+// ===========================================
+// Polygon - Listener
+// ===========================================
+var GMH = function(GMH) {
+  "use strict";
+  // Google Maps Helper Object
+  // =======================================
+  if (typeof GMH.Polygon == "undefined") {
+    GMH.Polygon = {};
+  }
+  // Add Listener
+  // =======================================
+  var addListener = function(id, type, fn) {
+    return _execute(id, type, fn);
+  };
+  // Execute
+  // =======================================
+  var _execute = function(id, type, fn) {
+    try {
+      // check if array is passed
+      if (Array.isArray(id)) {
+        return _executeMulti(id);
+      }
+      // check if id matches a polygon
+      if (GMH.Data.Polygons[id] == undefined) {
+        console.log("ERROR: ID does not reference a polygon");
+        return false;
+      }
+      return _addListener(id, type, fn);
+    } catch (ex) {
+      console.log(ex);
+      return false;
+    }
+  };
+  var _executeMulti = function(polygons) {
+    try {
+      var results = [];
+      // loop through each id
+      for (var i = 0, i_len = polygons.length; i < i_len; i++) {
+        var id = polygons[i].id;
+        var type = polygons[i].type;
+        var fn = polygons[i].fn;
+        // skip over ids that dont match an existing polygon
+        if (GMH.Data.Polygons[id] == undefined) {
+          results.push(false);
+          continue;
+        }
+        results.push(_addListener(id, type, fn));
+      }
+      return results;
+    } catch (ex) {
+      console.log(ex);
+      return false;
+    }
+  };
+  // Actions
+  // =======================================
+  var _addListener = function(id, type, func) {
+    try {
+      google.maps.event.addListener(GMH.Data.Polygons[id].Obj, type, func);
+      return true;
+    } catch (ex) {
+      console.log(ex);
+      return false;
+    }
+  };
+  // Public Methods
+  // =======================================
+  GMH.Polygon.addListener = addListener;
   return GMH;
 }(GMH || {});
 
