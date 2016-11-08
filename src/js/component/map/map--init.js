@@ -1,12 +1,11 @@
 
 // ===========================================
-// Map
+// Map - Init
 // ===========================================
   
   var GMH = (function(GMH) {
     "use strict";
   
-
     // Google Maps Helper Object
     // =======================================
     if (typeof GMH.Map == "undefined") {
@@ -26,6 +25,12 @@
        
         // create new map and save reference
         GMH.Data.Map.Obj = new google.maps.Map(document.getElementById(container), options);
+
+        // save bounds after map has finished initializing
+        setTimeout(function() {
+          GMH.Data.Map.initialBounds = GMH.Data.Map.Obj.getBounds();
+          GMH.Data.Map.initialZoom = GMH.Data.Map.Obj.getZoom();
+        }, 500);
 
         return true;
       }
