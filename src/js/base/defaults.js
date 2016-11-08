@@ -49,18 +49,8 @@
     // =======================================
     var _changeDefaults = function(action, type, userOptions) {
       try {
-        // allow type to be case insensitive
-        var type;
-        switch(type.toLowerCase()) {
-          case "map":
-            type = "Map"
-            break;
-
-          case "polygon":
-            type = "Polygon"
-            break;
-        }
-
+        type = _getType(type);
+        
         var newOptions = userOptions;
 
         if (action == "update") {
@@ -80,6 +70,33 @@
         return false;
       }
     }
+
+
+    // Get Type
+    // =======================================
+    // allow type to be case and plural insensitive
+    var _getType = function(type) {
+      switch(type.toLowerCase()) {
+        case "map":
+          type = "Map";
+          break;
+
+        case "maps":
+          type = "Map";
+          break;
+
+        case "polygon":
+          type = "Polygon";
+          break;
+
+        case "polygons":
+          type = "Polygon";
+          break;
+      }
+
+      return type;
+    }
+
 
 
     // Public Methods
