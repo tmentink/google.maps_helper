@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Google Maps Helper Object
+    // GMH Map Object
     // =======================================
     if (typeof GMH.Map == "undefined") {
       GMH.Map = {};
@@ -23,63 +23,59 @@
     // Execute
     // =======================================
     var _execute = function(type, id) {
-      try {
-        // check if array of types is passed
-        if (Array.isArray(type)) {
-          return _executeMultiTypes(type);
-        }
-
-        type = _getType(type);
-        
-        // set map bounds and zoom to it's initial value
-        if (type == "initial") {
-          GMH.Data.Map.Obj.fitBounds(GMH.Data.Map.initialBounds);
-          GMH.Data.Map.Obj.setZoom(GMH.Data.Map.initialZoom);
-          return true;
-        }
-
-        // get the bounds for all the ids in the given type
-        if (typeof id == "undefined") {
-          var bounds = _getBoundsMulti(type, _getIDs(type));
-          GMH.Data.Map.Obj.fitBounds(bounds);
-          return true;
-        }
-
-        // get the bounds of the id
-        var bounds = _getBounds(type, id);
-
-        // set maps bounds 
-        GMH.Data.Map.Obj.fitBounds(bounds);
-
-        return true;
+      // check if array of types is passed
+      if (Array.isArray(type)) {
+        return _executeMultiTypes(type);
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
+
+      // allow type to be less sensitive
+      type = _getType(type);
+      
+      // set map bounds and zoom to it's initial value
+      if (type == "initial" || type == "init") {
+        GMH.Data.Map.Obj.fitBounds(GMH.Data.Map.initialBounds);
+        GMH.Data.Map.Obj.setZoom(GMH.Data.Map.initialZoom);
+        return;
       }
+
+      // if id is null, get an array of all ids for the given type
+      id = (id == null) ? _getIDs(type) : id;
+
+      // get the bounds of the id
+      var bounds = _getBounds(type, id);
+
+      // set maps bounds 
+      GMH.Data.Map.Obj.fitBounds(bounds);
+
+      return GMH.Data.Map;
     }
 
-    var _executeMultiTypes = function(types) {
-      try {
-        var bounds = new google.maps.LatLngBounds();
+    var _executeMultiTypes = function(typeObjects) {
+      var bounds = new google.maps.LatLngBounds();
 
-        // loop through each type object
-        for (var i = 0, i_len = types.length; i < i_len; i++) {
-          var type = _getType(types[i].type);
-          var id = types[i].id ? types[i].id : types[i].ids;
+      // loop through each type object
+      for (var i = 0, i_len = typeObjects.length; i < i_len; i++) {
 
-          bounds.union(_getBounds(type, id));
-        }
+        // the only property in the object should be the type
+        var type = Object.keys(typeObjects[i])[0];
 
-        // set maps bounds
-        GMH.Data.Map.Obj.fitBounds(bounds); 
-   
-        return true;
+        // get the id(s)
+        var id = typeObjects[i][type];
+
+        // format the type
+        type = _getType(type);
+
+        // if id is null, get an array of all ids for the given type
+        id = (id == null) ? _getIDs(type) : id;
+
+        // merge the bounds
+        bounds.union(_getBounds(type, id));
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      // set maps bounds
+      GMH.Data.Map.Obj.fitBounds(bounds); 
+
+      return GMH.Data.Map;
     }
 
 
@@ -93,7 +89,7 @@
       }
 
       // return empty bounds if id doesn't match
-      if (GMH.Data[type][id] == undefined) { 
+      if (GMH.Data[type][id] == null) { 
         return new google.map.LatLngBounds(); 
       }
 
@@ -108,7 +104,7 @@
         var id = ids[i];
           
         // skip over ids that aren't found
-        if (GMH.Data[type][id] == undefined) { 
+        if (GMH.Data[type][id] == null) {
           continue; 
         }
 
@@ -124,21 +120,15 @@
     // =======================================
     // allow type to be case and plural insensitive
     var _getType = function(type) {
-      switch(type.toLowerCase()) {
+      type = type.toLowerCase();
+
+      switch(type) {
         case "polygon":
           type = "Polygons";
           break;
 
         case "polygons":
           type = "Polygons";
-          break;
-
-        case "initial":
-          type = "initial";
-          break;
-
-        case "init":
-          type = "initial";
           break;
       }
 

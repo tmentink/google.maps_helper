@@ -6,7 +6,18 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Google Maps Helper Object
+    // Data Map Object
+    // =======================================
+    var Map = function(obj) {
+      this.Obj = obj;
+    }
+
+    Map.prototype = {
+      setBounds: function(type, id) { return GMH.Map.setBounds(type, id) }
+    }
+
+
+    // GMH Map Object
     // =======================================
     if (typeof GMH.Map == "undefined") {
       GMH.Map = {};
@@ -16,28 +27,30 @@
     // Init Map
     // =======================================
     var initMap = function(container, userOptions) {
-      try {
-        // get default options
-        var defaults = $.extend({}, {}, GMH.Defaults.Map); 
+      // get default options
+      var defaults = $.extend({}, {}, GMH.Defaults.Map); 
 
-        // combine user and default options
-        var options = $.extend({}, defaults, userOptions)
-       
-        // create new map and save reference
-        GMH.Data.Map.Obj = new google.maps.Map(document.getElementById(container), options);
+      // combine user and default options
+      var options = $.extend({}, defaults, userOptions)
+     
+      // create new google map
+      var googleMap = new google.maps.Map(document.getElementById(container), options);
 
-        // save bounds after map has finished initializing
-        setTimeout(function() {
-          GMH.Data.Map.initialBounds = GMH.Data.Map.Obj.getBounds();
-          GMH.Data.Map.initialZoom = GMH.Data.Map.Obj.getZoom();
-        }, 500);
-
-        return true;
+      // add GMH object to google map
+      googleMap.GMH = {
+        Parent: function() { return GMH.Data.Map; }
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      // create new map and save reference
+      GMH.Data.Map = new Map(googleMap);
+
+      // save bounds after map has finished initializing
+      setTimeout(function() {
+        GMH.Data.Map.initialBounds = GMH.Data.Map.Obj.getBounds();
+        GMH.Data.Map.initialZoom = GMH.Data.Map.Obj.getZoom();
+      }, 500);
+
+      return GMH.Data.Map;
     }
 
 
