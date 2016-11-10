@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
 
-    // Google Maps Helper Object
+    // GMH Polygon Object
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -37,66 +37,48 @@
     // Execute
     // =======================================
     var _execute = function(action, id) {
-      try {
-        // check if array is passed
-        if (Array.isArray(id)) {
-          return _executeMulti(action, id);
-        }
-
-        // check if id matches a polygon
-        if (GMH.Data.Polygons[id] == undefined) {
-          console.log("ERROR: ID does not reference a polygon");
-          return false;
-        }
-
-        _switch(action, id);
-        return true;
+      if (Array.isArray(id)) {
+        return _executeMulti(action, id);
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
+
+      // check if id matches a polygon
+      if (GMH.Data.Polygons[id] == undefined) {
+        console.log("ERROR: ID does not reference a polygon");
+        return;
       }
+
+      return _switch(action, id);
     }
 
     var _executeMulti = function(action, ids) {
-      try {
-        var results = [];
+      var polyArray = [];
 
-        // loop through each id
-        for (var i = 0, i_len = ids.length; i < i_len; i++) {
-          var id = ids[i];
-          
-          // skip over ids that dont match an existing polygon
-          if (GMH.Data.Polygons[id] == undefined) { 
-            results.push(false);
-            continue; 
-          }
-
-          results.push(true);
-          _switch(action, id);
+      // loop through each id
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont match an existing polygon
+        if (GMH.Data.Polygons[id] == undefined) { 
+          continue; 
         }
 
-        return results;
+        // add polygon object to array
+        polyArray.push(_switch(action, id));
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      return polyArray;
     }
 
     var _switch = function(action, id) {
       switch(action) {
         case "toggle":
-          _toggle(id);
-          break;
+          return _toggle(id);
 
         case "show":
-          _show(id);
-          break;
+          return _show(id);
 
         case "hide":
-          _hide(id);
-          break;
+          return _hide(id);
       }
     }
 
@@ -104,17 +86,27 @@
     // Actions
     // =======================================
     var _toggle = function(id) {
-      // set the polygons visibility to the opposite of its current state
+      // get the current visibility
       var state = GMH.Data.Polygons[id].Obj.getVisible();
+
+      // toggle the polygon's visibility
       GMH.Data.Polygons[id].Obj.setOptions({ "visible": !state });
+
+      return GMH.Data.Polygons[id];
     }
 
     var _show = function(id) {
+      // show the polygon
       GMH.Data.Polygons[id].Obj.setOptions({ "visible": true });
+
+      return GMH.Data.Polygons[id];
     }
 
     var _hide = function(id) {
+      // hide the polygon
       GMH.Data.Polygons[id].Obj.setOptions({ "visible": false });
+
+      return GMH.Data.Polygons[id];
     }
 
 

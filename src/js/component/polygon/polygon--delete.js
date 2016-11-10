@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Google Maps Helper Object
+    // GMH Polygon Object
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -23,60 +23,55 @@
     // Execute
     // =======================================
     var _execute = function(id) {
-      try {
-        // check if array is passed
-        if (Array.isArray(id)) {
-          return _executeMulti(id);
-        }
-
-        // check if id matches a polygon
-        if (GMH.Data.Polygons[id] == undefined) {
-          console.log("ERROR: ID does not reference a polygon");
-          return false;
-        }
-
-        _delete(id);
-        return true;
+      // check if array is passed
+      if (Array.isArray(id)) {
+        return _executeMulti(id);
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
+
+      // check if id matches a polygon
+      if (GMH.Data.Polygons[id] == undefined) {
+        console.log("ERROR: ID does not reference a polygon");
+        return;
       }
+
+      // return the deleted polygon
+      return _delete(id);
     }
 
     var _executeMulti = function(ids) {
-      try {
-        var results = [];
+      var polyArray = [];
 
-        // loop through each id
-        for (var i = 0, i_len = ids.length; i < i_len; i++) {
-          var id = ids[i];
-          
-          // skip over ids that dont match an existing polygon
-          if (GMH.Data.Polygons[id] == undefined) { 
-            results.push(false);
-            continue; 
-          }
-
-          results.push(true);
-          _delete(id);
+      // loop through each id
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont match an existing polygon
+        if (GMH.Data.Polygons[id] == undefined) { 
+          continue; 
         }
 
-        return results;
+        // add polygon object to array
+        polyArray.push(_delete(id));
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      return polyArray;
     }
 
 
     // Actions
     // =======================================
     var _delete = function(id) {
-      // remove polygon from map then delete it from Polygons object
-      GMH.Data.Polygons[id].Obj.setMap(null);
+      // get the polygon object
+      var poly = GMH.Data.Polygons[id];
+
+      // remove polygon from map
+      poly.Obj.setMap(null);
+
+      // delete the id from Data.Polygons
       delete GMH.Data.Polygons[id];
+
+      // return the polygon object
+      return poly;
     }
 
 

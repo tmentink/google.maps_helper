@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
 
-    // Google Maps Helper Object
+    // GMH Polygon Object
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -30,118 +30,99 @@
     // Execute Update
     // =======================================
     var _executeUpdate = function(id, options) {
-      try {
-        // check if array is passed
-        if (Array.isArray(id)) {
-          return _executeMultiUpdate(id);
-        }
-
-        // check if id matches a polygon
-        if (GMH.Data.Polygons[id] == undefined) {
-          console.log("ERROR: ID does not reference a polygon");
-          return false;
-        }
-
-        // get default options
-        if (options == null) {
-          options = GMH.Defaults.Polygon;
-        }
-
-        _update(id, options);
-        return true;
+      // check if array is passed
+      if (Array.isArray(id)) {
+        return _executeMultiUpdate(id);
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
+
+      // check if id matches a polygon
+      if (GMH.Data.Polygons[id] == undefined) {
+        console.log("ERROR: ID does not reference a polygon");
+        return;
       }
+
+      // if options is null, get default options
+      options = (options == null) ? GMH.Defaults.Polygon : options;
+
+      return _update(id, options);
     }
 
     var _executeMultiUpdate = function(polygons) {
-      try {
-        var results = [];
+      var polyArray = [];
 
-        for (var i = 0, i_len = polygons.length; i < i_len; i++) {
-          var id = polygons[i].id;
-          var options = polygons[i].options;
+      for (var i = 0, i_len = polygons.length; i < i_len; i++) {
+        
+        // the only property in the object should be the id
+        var id = Object.keys(polygons[i])[0];
 
-          // skip over if id doesnt exists
-          if (GMH.Data.Polygons[id] == undefined) {
-            results.push(false);
-            continue;
-          }
-
-          // get default options
-          if (options == null) {
-            options = GMH.Defaults.Polygon;
-          }
-
-          results.push(true);
-          _update(id, options);
+        // skip if id doesnt exists
+        if (GMH.Data.Polygons[id] == undefined) {
+          continue;
         }
 
-        return results;
+        // get the options
+        var options = polygons[i][id];
+
+        // if options are null, get default options
+        options = (options == null) ? GMH.Defaults.Polygon : options;
+
+        // add polygon object to array
+        polyArray.push(_update(id, options));
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      return polyArray;
     }
 
 
     // Execute Update Path
     // =======================================
     var _executeUpdatePath = function(id, path) {
-      try {
-        // check if array is passed
-        if (Array.isArray(id)) {
-          return _executeMultiUpdatePath(id);
-        }
-
-        // check if id matches a polygon
-        if (GMH.Data.Polygons[id] == undefined) {
-          console.log("ERROR: ID does not reference a polygon");
-          return false;
-        }
-
-        // check if path is supplied
-        if (path == null) {
-          console.log("ERROR: Must supply a path");
-          return false;
-        }
-
-        _updatePath(id, path);
-        return true;
+      // check if array is passed
+      if (Array.isArray(id)) {
+        return _executeMultiUpdatePath(id);
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
+
+      // check if id matches a polygon
+      if (GMH.Data.Polygons[id] == undefined) {
+        console.log("ERROR: ID does not reference a polygon");
+        return;
       }
+
+      // check if path is supplied
+      if (path == null) {
+        console.log("ERROR: Must supply a path");
+        return;
+      }
+
+      return _updatePath(id, path);
     }
 
     var _executeMultiUpdatePath = function(polygons) {
-      try {
-        var results = [];
+      var polyArray = [];
 
-        for (var i = 0, i_len = polygons.length; i < i_len; i++) {
-          var id = polygons[i].id;
-          var path = polygons[i].path;
+      for (var i = 0, i_len = polygons.length; i < i_len; i++) {
+        
+        // the only property in the object should be the id
+        var id = Object.keys(polygons[i])[0];
 
-          // skip over if id doesnt exists or path is null
-          if (GMH.Data.Polygons[id] == undefined || path == null) {
-            results.push(false);
-            continue;
-          }
-
-          results.push(true);
-          _updatePath(id, path);
+        // skip if id doesnt exists
+        if (GMH.Data.Polygons[id] == undefined) {
+          continue;
         }
 
-        return results;
+        // get the path
+        var path = polygons[i][id];
+
+        // skip over if  path is null
+        if (path == null) {
+          continue;
+        }
+
+        // add polygon object to array
+        polyArray.push(_updatePath(id, path));
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      return polyArray;
     }
 
 
@@ -153,7 +134,10 @@
         options.path = GMH.Utility.toLatLngArray(options.path);
       }
       
+      // update polygon with new options
       GMH.Data.Polygons[id].Obj.setOptions(options);
+
+      return GMH.Data.Polygons[id];
     }
 
     var _updatePath = function(id, path) {
@@ -162,7 +146,10 @@
         path = GMH.Utility.toLatLngArray(path);
       }
 
+      // update the polygons path
       GMH.Data.Polygons[id].Obj.setOptions({"paths": path});
+
+      return GMH.Data.Polygons[id];
     }
 
 
