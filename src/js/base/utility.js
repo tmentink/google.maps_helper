@@ -6,9 +6,11 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Google Maps Helper Object
+    // Utility Class
     // =======================================
-    GMH.Utility = {};
+    if (typeof GMH.Utility == "undefined") {
+      GMH.Utility = {};
+    }
 
 
     // To LatLng Array
@@ -44,6 +46,9 @@
     GMH.Utility.toLatLngArray = toLatLngArray;
 
 
-
     return GMH;
   })(GMH || {});
+
+
+
+

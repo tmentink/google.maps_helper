@@ -1,9 +1,76 @@
 // ===========================================
+// jQuery Shim
+// ===========================================
+!function(window) {
+  "use strict";
+  // if jQuery is already loaded then exit shim
+  if (window.jQuery) {
+    return;
+  }
+  // jQuery Base
+  // =======================================
+  var $ = {};
+  // Extend
+  // =======================================
+  $.extend = function() {
+    var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {}, i = 1, length = arguments.length, deep = false;
+    // Handle a deep copy situation
+    if (typeof target === "boolean") {
+      deep = target;
+      // Skip the boolean and the target
+      target = arguments[i] || {};
+      i++;
+    }
+    // Handle case when target is a string or something (possible in deep copy)
+    if (typeof target !== "object" && !jQuery.isFunction(target)) {
+      target = {};
+    }
+    // Extend jQuery itself if only one argument is passed
+    if (i === length) {
+      target = this;
+      i--;
+    }
+    for (;i < length; i++) {
+      // Only deal with non-null/undefined values
+      if ((options = arguments[i]) != null) {
+        // Extend the base object
+        for (name in options) {
+          src = target[name];
+          copy = options[name];
+          // Prevent never-ending loop
+          if (target === copy) {
+            continue;
+          }
+          // Recurse if we're merging plain objects or arrays
+          if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+            if (copyIsArray) {
+              copyIsArray = false;
+              clone = src && jQuery.isArray(src) ? src : [];
+            } else {
+              clone = src && jQuery.isPlainObject(src) ? src : {};
+            }
+            // Never move original objects, clone them
+            target[name] = jQuery.extend(deep, clone, copy);
+          } else if (copy !== undefined) {
+            target[name] = copy;
+          }
+        }
+      }
+    }
+    // Return the modified object
+    return target;
+  };
+  // Add to Window
+  // =======================================
+  window.$ = $;
+}(window);
+
+// ===========================================
 // Data
 // ===========================================
 var GMH = function(GMH) {
   "use strict";
-  // Google Maps Helper Object
+  // Data Class
   // =======================================
   GMH.Data = {};
   GMH.Data.Map = {};
@@ -16,7 +83,7 @@ var GMH = function(GMH) {
 // ===========================================
 var GMH = function(GMH) {
   "use strict";
-  // Google Maps Helper Object
+  // Default Class
   // =======================================
   GMH.Defaults = {};
   // Map Defaults
@@ -32,11 +99,11 @@ var GMH = function(GMH) {
   // Polygon Defaults
   // =======================================
   GMH.Defaults.Polygon = {
-    strokeColor: "#FF0000",
+    strokeColor: "#000",
     strokeOpacity: .8,
     strokeWeight: 1,
-    fillColor: "#FF0000",
-    fillOpacity: .5
+    fillColor: "#1984AE",
+    fillOpacity: .8
   };
   // Set Defaults
   // =======================================
@@ -51,28 +118,23 @@ var GMH = function(GMH) {
   // Change Defaults
   // =======================================
   var _changeDefaults = function(action, type, userOptions) {
-    try {
-      type = _getType(type);
-      var newOptions = userOptions;
-      if (action == "update") {
-        // get defaults
-        var defaults = GMH.Defaults[type];
-        // combine user and default options
-        newOptions = $.extend({}, defaults, userOptions);
-      }
-      // set new defaults
-      GMH.Defaults[type] = newOptions;
-      return true;
-    } catch (ex) {
-      console.log(ex);
-      return false;
+    type = _getType(type);
+    var newOptions = userOptions;
+    if (action == "update") {
+      // get defaults
+      var defaults = GMH.Defaults[type];
+      // combine user and default options
+      newOptions = $.extend({}, defaults, userOptions);
     }
+    // set new defaults
+    GMH.Defaults[type] = newOptions;
   };
   // Get Type
   // =======================================
   // allow type to be case and plural insensitive
   var _getType = function(type) {
-    switch (type.toLowerCase()) {
+    type = type.toLowerCase();
+    switch (type) {
      case "map":
       type = "Map";
       break;
@@ -125,9 +187,11 @@ var GMH = function(GMH) {
 // ===========================================
 var GMH = function(GMH) {
   "use strict";
-  // Google Maps Helper Object
+  // Utility Class
   // =======================================
-  GMH.Utility = {};
+  if (typeof GMH.Utility == "undefined") {
+    GMH.Utility = {};
+  }
   // To LatLng Array
   // =======================================
   var toLatLngArray = function(str) {

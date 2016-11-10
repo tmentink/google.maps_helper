@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Google Maps Helper Object
+    // Default Class
     // =======================================
     GMH.Defaults = {};
     
@@ -23,11 +23,11 @@
     // Polygon Defaults
     // =======================================
     GMH.Defaults.Polygon = {
-      strokeColor: '#FF0000',
+      strokeColor: '#000',
       strokeOpacity: 0.8,
       strokeWeight: 1,
-      fillColor: '#FF0000',
-      fillOpacity: 0.5
+      fillColor: '#1984AE',
+      fillOpacity: 0.8
     }
 
 
@@ -47,28 +47,21 @@
 
     // Change Defaults
     // =======================================
-    var _changeDefaults = function(action, type, userOptions) {
-      try {
-        type = _getType(type);
-        
-        var newOptions = userOptions;
+    var _changeDefaults = function(action, type, userOptions) {    
+      type = _getType(type);
+      
+      var newOptions = userOptions;
 
-        if (action == "update") {
-          // get defaults
-          var defaults = GMH.Defaults[type];
+      if (action == "update") {
+        // get defaults
+        var defaults = GMH.Defaults[type];
 
-          // combine user and default options
-          newOptions = $.extend({}, defaults, userOptions);
-        }
-
-        // set new defaults
-        GMH.Defaults[type] = newOptions;
-        return true;
+        // combine user and default options
+        newOptions = $.extend({}, defaults, userOptions);
       }
-      catch (ex) {
-        console.log(ex);
-        return false;
-      }
+
+      // set new defaults
+      GMH.Defaults[type] = newOptions;
     }
 
 
@@ -76,7 +69,9 @@
     // =======================================
     // allow type to be case and plural insensitive
     var _getType = function(type) {
-      switch(type.toLowerCase()) {
+      type = type.toLowerCase();
+
+      switch(type) {
         case "map":
           type = "Map";
           break;
@@ -96,7 +91,6 @@
 
       return type;
     }
-
 
 
     // Public Methods

@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Google Maps Helper Object
+    // Data Class
     // =======================================
     GMH.Data = {};
     GMH.Data.Map = {};
