@@ -1,15 +1,15 @@
 
 // ===========================================
-// Polygon - Listener
+// Marker - Listener
 // ===========================================
   
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Class
+    // GMH Marker Class
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Marker == "undefined") {
+      GMH.Marker = {};
     }   
 
 
@@ -36,8 +36,8 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
+      if (GMH.Data.Marker[id] == undefined) {
+        console.log("ERROR: ID does not reference a Marker");
         return;
       }
 
@@ -52,7 +52,7 @@
         var fn = objects[i].fn;
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Marker[id] == undefined) { 
           continue; 
         }
 
@@ -72,8 +72,8 @@
         return _executeRemoveTypeMulti(id, type)
       }
 
-      if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon")
+      if (GMH.Data.Marker[id] == undefined) {
+        console.log("ERROR: ID does not reference a marker")
         return;
       }
 
@@ -84,7 +84,7 @@
         var id = ids[i];
 
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) {
+        if (GMH.Data.Marker[id] == undefined) {
           continue;
         }
 
@@ -100,8 +100,8 @@
         return _executeRemoveAllMulti(id)
       }
 
-      if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon")
+      if (GMH.Data.Marker[id] == undefined) {
+        console.log("ERROR: ID does not reference a marker")
         return;
       }
 
@@ -112,7 +112,7 @@
         var id = ids[i];
 
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) {
+        if (GMH.Data.Marker[id] == undefined) {
           continue;
         }
 
@@ -128,7 +128,7 @@
         // allow type to be less sensitive
         type = _getType(type);
 
-        return google.maps.event.addListener(GMH.Data.Polygon[id].Obj, type, func);
+        return google.maps.event.addListener(GMH.Data.Marker[id].Obj, type, func);
       }
       catch (ex) {
         
@@ -136,11 +136,11 @@
     }
 
     var _removeType = function(id, type) {
-      google.maps.event.clearListeners(GMH.Data.Polygon[id].Obj, type);
+      google.maps.event.clearListeners(GMH.Data.Marker[id].Obj, type);
     }
 
     var _removeAll = function(id) {
-      google.maps.event.clearInstanceListeners(GMH.Data.Polygon[id].Obj);
+      google.maps.event.clearInstanceListeners(GMH.Data.Marker[id].Obj);
     }
 
 
@@ -155,6 +155,50 @@
         case "doubleclick":
           type = "dblclick";
           break;
+
+        case "animationchanged":
+          type = "animation_changed";
+          break;
+
+        case "clickablechanged":
+          type ="clickable_changed";
+          break;
+
+        case "cursorchanged":
+          type = "cursor_changed";
+          break;
+
+        case "draggablechanged":
+          type = "draggable_changed";
+          break;
+
+        case "flatchanged": 
+          type = "flat_changed";
+          break;
+
+        case "iconchanged":
+          type = "icon_changed";
+          break;
+
+        case "positionchanged":
+          type = "position_changed";
+          break;
+
+        case "shapechanged":
+          type = "shape_changed";
+          break;
+
+        case "titlechanged":
+          type = "title_changed";
+          break;
+
+        case "visiblechanged":
+          type = "visible_changed";
+          break;
+
+        case "zindexchanged":
+          type = "zindex_changed";
+          break;
       }
 
       return type;
@@ -163,9 +207,9 @@
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.addListener = addListener;
-    GMH.Polygon.removeListenerType = removeListenerType;
-    GMH.Polygon.removeAllListeners = removeAllListeners;
+    GMH.Marker.addListener = addListener;
+    GMH.Marker.removeListenerType = removeListenerType;
+    GMH.Marker.removeAllListeners = removeAllListeners;
 
 
     return GMH;

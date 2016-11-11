@@ -1,29 +1,29 @@
 
 // ===========================================
-// Polygon - Display
+// Marker - Display
 // ===========================================
 
   var GMH = (function(GMH) {
     "use strict";
 
-    // GMH Polygon Class
+    // GMH Marker Class
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Marker == "undefined") {
+      GMH.Marker = {};
     }  
 
 
     // Public Methods
     // =======================================
-    var togglePolygon = function(id) {
+    var toggleMarker = function(id) {
       return _execute("toggle", id);
     }
 
-    var showPolygon = function(id) {
+    var showMarker = function(id) {
       return _execute("show", id);
     }
 
-    var hidePolygon = function(id) {
+    var hideMarker = function(id) {
       return _execute("hide", id);
     }
 
@@ -36,8 +36,8 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
+      if (GMH.Data.Marker[id] == undefined) {
+        console.log("ERROR: ID does not reference a Marker");
         return;
       }
 
@@ -50,7 +50,7 @@
         var id = ids[i];
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Marker[id] == undefined) { 
           continue; 
         }
 
@@ -80,30 +80,30 @@
     // =======================================
     var _toggle = function(id) {
       // get the current visibility
-      var state = GMH.Data.Polygon[id].Obj.getVisible();
+      var state = GMH.Data.Marker[id].Obj.getVisible();
 
       // toggle the visibility
-      GMH.Data.Polygon[id].Obj.setOptions({ "visible": !state });
+      GMH.Data.Marker[id].Obj.setOptions({ "visible": !state });
 
-      return GMH.Data.Polygon[id];
+      return GMH.Data.Marker[id];
     }
 
     var _show = function(id) {
-      GMH.Data.Polygon[id].Obj.setOptions({ "visible": true });
-      return GMH.Data.Polygon[id];
+      GMH.Data.Marker[id].Obj.setOptions({ "visible": true });
+      return GMH.Data.Marker[id];
     }
 
     var _hide = function(id) {
-      GMH.Data.Polygon[id].Obj.setOptions({ "visible": false });
-      return GMH.Data.Polygon[id];
+      GMH.Data.Marker[id].Obj.setOptions({ "visible": false });
+      return GMH.Data.Marker[id];
     }
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.toggle = togglePolygon;
-    GMH.Polygon.show = showPolygon;
-    GMH.Polygon.hide = hidePolygon;
+    GMH.Marker.toggle = toggleMarker;
+    GMH.Marker.show = showMarker;
+    GMH.Marker.hide = hideMarker;
     
 
     return GMH;

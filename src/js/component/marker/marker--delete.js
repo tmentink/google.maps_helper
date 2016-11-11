@@ -1,21 +1,21 @@
 
 // ===========================================
-// Polygon - Delete
+// Marker - Delete
 // ===========================================
   
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Class
+    // GMH Marker Class
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Marker == "undefined") {
+      GMH.Marker = {};
     }   
 
 
     // Public Methods
     // =======================================
-    var deletePolygon = function(id) {
+    var deleteMarker = function(id) {
       return _execute(id);
     }
 
@@ -28,8 +28,8 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
+      if (GMH.Data.Marker[id] == undefined) {
+        console.log("ERROR: ID does not reference a marker");
         return;
       }
 
@@ -43,7 +43,7 @@
         var id = ids[i];
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Marker[id] == undefined) { 
           continue; 
         }
 
@@ -59,22 +59,22 @@
     // =======================================
     var _delete = function(id) {
       // get the object
-      var Polygon = GMH.Data.Polygon[id];
+      var marker = GMH.Data.Marker[id];
 
       // remove from map
-      Polygon.Obj.setMap(null);
+      marker.Obj.setMap(null);
 
       // delete the id 
-      delete GMH.Data.Polygon[id];
+      delete GMH.Data.Marker[id];
 
       // return the object
-      return Polygon;
+      return marker;
     }
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.delete = deletePolygon;
+    GMH.Marker.delete = deleteMarker;
 
 
     return GMH;

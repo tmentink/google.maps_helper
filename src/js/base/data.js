@@ -6,12 +6,14 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Data Class
+    // GMH Data Class
     // =======================================
     GMH.Data = {};
     GMH.Data.Map = {};
-    GMH.Data.Polygons = {};
+    GMH.Data.Marker = {};
+    GMH.Data.Polygon = {};
 
 
     return GMH;
   })(GMH || {});
+

@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Data Map Object
+    // Map Object
     // =======================================
     var Map = function(obj) {
       this.Obj = obj;
@@ -17,21 +17,19 @@
     }
 
 
-    // GMH Map Object
+    // GMH Map Class
     // =======================================
     if (typeof GMH.Map == "undefined") {
       GMH.Map = {};
     } 
 
 
-    // Init Map
+    // Public Methods
     // =======================================
     var initMap = function(container, userOptions) {
-      // get default options
-      var defaults = $.extend({}, {}, GMH.Defaults.Map); 
 
       // combine user and default options
-      var options = $.extend({}, defaults, userOptions)
+      var options = $.extend({}, GMH.Defaults.Map, userOptions)
      
       // create new google map
       var googleMap = new google.maps.Map(document.getElementById(container), options);
@@ -54,15 +52,11 @@
     }
 
 
-    // Public Methods
+    // Expose Public Methods
     // =======================================
     GMH.Map.init = initMap;
 
 
     return GMH;
   })(GMH || {});
-
-
-
-
 

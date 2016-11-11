@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // Default Class
+    // GMH Defaults Class
     // =======================================
     GMH.Defaults = {};
     
@@ -31,6 +31,13 @@
     }
 
 
+    // Marker Defaults
+    // =======================================
+    GMH.Defaults.Marker = {
+
+    }
+
+
     // Set Defaults
     // =======================================
     var setDefaults = function(type, userOptions) {
@@ -52,12 +59,9 @@
       
       var newOptions = userOptions;
 
+      // combine user and default options
       if (action == "update") {
-        // get defaults
-        var defaults = GMH.Defaults[type];
-
-        // combine user and default options
-        newOptions = $.extend({}, defaults, userOptions);
+        newOptions = $.extend({}, GMH.Defaults[type], userOptions);
       }
 
       // set new defaults
@@ -87,6 +91,14 @@
         case "polygons":
           type = "Polygon";
           break;
+
+        case "marker":
+          type = "Marker";
+          break;
+
+        case "markers":
+          type = "Marker";
+          break;
       }
 
       return type;
@@ -101,7 +113,4 @@
 
     return GMH;
   })(GMH || {});
-
-
-
 

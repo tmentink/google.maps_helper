@@ -1,6 +1,6 @@
 
 // ===========================================
-// Polygon - Delete
+// Polygon - Bounds
 // ===========================================
   
   var GMH = (function(GMH) {
@@ -15,7 +15,7 @@
 
     // Public Methods
     // =======================================
-    var deletePolygon = function(id) {
+    var getBounds = function(id) {
       return _execute(id);
     }
 
@@ -29,15 +29,14 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
+        console.log("ERROR: ID does not reference a polygon");
         return;
       }
 
-      // return the deleted object
-      return _delete(id);
+      return _getBounds(id);
     }
     var _executeMulti = function(ids) {
-      var objArray = [];
+      var bounds = new google.maps.LatLngBounds();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -47,36 +46,43 @@
           continue; 
         }
 
-        // add object to array
-        objArray.push(_delete(id));
+        // merge the bounds
+        bounds.union(_getBounds(id));
       }
 
-      return objArray;
+      return bounds;
     }
 
 
     // Actions
     // =======================================
-    var _delete = function(id) {
-      // get the object
-      var Polygon = GMH.Data.Polygon[id];
+    var _getBounds = function(id) {
+      var bounds = new google.maps.LatLngBounds();
+      var paths = GMH.Data.Polygon[id].Obj.getPaths();
+      
+      // loop through each path
+      for (var i = 0, i_len = paths.length; i < i_len; i++) {
+        var path = paths.getAt(i);
 
-      // remove from map
-      Polygon.Obj.setMap(null);
+        // loop through all points in path
+        for (var j = 0, j_len = path.getLength(); j < j_len; j++) {
+          bounds.extend(path.getAt(j));
+        }
+      }
 
-      // delete the id 
-      delete GMH.Data.Polygon[id];
-
-      // return the object
-      return Polygon;
+      return bounds;
     }
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.delete = deletePolygon;
+    GMH.Polygon.getBounds = getBounds;
 
 
     return GMH;
   })(GMH || {});
+
+
+
+
 
