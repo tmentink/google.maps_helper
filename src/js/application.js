@@ -485,7 +485,10 @@
     }
 
     Map.prototype = {
-      setBounds: function(type, id) { return GMH.Map.setBounds(type, id) }
+      setBounds: function(type, id) { return GMH.Map.setBounds(type, id) },
+      addListener: function(type, fn) { return GMH.Map.addListener(type, fn) },
+      removeListenerType: function(type) { return GMH.Map.removeListenerType(type) },
+      removeAllListeners: function() { return GMH.Map.removeAllListeners() }
     }
 
 
@@ -527,6 +530,163 @@
     // Expose Public Methods
     // =======================================
     GMH.Map.init = initMap;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Map - Listener
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Map Class
+    // =======================================
+    if (typeof GMH.Map == "undefined") {
+      GMH.Map = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var addListener = function(type, fn) {
+      return _executeAdd(type, fn);
+    }
+
+    var removeListenerType = function(type) {
+      return _executeRemoveType(type);
+    }
+
+    var removeAllListeners = function() {
+      return _removeAll();
+    }
+
+
+    // Execute
+    // =======================================
+    var _executeAdd = function(type, fn) {
+      if (Array.isArray(type)) {
+        return _executeAddMulti(type);
+      }
+
+      return _add(type, fn);
+    }
+    var _executeAddMulti = function(objects) {
+      var listenerArray = [];
+
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
+        
+        // the only property in the object should be the type
+        var type = Object.keys(objects[i])[0];
+
+        // get the function
+        var fn = objects[i][type];
+        
+        listenerArray.push(_add(type, fn));
+      }
+
+      return listenerArray;
+    }
+
+
+    var _executeRemoveType = function(type) {
+
+      // check if array of types is passed
+      if (Array.isArray(type)) {
+        return _executeRemoveTypeMulti(type)
+      }
+
+      return _removeType(type);
+    }
+    var _executeRemoveTypeMulti = function(types) {
+      for (var i = 0, i_len = types.length; i < i_len; i++) {
+        var type = types[i];
+
+        _removeType(type); 
+      }
+    }
+
+
+    // Actions
+    // =======================================
+    var _add = function(type, func) {
+      try {
+        // allow type to be less sensitive
+        type = _getType(type);
+
+        return google.maps.event.addListener(GMH.Data.Map.Obj, type, func);
+      }
+      catch (ex) {
+        
+      }
+    }
+
+    var _removeType = function(type) {
+      // allow type to be less sensitive
+      type = _getType(type);
+
+      google.maps.event.clearListeners(GMH.Data.Map.Obj, type);
+    }
+
+    var _removeAll = function() {
+      google.maps.event.clearInstanceListeners(GMH.Data.Map.Obj);
+    }
+
+
+    // Utility Functions
+    // =======================================
+
+    var _getType = function(type) {
+      // remove case and spaces
+      type = type.toLowerCase().replace(/\s+/g, '');
+
+      switch(type) {
+        case "doubleclick":
+          type = "dblclick";
+          break;
+
+        case "boundschanged":
+          type = "bounds_changed";
+          break;
+
+        case "centerchanged":
+          type = "center_changed";
+          break;
+
+        case "headingchanged":
+          type = "heading_changed";
+          break;
+
+        case "maptypeidchanged":
+          type = "maptypeid_changed";
+          break;
+
+        case "projectionchanged":
+          type = "projection_changed";
+          break;
+
+        case "tiltchanged":
+          type = "tilt_changed";
+          break;
+
+        case "zoomchanged":
+          type = "zoom_changed";
+          break;
+      }
+
+      return type;
+    }
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Map.addListener = addListener;
+    GMH.Map.removeListenerType = removeListenerType;
+    GMH.Map.removeAllListeners = removeAllListeners;
 
 
     return GMH;
@@ -1212,13 +1372,13 @@
 
       return _update(id, options);
     }
-    var _executeUpdateMulti = function(Markers) {
+    var _executeUpdateMulti = function(objects) {
       var objArray = [];
 
-      for (var i = 0, i_len = Markers.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
         // the only property in the object should be the id
-        var id = Object.keys(Markers[i])[0];
+        var id = Object.keys(objects[i])[0];
 
         // skip if id doesnt exists
         if (GMH.Data.Marker[id] == undefined) {
@@ -1226,7 +1386,7 @@
         }
 
         // get the options
-        var options = Markers[i][id];
+        var options = objects[i][id];
 
         // if options are null, get default options
         options = (options == null) ? GMH.Defaults.Marker : options;
@@ -1258,13 +1418,13 @@
 
       return _updatePosition(id, position);
     }
-    var _executeUpdatePositionMulti = function(Markers) {
+    var _executeUpdatePositionMulti = function(objects) {
       var objArray = [];
 
-      for (var i = 0, i_len = Markers.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
         // the only property in the object should be the id
-        var id = Object.keys(Markers[i])[0];
+        var id = Object.keys(objects[i])[0];
 
         // skip if id doesnt exists
         if (GMH.Data.Marker[id] == undefined) {
@@ -1272,7 +1432,7 @@
         }
 
         // get the position
-        var position = Markers[i][id];
+        var position = objects[i][id];
 
         // skip over if position is null
         if (position == null) {
@@ -1970,13 +2130,13 @@
 
       return _update(id, options);
     }
-    var _executeUpdateMulti = function(Polygons) {
+    var _executeUpdateMulti = function(objects) {
       var objArray = [];
 
-      for (var i = 0, i_len = Polygons.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
         // the only property in the object should be the id
-        var id = Object.keys(Polygons[i])[0];
+        var id = Object.keys(objects[i])[0];
 
         // skip if id doesnt exists
         if (GMH.Data.Polygon[id] == undefined) {
@@ -1984,7 +2144,7 @@
         }
 
         // get the options
-        var options = Polygons[i][id];
+        var options = objects[i][id];
 
         // if options are null, get default options
         options = (options == null) ? GMH.Defaults.Polygon : options;
@@ -2016,13 +2176,13 @@
 
       return _updatePath(id, path);
     }
-    var _executeupdatePathMulti = function(Polygons) {
+    var _executeupdatePathMulti = function(objects) {
       var objArray = [];
 
-      for (var i = 0, i_len = Polygons.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
         // the only property in the object should be the id
-        var id = Object.keys(Polygons[i])[0];
+        var id = Object.keys(objects[i])[0];
 
         // skip if id doesnt exists
         if (GMH.Data.Polygon[id] == undefined) {
@@ -2030,7 +2190,7 @@
         }
 
         // get the path
-        var path = Polygons[i][id];
+        var path = objects[i][id];
 
         // skip over if path is null
         if (path == null) {

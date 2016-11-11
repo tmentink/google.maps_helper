@@ -42,13 +42,13 @@
 
       return _update(id, options);
     }
-    var _executeUpdateMulti = function(Polygons) {
+    var _executeUpdateMulti = function(objects) {
       var objArray = [];
 
-      for (var i = 0, i_len = Polygons.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
         // the only property in the object should be the id
-        var id = Object.keys(Polygons[i])[0];
+        var id = Object.keys(objects[i])[0];
 
         // skip if id doesnt exists
         if (GMH.Data.Polygon[id] == undefined) {
@@ -56,7 +56,7 @@
         }
 
         // get the options
-        var options = Polygons[i][id];
+        var options = objects[i][id];
 
         // if options are null, get default options
         options = (options == null) ? GMH.Defaults.Polygon : options;
@@ -88,13 +88,13 @@
 
       return _updatePath(id, path);
     }
-    var _executeupdatePathMulti = function(Polygons) {
+    var _executeupdatePathMulti = function(objects) {
       var objArray = [];
 
-      for (var i = 0, i_len = Polygons.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
         // the only property in the object should be the id
-        var id = Object.keys(Polygons[i])[0];
+        var id = Object.keys(objects[i])[0];
 
         // skip if id doesnt exists
         if (GMH.Data.Polygon[id] == undefined) {
@@ -102,7 +102,7 @@
         }
 
         // get the path
-        var path = Polygons[i][id];
+        var path = objects[i][id];
 
         // skip over if path is null
         if (path == null) {

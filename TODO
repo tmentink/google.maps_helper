@@ -1,13 +1,18 @@
 
+Project:
+  ☐ Write README
+    ☐ Include API documentation
+
+
+Marker Clustering:
+  ☐ Integrate marker clustering with polygons
+
+
 Map:
   ✔ Method for initializing @done (16-11-10 08:59)
   ✔ Method for setting bounds @done (16-11-10 08:59)
-     @API-- setBounds("type");
-            setBounds("type", id);
-            setBounds("type", [id, id]);
-            setBounds([ {type: null}, {type: id}, {type: [id, id]} ]);
-  ☐ Methods for event listeners
-  ☐ Allow chaining
+  ✔ Methods for event listeners @done (16-11-11 14:55)
+  ✔ Allow chaining @done (16-11-11 14:30)
 
 
 Polygons:
@@ -20,14 +25,10 @@ Polygons:
 
 
 Markers:
-  ☐ Methods for adding
-  ☐ Methods for showing/hiding
-  ☐ Methods for updating
-  ☐ Methods for deleting
-  ☐ Methods for event listeners
-  ☐ Allow chaining
-
-
-Marker Clustering:
-  ☐ Integrate marker clustering with polygons
+  ✔ Methods for adding @done (16-11-11 14:30)
+  ✔ Methods for showing/hiding @done (16-11-11 14:30)
+  ✔ Methods for updating @done (16-11-11 14:30)
+  ✔ Methods for deleting @done (16-11-11 14:30)
+  ✔ Methods for event listeners @done (16-11-11 14:30)
+  ✔ Allow chaining @done (16-11-11 14:30)
 
