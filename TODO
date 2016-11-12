@@ -5,7 +5,8 @@ Project:
 
 
 Marker Clustering:
-  ☐ Integrate marker clustering with polygons
+  ☐ Integrate marker clustering
+  ☐ Add options to turn on for polygons at certain zoom levels
 
 
 Map:

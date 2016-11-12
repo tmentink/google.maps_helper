@@ -1,4 +1,8 @@
 module.exports = function(grunt) {
+  var banner =  '/* <%= pkg.name %> - v<%= pkg.version %> | License: <%= pkg.license %>\n' +
+                ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+                ' * <%= pkg.homepage %>\n' +
+                ' */\n'
 
   // Configure task(s)
   grunt.initConfig({
@@ -22,14 +26,18 @@ module.exports = function(grunt) {
           },
           mangle: false,
           compress: false,
-          preserveComments: 'all'
+          preserveComments: false,
+          banner: banner
         },
         src: 'src/js/application.js',
-        dest: 'dist/js/google.maps-helper.js'
+        dest: 'dist/google.maps-helper.js',
       },
       dist: {
+        options: {
+          banner: banner
+        },
         src: 'src/js/application.js',
-        dest: 'dist/js/google.maps-helper.min.js'
+        dest: 'dist/google.maps-helper.min.js',
       }
     },
     watch: {
