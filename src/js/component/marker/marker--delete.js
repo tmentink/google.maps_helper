@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Marker Class
+    // GMH Marker Namespace
     // =======================================
     if (typeof GMH.Marker == "undefined") {
       GMH.Marker = {};
@@ -17,7 +17,7 @@
     // =======================================
     var deleteMarker = function(id) {
       return _execute(id);
-    }
+    };
 
 
     // Execute
@@ -29,15 +29,15 @@
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a marker");
-        return;
+        return console.log("ERROR: ID does not reference a marker");
       }
 
       // return the deleted object
       return _delete(id);
-    }
+    };
+
     var _executeMulti = function(ids) {
-      var objArray = [];
+      var markerArray = new GMH.Object.MarkerArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -47,12 +47,13 @@
           continue; 
         }
 
-        // add object to array
-        objArray.push(_delete(id));
+        // add marker object to array
+        var marker = _delete(id);
+        markerArray[marker.ID] = marker;
       }
 
-      return objArray;
-    }
+      return markerArray;
+    };
 
 
     // Actions
@@ -69,7 +70,7 @@
 
       // return the object
       return marker;
-    }
+    };
 
 
     // Expose Public Methods

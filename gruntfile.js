@@ -10,7 +10,8 @@ module.exports = function(grunt) {
     concat: {
       js: {
         files: {
-          'src/js/application.js' : [ 'src/js/vendor/**/*.js', 
+          'src/js/application.js' : [ 'src/js/vendor/**/*.js',
+                                      'src/js/base/object/*.js', 
                                       'src/js/base/**/*.js',
                                       'src/js/component/**/*.js'
                                     ]

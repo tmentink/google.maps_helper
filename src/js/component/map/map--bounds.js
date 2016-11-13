@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Map Class
+    // GMH Map Namespace
     // =======================================
     if (typeof GMH.Map == "undefined") {
       GMH.Map = {};
@@ -16,8 +16,9 @@
     // Public Methods
     // =======================================
     var setBounds = function(type, id) {
-      return _execute(type, id);
-    }
+      _execute(type, id);
+      return GMH.Data.Map;
+    };
 
 
     // Execute
@@ -30,7 +31,7 @@
       }
 
       // allow type to be less sensitive
-      type = _getType(type);
+      type = GMH.Utility.getObjectType(type);
       
       // set map bounds and zoom to it's initial value
       if (type == "initial" || type == "init") {
@@ -40,16 +41,15 @@
       }
 
       // if id is null, get an array of all ids for the given type
-      id = (id == null) ? _getIDs(type) : id;
+      id = (id == null) ? GMH.Utility.getIDs(GMH.Data[type]) : id;
 
       // get the bounds of the id
       var bounds = _getBounds(type, id);
 
       // set maps bounds 
       GMH.Data.Map.Obj.fitBounds(bounds);
-
-      return GMH.Data.Map;
-    }
+    };
+    
     var _executeMulti = function(typeObjects) {
       var bounds = new google.maps.LatLngBounds();
 
@@ -63,10 +63,10 @@
         var id = typeObjects[i][type];
 
         // allow type to be less sensitive
-        type = _getType(type);
+        type = GMH.Utility.getObjectType(type);
 
         // if id is null, get an array of all ids for the given type
-        id = (id == null) ? _getIDs(type) : id;
+        id = (id == null) ? GMH.Utility.getIDs(GMH.Data[type]) : id;
 
         // merge the bounds
         bounds.union(_getBounds(type, id));
@@ -74,9 +74,7 @@
 
       // set maps bounds
       GMH.Data.Map.Obj.fitBounds(bounds); 
-
-      return GMH.Data.Map;
-    }
+    };
 
 
     // Actions
@@ -94,7 +92,8 @@
       }
 
       return GMH.Data[type][id].getBounds();
-    }
+    };
+    
     var _getBoundsMulti = function(type, ids) {
       var bounds = new google.maps.LatLngBounds();
       
@@ -111,46 +110,8 @@
       }
 
       return bounds;
-    }
+    };
     
-
-    // Utility Functions
-    // =======================================
-
-    var _getType = function(type) {
-      type = type.toLowerCase();
-
-      switch(type) {
-        case "polygon":
-          type = "Polygon";
-          break;
-
-        case "polygons":
-          type = "Polygon";
-          break;
-
-        case "marker":
-          type = "Marker";
-          break;
-
-        case "markers":
-          type = "Marker";
-          break;
-      }
-
-      return type;
-    }
-
-    var _getIDs = function(type) {
-      // get an array of all the ids for the given data type
-      var ids = Object.keys(GMH.Data[type]);
-
-      // remove _index from the array
-      ids.splice(ids.indexOf("_index"), 1);
-
-      return ids;
-    }
-
 
     // Expose Public Methods
     // =======================================

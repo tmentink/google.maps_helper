@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Marker Class
+    // GMH Marker Namespace
     // =======================================
     if (typeof GMH.Marker == "undefined") {
       GMH.Marker = {};
@@ -17,7 +17,7 @@
     // =======================================
     var getBounds = function(id) {
       return _execute(id);
-    }
+    };
 
 
     // Execute
@@ -29,12 +29,12 @@
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a marker");
-        return;
+        return console.log("ERROR: ID does not reference a marker");
       }
 
       return _getBounds(id);
-    }
+    };
+    
     var _executeMulti = function(ids) {
       var bounds = new google.maps.LatLngBounds();
 
@@ -51,7 +51,7 @@
       }
 
       return bounds;
-    }
+    };
 
 
     // Actions
@@ -62,7 +62,7 @@
       bounds.extend(GMH.Data.Marker[id].Obj.getPosition());
 
       return bounds;
-    }
+    };
 
 
     // Expose Public Methods

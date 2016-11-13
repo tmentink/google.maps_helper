@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Class
+    // GMH Polygon Namespace
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -17,15 +17,15 @@
     // =======================================
     var addListener = function(id, type, fn) {
       return _executeAdd(id, type, fn);
-    }
+    };
 
     var removeListenerType = function(id, type) {
       return _executeRemoveType(id, type);
-    }
+    };
 
     var removeAllListeners = function(id) {
       return _executeRemoveAll(id);
-    }
+    };
 
 
     // Execute
@@ -37,14 +37,14 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
-        return;
+        return console.log("ERROR: ID does not reference a Polygon");
       }
 
       return _add(id, type, fn);
-    }
+    };
+
     var _executeAddMulti = function(objects) {
-      var listenerArray = [];
+      var polyArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         var id = objects[i].id;
@@ -56,30 +56,34 @@
           continue; 
         }
 
-        listenerArray.push(_add(id, type, fn));
+        // add polygon object to array
+        var poly = _add(id, type, fn);
+        polyArray[poly.ID] = poly;
       }
 
-      return listenerArray;
-    }
+      return polyArray;
+    };
 
 
     var _executeRemoveType = function(id, type) {
       // allow type to be less sensitive
-      type = _getType(type);
+      type = GMH.Utility.getEventType(type);
 
       // check if array of ids is passed
       if (Array.isArray(id)) {
-        return _executeRemoveTypeMulti(id, type)
+        return _executeRemoveTypeMulti(id, type);
       }
 
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon")
-        return;
+        return console.log("ERROR: ID does not reference a Polygon");
       }
 
       return _removeType(id, type);
-    }
+    };
+
     var _executeRemoveTypeMulti = function(ids, type) {
+      var polyArray = new GMH.Object.PolygonArray();
+
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
 
@@ -88,26 +92,32 @@
           continue;
         }
 
-        _removeType(id, type); 
+        // add polygon object to array
+        var poly = _removeType(id, type);
+        polyArray[poly.ID] = poly;
       }
-    }
+
+      return polyArray;
+    };
 
 
     var _executeRemoveAll = function(id) {
 
       // check if array of ids is passed
       if (Array.isArray(id)) {
-        return _executeRemoveAllMulti(id)
+        return _executeRemoveAllMulti(id);
       }
 
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon")
-        return;
+        return console.log("ERROR: ID does not reference a Polygon");
       }
 
       return _removeAll(id);
-    }
+    };
+
     var _executeRemoveAllMulti = function(ids) {
+      var polyArray = new GMH.Object.PolygonArray();
+
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
 
@@ -116,9 +126,13 @@
           continue;
         }
 
-        _removeType(id); 
+        // add polygon object to array
+        var poly = _removeAll(id);
+        polyArray[poly.ID] = poly;
       }
-    }
+
+      return polyArray;
+    };
 
 
     // Actions
@@ -126,39 +140,28 @@
     var _add = function(id, type, func) {
       try {
         // allow type to be less sensitive
-        type = _getType(type);
+        type = GMH.Utility.getEventType(type);
 
-        return google.maps.event.addListener(GMH.Data.Polygon[id].Obj, type, func);
+        google.maps.event.addListener(GMH.Data.Polygon[id].Obj, type, func);
+
+        return GMH.Data.Polygon[id];
       }
       catch (ex) {
         
       }
-    }
+    };
 
     var _removeType = function(id, type) {
       google.maps.event.clearListeners(GMH.Data.Polygon[id].Obj, type);
-    }
+
+      return GMH.Data.Polygon[id];
+    };
 
     var _removeAll = function(id) {
       google.maps.event.clearInstanceListeners(GMH.Data.Polygon[id].Obj);
-    }
 
-
-    // Utility Functions
-    // =======================================
-
-    var _getType = function(type) {
-      // remove case and spaces
-      type = type.toLowerCase().replace(/\s+/g, '');
-
-      switch(type) {
-        case "doubleclick":
-          type = "dblclick";
-          break;
-      }
-
-      return type;
-    }
+      return GMH.Data.Polygon[id];
+    };
 
 
     // Expose Public Methods

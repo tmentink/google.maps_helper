@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Class
+    // GMH Polygon Namespace
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -29,15 +29,15 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
-        return;
+        return console.log("ERROR: ID does not reference a Polygon");
       }
 
       // return the deleted object
       return _delete(id);
-    }
+    };
+
     var _executeMulti = function(ids) {
-      var objArray = [];
+      var polyArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -47,12 +47,13 @@
           continue; 
         }
 
-        // add object to array
-        objArray.push(_delete(id));
+        // add polygon object to array
+        var poly = _delete(id);
+        polyArray[poly.ID] = poly;
       }
 
-      return objArray;
-    }
+      return polyArray;
+    };
 
 
     // Actions
@@ -69,7 +70,7 @@
 
       // return the object
       return Polygon;
-    }
+    };
 
 
     // Expose Public Methods

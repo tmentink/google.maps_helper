@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Marker Class
+    // GMH Marker Namespace
     // =======================================
     if (typeof GMH.Marker == "undefined") {
       GMH.Marker = {};
@@ -17,15 +17,15 @@
     // =======================================
     var addListener = function(id, type, fn) {
       return _executeAdd(id, type, fn);
-    }
+    };
 
     var removeListenerType = function(id, type) {
       return _executeRemoveType(id, type);
-    }
+    };
 
     var removeAllListeners = function(id) {
       return _executeRemoveAll(id);
-    }
+    };
 
 
     // Execute
@@ -37,14 +37,14 @@
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a Marker");
-        return;
+        return console.log("ERROR: ID does not reference a Marker");
       }
 
       return _add(id, type, fn);
-    }
+    };
+
     var _executeAddMulti = function(objects) {
-      var listenerArray = [];
+      var markerArray = new GMH.Object.MarkerArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         var id = objects[i].id;
@@ -56,30 +56,34 @@
           continue; 
         }
 
-        listenerArray.push(_add(id, type, fn));
+        // add marker object to array
+        var marker = _add(id, type, fn);
+        markerArray[marker.ID] = marker;
       }
 
-      return listenerArray;
-    }
+      return markerArray;
+    };
 
 
     var _executeRemoveType = function(id, type) {
       // allow type to be less sensitive
-      type = _getType(type);
+      type = GMH.Utility.getEventType(type);
 
       // check if array of ids is passed
       if (Array.isArray(id)) {
-        return _executeRemoveTypeMulti(id, type)
+        return _executeRemoveTypeMulti(id, type);
       }
 
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a marker")
-        return;
+        return console.log("ERROR: ID does not reference a marker");
       }
 
       return _removeType(id, type);
-    }
+    };
+
     var _executeRemoveTypeMulti = function(ids, type) {
+      var markerArray = new GMH.Object.MarkerArray();
+
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
 
@@ -88,26 +92,31 @@
           continue;
         }
 
-        _removeType(id, type); 
+        // add marker object to array
+        var marker = _removeType(id, type);
+        markerArray[marker.ID] = marker;
       }
-    }
+
+      return markerArray;
+    };
 
 
     var _executeRemoveAll = function(id) {
-
       // check if array of ids is passed
       if (Array.isArray(id)) {
-        return _executeRemoveAllMulti(id)
+        return _executeRemoveAllMulti(id);
       }
 
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a marker")
-        return;
+        return console.log("ERROR: ID does not reference a marker");
       }
 
       return _removeAll(id);
-    }
+    };
+
     var _executeRemoveAllMulti = function(ids) {
+      var markerArray = new GMH.Object.MarkerArray();
+      
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
 
@@ -115,94 +124,43 @@
         if (GMH.Data.Marker[id] == undefined) {
           continue;
         }
-
-        _removeType(id); 
+       
+        // add marker object to array
+        var marker = _removeAll(id);
+        markerArray[marker.ID] = marker;
       }
-    }
+
+      return markerArray;
+    };
 
 
     // Actions
     // =======================================
-    var _add = function(id, type, func) {
+    var _add = function(id, type, fn) {
       try {
         // allow type to be less sensitive
-        type = _getType(type);
+        type = GMH.Utility.getEventType(type);
 
-        return google.maps.event.addListener(GMH.Data.Marker[id].Obj, type, func);
+        google.maps.event.addListener(GMH.Data.Marker[id].Obj, type, fn);
+
+        return GMH.Data.Marker[id];
       }
       catch (ex) {
         
       }
-    }
+    };
 
     var _removeType = function(id, type) {
       google.maps.event.clearListeners(GMH.Data.Marker[id].Obj, type);
-    }
+
+      return GMH.Data.Marker[id];
+    };
 
     var _removeAll = function(id) {
       google.maps.event.clearInstanceListeners(GMH.Data.Marker[id].Obj);
-    }
 
-
-    // Utility Functions
-    // =======================================
-
-    var _getType = function(type) {
-      // remove case and spaces
-      type = type.toLowerCase().replace(/\s+/g, '');
-
-      switch(type) {
-        case "doubleclick":
-          type = "dblclick";
-          break;
-
-        case "animationchanged":
-          type = "animation_changed";
-          break;
-
-        case "clickablechanged":
-          type ="clickable_changed";
-          break;
-
-        case "cursorchanged":
-          type = "cursor_changed";
-          break;
-
-        case "draggablechanged":
-          type = "draggable_changed";
-          break;
-
-        case "flatchanged": 
-          type = "flat_changed";
-          break;
-
-        case "iconchanged":
-          type = "icon_changed";
-          break;
-
-        case "positionchanged":
-          type = "position_changed";
-          break;
-
-        case "shapechanged":
-          type = "shape_changed";
-          break;
-
-        case "titlechanged":
-          type = "title_changed";
-          break;
-
-        case "visiblechanged":
-          type = "visible_changed";
-          break;
-
-        case "zindexchanged":
-          type = "zindex_changed";
-          break;
-      }
-
-      return type;
-    }
+      return GMH.Data.Marker[id];
+    };
 
 
     // Expose Public Methods

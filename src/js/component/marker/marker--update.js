@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
 
-    // GMH Marker Class
+    // GMH Marker Namespace
     // =======================================
     if (typeof GMH.Marker == "undefined") {
       GMH.Marker = {};
@@ -33,17 +33,17 @@
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a marker");
-        return;
+        return console.log("ERROR: ID does not reference a marker");
       }
 
       // if options is null, get default options
       options = (options == null) ? GMH.Defaults.Marker : options;
 
       return _update(id, options);
-    }
+    };
+
     var _executeUpdateMulti = function(objects) {
-      var objArray = [];
+      var markerArray = new GMH.Object.MarkerArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
@@ -61,12 +61,13 @@
         // if options are null, get default options
         options = (options == null) ? GMH.Defaults.Marker : options;
 
-        // add object to array
-        objArray.push(_update(id, options));
+        // add marker object to array
+        var marker = _update(id, options);
+        markerArray[marker.ID] = marker;
       }
 
-      return objArray;
-    }
+      return markerArray;
+    };
 
 
     var _executeUpdatePosition = function(id, position) {
@@ -76,20 +77,19 @@
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        console.log("ERROR: ID does not reference a Marker");
-        return;
+        return console.log("ERROR: ID does not reference a Marker");
       }
 
       // check if position is supplied
       if (position == null) {
-        console.log("ERROR: Must supply a position");
-        return;
+        return console.log("ERROR: Must supply a position");
       }
 
       return _updatePosition(id, position);
-    }
+    };
+
     var _executeUpdatePositionMulti = function(objects) {
-      var objArray = [];
+      var markerArray = new GMH.Object.MarkerArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
@@ -109,12 +109,13 @@
           continue;
         }
 
-        // add object to array
-        objArray.push(_updatePosition(id, position));
+        // add marker object to array
+        var marker = _updatePosition(id, position);
+        markerArray[marker.ID] = marker;
       }
 
-      return objArray;
-    }
+      return markerArray;
+    };
 
 
     // Actions
@@ -128,7 +129,7 @@
       GMH.Data.Marker[id].Obj.setOptions(options);
 
       return GMH.Data.Marker[id];
-    }
+    };
 
     var _updatePosition = function(id, position) {
       if (typeof position == "string") {
@@ -139,7 +140,7 @@
       GMH.Data.Marker[id].Obj.setOptions({"position": position});
 
       return GMH.Data.Marker[id];
-    }
+    };
 
 
     // Expose Public Methods

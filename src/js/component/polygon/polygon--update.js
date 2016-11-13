@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
 
-    // GMH Polygon Class
+    // GMH Polygon Namespace
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -17,11 +17,11 @@
     // =======================================
     var updatePolygon = function(id, options) {
       return _executeUpdate(id, options);
-    }
+    };
 
     var updatePath = function(id, path) {
       return _executeupdatePath(id, path);
-    }
+    };
 
 
     // Execute
@@ -33,17 +33,17 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
-        return;
+        return console.log("ERROR: ID does not reference a Polygon");
       }
 
       // if options is null, get default options
       options = (options == null) ? GMH.Defaults.Polygon : options;
 
       return _update(id, options);
-    }
+    };
+
     var _executeUpdateMulti = function(objects) {
-      var objArray = [];
+      var polyArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
@@ -61,12 +61,13 @@
         // if options are null, get default options
         options = (options == null) ? GMH.Defaults.Polygon : options;
 
-        // add object to array
-        objArray.push(_update(id, options));
+        // add polygon object to array
+        var poly = _update(id, options);
+        polyArray[poly.ID] = poly;
       }
 
-      return objArray;
-    }
+      return polyArray;
+    };
 
 
     var _executeupdatePath = function(id, path) {
@@ -76,20 +77,19 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a Polygon");
-        return;
+        return console.log("ERROR: ID does not reference a Polygon");
       }
 
       // check if path is supplied
       if (path == null) {
-        console.log("ERROR: Must supply a path");
-        return;
+        return console.log("ERROR: Must supply a path");
       }
 
       return _updatePath(id, path);
-    }
+    };
+
     var _executeupdatePathMulti = function(objects) {
-      var objArray = [];
+      var polyArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         
@@ -109,12 +109,13 @@
           continue;
         }
 
-        // add object to array
-        objArray.push(_updatePath(id, path));
+        // add polygon object to array
+        var poly = _updatePath(id, path);
+        polyArray[poly.ID] = poly;
       }
 
-      return objArray;
-    }
+      return polyArray;
+    };
 
 
     // Actions
@@ -128,7 +129,7 @@
       GMH.Data.Polygon[id].Obj.setOptions(options);
 
       return GMH.Data.Polygon[id];
-    }
+    };
 
     var _updatePath = function(id, path) {
       if (typeof path == "string") {
@@ -139,7 +140,7 @@
       GMH.Data.Polygon[id].Obj.setOptions({"path": path});
 
       return GMH.Data.Polygon[id];
-    }
+    };
 
 
     // Expose Public Methods

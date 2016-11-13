@@ -5,22 +5,8 @@
   
   var GMH = (function(GMH) {
     "use strict";
-  
-    // Map Object
-    // =======================================
-    var Map = function(obj) {
-      this.Obj = obj;
-    }
 
-    Map.prototype = {
-      setBounds: function(type, id) { return GMH.Map.setBounds(type, id) },
-      addListener: function(type, fn) { return GMH.Map.addListener(type, fn) },
-      removeListenerType: function(type) { return GMH.Map.removeListenerType(type) },
-      removeAllListeners: function() { return GMH.Map.removeAllListeners() }
-    }
-
-
-    // GMH Map Class
+    // GMH Map Namespace
     // =======================================
     if (typeof GMH.Map == "undefined") {
       GMH.Map = {};
@@ -29,10 +15,10 @@
 
     // Public Methods
     // =======================================
-    var initMap = function(container, userOptions) {
+    var init = function(container, userOptions) {
 
       // combine user and default options
-      var options = $.extend({}, GMH.Defaults.Map, userOptions)
+      var options = $.extend({}, GMH.Defaults.Map, userOptions);
      
       // create new google map
       var googleMap = new google.maps.Map(document.getElementById(container), options);
@@ -40,10 +26,10 @@
       // add GMH object to google map
       googleMap.GMH = {
         Parent: function() { return GMH.Data.Map; }
-      }
+      };
 
       // create new map and save reference
-      GMH.Data.Map = new Map(googleMap);
+      GMH.Data.Map = new GMH.Object.Map(googleMap);
 
       // save bounds after map has finished initializing
       setTimeout(function() {
@@ -52,12 +38,12 @@
       }, 500);
 
       return GMH.Data.Map;
-    }
+    };
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Map.init = initMap;
+    GMH.Map.init = init;
 
 
     return GMH;

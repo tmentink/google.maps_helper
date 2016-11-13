@@ -6,7 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Class
+    // GMH Polygon Namespace
     // =======================================
     if (typeof GMH.Polygon == "undefined") {
       GMH.Polygon = {};
@@ -29,12 +29,12 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        console.log("ERROR: ID does not reference a polygon");
-        return;
+        return console.log("ERROR: ID does not reference a polygon");
       }
 
       return _getBounds(id);
-    }
+    };
+
     var _executeMulti = function(ids) {
       var bounds = new google.maps.LatLngBounds();
 
@@ -51,7 +51,7 @@
       }
 
       return bounds;
-    }
+    };
 
 
     // Actions
@@ -71,7 +71,7 @@
       }
 
       return bounds;
-    }
+    };
 
 
     // Expose Public Methods

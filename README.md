@@ -27,7 +27,6 @@ Download and add [Google Maps Helper](https://raw.githubusercontent.com/tmentink
 ```
 
 ## Documentation
-### Overview
 <ul>
   <li><a href="#data">Data</a></li>
   <li>
@@ -40,6 +39,7 @@ Download and add [Google Maps Helper](https://raw.githubusercontent.com/tmentink
   <li>
     <a href="#utility">Utility</a>
     <ul>
+      <li><a href="#utility-getIDs">getIDs</a></li>
       <li><a href="#utility-toLatLng">toLatLng</a></li>
       <li><a href="#utility-toLatLngArray">toLatLngArray</a></li>
     </ul>
@@ -167,6 +167,22 @@ GMH.Defaults.Polygon = {
 
 <p align="right"><a href="#documentation">:arrow_up:</a></p>
 ### Utility
+
+<h4 id="utility-getIDs">getIDs(obj)</h4>
+Returns an array of the object's ids
+
+```javascript
+GMH.Data.Marker = {
+  0: marker,
+  1: marker,
+  "myMarkerID": marker
+};
+
+GMH.Utility.getIDs(GMH.Data.Marker);
+
+// returns
+[0,1,"myMarkerID"]
+```
 
 <h4 id="utility-toLatLng">toLatLng(str)</h4>
 Converts a comma separated string into a [google.maps.LatLng](https://developers.google.com/maps/documentation/javascript/3.exp/reference#LatLng) object

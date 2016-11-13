@@ -6,28 +6,7 @@
   var GMH = (function(GMH) {
     "use strict";
 
-    // Marker Object
-    // =======================================
-    var Marker = function(id, obj) {
-      this.ID = id;
-      this.Obj = obj;
-    }
-
-    Marker.prototype = {
-      hide: function() { return GMH.Marker.hide(this.ID) },
-      show: function() { return GMH.Marker.show(this.ID) },
-      toggle: function() { return GMH.Marker.toggle(this.ID) },
-      delete: function() { return GMH.Marker.delete(this.ID) },
-      update: function(options) { return GMH.Marker.update(this.ID, options) },
-      updatePosition: function(position) { return GMH.Marker.updatePosition(this.ID, position) },
-      getBounds: function() { return GMH.Marker.getBounds(this.ID) },
-      addListener: function(type, func) { return GMH.Marker.addListener(this.ID, type, func) },
-      removeListenerType: function(type) { return GMH.Marker.removeListenerType(this.ID, type) },
-      removeAllListeners: function() { return GMH.Marker.removeAllListeners(this.ID) }
-    }
-
-
-    // GMH Marker Class
+    // GMH Marker Namespace
     // =======================================
     if (typeof GMH.Marker == "undefined") {
       GMH.Marker = {};
@@ -49,25 +28,24 @@
       }
 
       // if left null, default id to next index
-      id = (id == null) ? _getIndex() : id;
+      id = (id == null) ? GMH.Data.Marker.nextIndex() : id;
 
       // check if id already exists
       if (GMH.Data.Marker[id]) {
-        console.log("ERROR: ID already exists");
-        return;
+        return console.log("ERROR: ID already exists");
       }
 
       // check if position is supplied
       if (position == null) {
-        console.log("ERROR: Must supply a position");
-        return;
+        return console.log("ERROR: Must supply a position");
       }
 
       // return the marker object
       return _add(id, position, userOptions);
-    }
+    };
+
     var _executeMulti = function(objects) {
-      var objArray = [];
+      var markerArray = new GMH.Object.MarkerArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         var id = objects[i].id;
@@ -75,7 +53,7 @@
         var options = objects[i].options;
 
         // if left null, default id to next index
-        id = (id == null) ? _getIndex() : id;
+        id = (id == null) ? GMH.Data.Marker.nextIndex() : id;
 
         // skip if id already exists or position is null
         if (GMH.Data.Marker[id] || position == null) {
@@ -83,11 +61,12 @@
         }
 
         // add marker object to array
-        objArray.push(_add(id, position, options));
+        var marker = _add(id, position, options);
+        markerArray[marker.ID] = marker;
       }
 
-      return objArray;
-    }
+      return markerArray;
+    };
 
 
     // Actions
@@ -110,29 +89,15 @@
       // add GMH object to google marker
       googleMarker.GMH = {
         ID: id,
-        Parent: function(){ return GMH.Data.Marker[this.ID] }
+        Parent: function(){ return GMH.Data.Marker[this.ID]; }
       };
 
       // create new marker and save reference
-      GMH.Data.Marker[id] = new Marker(id, googleMarker);
+      GMH.Data.Marker[id] = new GMH.Object.Marker(id, googleMarker);
 
       // return marker object
       return GMH.Data.Marker[id];
-    }
-
-
-    // Utility Functions
-    // =======================================
-
-    // create an index variable for auto creating an id
-    GMH.Data.Marker._index = 0;
-    
-    var _getIndex = function() {
-      GMH.Data.Marker._index++;
-
-      // return number prior to incrementing
-      return GMH.Data.Marker._index - 1;
-    }
+    };
 
 
     // Expose Public Methods
