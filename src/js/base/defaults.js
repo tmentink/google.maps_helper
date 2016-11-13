@@ -6,56 +6,46 @@
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Defaults Class
+    // GMH Defaults Namespace
     // =======================================
     GMH.Defaults = {};
     
 
-    // Map Defaults
+    // Object Defaults
     // =======================================
     GMH.Defaults.Map = {
       zoom: 6,
       center: { lat: 37.5, lng: -120 },
       mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
 
+    GMH.Defaults.Marker = {};
 
-    // Polygon Defaults
-    // =======================================
     GMH.Defaults.Polygon = {
       strokeColor: '#000',
       strokeOpacity: 0.8,
       strokeWeight: 1,
       fillColor: '#1984AE',
       fillOpacity: 0.8
-    }
+    };
 
 
-    // Marker Defaults
-    // =======================================
-    GMH.Defaults.Marker = {
-
-    }
-
-
-    // Set Defaults
+    // Public Methods
     // =======================================
     var setDefaults = function(type, userOptions) {
-      return _changeDefaults("set", type, userOptions);
-    }
+      return _execute("set", type, userOptions);
+    };
 
-
-    // Update Defaults
-    // =======================================
     var updateDefaults = function(type, userOptions) {
-      return _changeDefaults("update", type, userOptions);
-    }
+      return _execute("update", type, userOptions);
+    };
 
 
-    // Change Defaults
+    // Execute
     // =======================================
-    var _changeDefaults = function(action, type, userOptions) {    
-      type = _getType(type);
+    var _execute = function(action, type, userOptions) {    
+      // allow type to be less sensitive
+      type = GMH.Utility.getObjectType(type);
       
       var newOptions = userOptions;
 
@@ -66,46 +56,10 @@
 
       // set new defaults
       GMH.Defaults[type] = newOptions;
-    }
+    };
 
 
-    // Get Type
-    // =======================================
-    // allow type to be case and plural insensitive
-    var _getType = function(type) {
-      type = type.toLowerCase();
-
-      switch(type) {
-        case "map":
-          type = "Map";
-          break;
-
-        case "maps":
-          type = "Map";
-          break;
-
-        case "polygon":
-          type = "Polygon";
-          break;
-
-        case "polygons":
-          type = "Polygon";
-          break;
-
-        case "marker":
-          type = "Marker";
-          break;
-
-        case "markers":
-          type = "Marker";
-          break;
-      }
-
-      return type;
-    }
-
-
-    // Public Methods
+    // Expose Public Methods
     // =======================================
     GMH.Defaults.set = setDefaults;
     GMH.Defaults.update = updateDefaults;
