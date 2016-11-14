@@ -31,7 +31,7 @@
     // Execute
     // =======================================
     var _execute = function(action, id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(action, id);
       }
 

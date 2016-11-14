@@ -26,7 +26,7 @@
     var _execute = function(type, id) {
       
       // check if an array of types is passed
-      if (Array.isArray(type)) {
+      if ($.isArray(type)) {
         return _executeMulti(type);
       }
 
@@ -82,7 +82,7 @@
     var _getBounds = function(type, id) {
       
       // check if an array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _getBoundsMulti(type, id);
       }
 

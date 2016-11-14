@@ -34,7 +34,7 @@
     // Execute
     // =======================================
     var _executeAdd = function(type, fn) {
-      if (Array.isArray(type)) {
+      if ($.isArray(type)) {
         return _executeAddMulti(type);
       }
 
@@ -60,7 +60,7 @@
     var _executeRemoveType = function(type) {
 
       // check if array of types is passed
-      if (Array.isArray(type)) {
+      if ($.isArray(type)) {
         return _executeRemoveTypeMulti(type);
       }
 

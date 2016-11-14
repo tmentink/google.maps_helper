@@ -23,7 +23,7 @@
     // Execute
     // =======================================
     var _execute = function(id, path, userOptions) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -72,7 +72,7 @@
     // Actions
     // =======================================
     var _add = function(id, path, userOptions) {
-      if (typeof path == "string") {
+      if ($.type(path) == "string") {
         path = GMH.Utility.toLatLngArray(path);
       }
 

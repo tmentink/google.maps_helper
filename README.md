@@ -39,6 +39,7 @@ Download and add [Google Maps Helper](https://raw.githubusercontent.com/tmentink
   <li>
     <a href="#utility">Utility</a>
     <ul>
+      <li><a href="#utility-not">not</a></li>
       <li><a href="#utility-getIDs">getIDs</a></li>
       <li><a href="#utility-toLatLng">toLatLng</a></li>
       <li><a href="#utility-toLatLngArray">toLatLngArray</a></li>
@@ -167,6 +168,34 @@ GMH.Defaults.Polygon = {
 
 <p align="right"><a href="#documentation">:arrow_up:</a></p>
 ### Utility
+
+<h4 id="utility-not">copy(source, exclude)</h4>
+Returns a copy of the `source` minus the values of `exclude`
+
+* `exclude` can be a comma separated string, an array or an object
+
+```javascript
+GMH.Data.Polygon = {
+  0: polygon,
+  1: polygon,
+  "removeMe": polygon,
+  "andMeToo": polygon
+};
+
+var remove = {
+  "removeMe": polygon,
+  "andMeToo": polygon
+};
+
+GMH.Utility.copy(GMH.Data.Polygon, "removeMe, andMeToo");
+
+GMH.Utility.copy(GMH.Data.Polygon, ["removeMe", "andMeToo"]);
+
+GMH.Utility.copy(GMH.Data.Polygon, remove);
+
+// all three return 
+{ 0: polygon, 1: polygon }
+```
 
 <h4 id="utility-getIDs">getIDs(obj)</h4>
 Returns an array of the object's ids

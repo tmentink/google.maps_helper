@@ -17,8 +17,61 @@
     var $ = {};
 
 
-    // Extend
-    // =======================================
+    $.isWindow = function(obj) {
+      return obj && obj === obj.window;
+    };
+
+
+    $.type = function(obj) {
+      if (!obj) {
+        return obj + "";
+      }
+
+      return typeof obj === "object" || typeof obj === "function" ?
+          class2type[toString.call(obj)] || "object" :
+          typeof obj;
+    };
+
+
+    $.isArray = Array.isArray || function(obj) {
+      return $.type(obj) === "array";
+    };
+
+
+    $.isPlainObject = function(obj) {
+      var key;
+
+      if (!obj || $.type(obj) !== "object" || obj.nodeType || $.isWindow(obj)) {
+        return false;
+      }
+
+      try {
+        if (obj.constructor &&
+            !hasOwn.call(obj, "constructor") &&
+            !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
+          return false;
+        }
+      } catch (e) {
+        return false;
+      }
+
+      for (key in obj) {
+      }
+
+      return key === undefined || hasOwn.call(obj, key);
+    };
+
+
+    var class2type = {},
+        hasOwn = class2type.hasOwnProperty,
+        toString = class2type.toString;
+
+    var types = "Boolean Number String Function Array Date RegExp Object Error".split(" ");
+    for (var i = 0; i < types.length; i++) {
+      class2type["[object " + types[i] + "]"] = types[i].toLowerCase();
+    }
+
+
     $.extend = function() {
       var options, name, src, copy, copyIsArray, clone,
         target = arguments[ 0 ] || {},
@@ -62,19 +115,19 @@
             }
 
             // Recurse if we're merging plain objects or arrays
-            if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
-              ( copyIsArray = jQuery.isArray( copy ) ) ) ) {
+            if ( deep && copy && ( $.isPlainObject( copy ) ||
+              ( copyIsArray = $.isArray( copy ) ) ) ) {
 
               if ( copyIsArray ) {
                 copyIsArray = false;
-                clone = src && jQuery.isArray( src ) ? src : [];
+                clone = src && $.isArray( src ) ? src : [];
 
               } else {
-                clone = src && jQuery.isPlainObject( src ) ? src : {};
+                clone = src && $.isPlainObject( src ) ? src : {};
               }
 
               // Never move original objects, clone them
-              target[ name ] = jQuery.extend( deep, clone, copy );
+              target[ name ] = $.extend( deep, clone, copy );
 
             // Don't bring in undefined values
             } else if ( copy !== undefined ) {
@@ -119,6 +172,7 @@
     };
 
     Map.prototype = {
+      ObjectType: "Map",
       setBounds: function(type, id) { return GMH.Map.setBounds(type, id) },
       addListener: function(type, fn) { return GMH.Map.addListener(type, fn) },
       removeListenerType: function(type) { return GMH.Map.removeListenerType(type) },
@@ -158,6 +212,7 @@
     };
 
     Marker.prototype = {
+      ObjectType: "Marker",
       hide: function() { return GMH.Marker.hide(this.ID); },
       show: function() { return GMH.Marker.show(this.ID); },
       toggle: function() { return GMH.Marker.toggle(this.ID); },
@@ -178,8 +233,10 @@
     };
 
     MarkerArray.prototype = {
-      nextIndex: function() { this._i++; return this._i -1; },
+      ObjectType: "MarkerArray",
       IDs: function() { return GMH.Utility.getIDs(this); },
+      not: function() { return GMH.Utility.copy(GMH.Data.Marker, this) },
+      nextIndex: function() { this._i++; return this._i -1; },
       hide: function() { return GMH.Marker.hide(this.IDs()); },
       show: function() { return GMH.Marker.show(this.IDs()); },
       toggle: function() { return GMH.Marker.toggle(this.IDs()); },
@@ -251,6 +308,7 @@
     };
 
     Polygon.prototype = {
+      ObjectType: "Polygon",
       hide: function() { return GMH.Polygon.hide(this.ID); },
       show: function() { return GMH.Polygon.show(this.ID); },
       toggle: function() { return GMH.Polygon.toggle(this.ID); },
@@ -271,8 +329,10 @@
     };
 
     PolygonArray.prototype = {
-      nextIndex: function() { this._i++; return this._i -1; },
+      ObjectType: "PolygonArray",
       IDs: function() { return GMH.Utility.getIDs(this); },
+      not: function() { return GMH.Utility.copy(GMH.Data.Polygon, this) },
+      nextIndex: function() { this._i++; return this._i -1; },
       hide: function() { return GMH.Polygon.hide(this.IDs()); },
       show: function() { return GMH.Polygon.show(this.IDs()); },
       toggle: function() { return GMH.Polygon.toggle(this.IDs()); },
@@ -429,6 +489,40 @@
 
     // Public Methods
     // =======================================
+    var copy = function(source, exclude) {
+      // make a deep copy of the source
+      var src_copy = $.extend(true, {}, source);
+   
+      // convert exclude into an array
+      if ($.type(exclude) == "object") {
+        exclude = Object.keys(exclude);
+      }
+      else if ($.type(exclude) == "string") {
+        exclude = exclude.split(",");
+      }
+
+      // get the source's prototype and convert into array
+      var src_proto = Object.keys(Object.getPrototypeOf(source));
+      
+      // merge the src_proto and exclude arrays
+      var exclude = src_proto.concat(exclude);
+
+      // loop through array and delete ids and prototype from src_copy
+      for (var i = 0, i_len = exclude.length; i < i_len; i++) {
+        delete src_copy[exclude[i]];
+      }
+
+      var GMH_Obj = {};
+
+      // create new object array based on source
+      if (source.ObjectType) {
+        GMH_Obj = new GMH.Object[source.ObjectType];
+      }
+      
+      // copy into new object 
+      return $.extend(GMH_Obj, src_copy);
+    };
+
     var getIDs = function(obj) {
       var ids = Object.keys(obj);
 
@@ -600,6 +694,7 @@
 
     // Expose Public Methods
     // =======================================
+    GMH.Utility.copy = copy;
     GMH.Utility.getIDs = getIDs;
     GMH.Utility.toLatLng = toLatLng;
     GMH.Utility.toLatLngArray = toLatLngArray;
@@ -639,7 +734,7 @@
     var _execute = function(type, id) {
       
       // check if an array of types is passed
-      if (Array.isArray(type)) {
+      if ($.isArray(type)) {
         return _executeMulti(type);
       }
 
@@ -695,7 +790,7 @@
     var _getBounds = function(type, id) {
       
       // check if an array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _getBoundsMulti(type, id);
       }
 
@@ -823,7 +918,7 @@
     // Execute
     // =======================================
     var _executeAdd = function(type, fn) {
-      if (Array.isArray(type)) {
+      if ($.isArray(type)) {
         return _executeAddMulti(type);
       }
 
@@ -849,7 +944,7 @@
     var _executeRemoveType = function(type) {
 
       // check if array of types is passed
-      if (Array.isArray(type)) {
+      if ($.isArray(type)) {
         return _executeRemoveTypeMulti(type);
       }
 
@@ -927,7 +1022,7 @@
     // Execute
     // =======================================
     var _execute = function(id, position, userOptions) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -976,7 +1071,7 @@
     // Actions
     // =======================================
     var _add = function(id, position, userOptions) {
-      if (typeof position == "string") {
+      if ($.type(position) == "string") {
         position = GMH.Utility.toLatLng(position);
       }
 
@@ -1038,7 +1133,7 @@
     // Execute
     // =======================================
     var _execute = function(id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -1114,7 +1209,7 @@
     // Execute
     // =======================================
     var _execute = function(id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -1206,7 +1301,7 @@
     // Execute
     // =======================================
     var _execute = function(action, id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(action, id);
       }
 
@@ -1319,7 +1414,7 @@
     // Execute
     // =======================================
     var _executeAdd = function(id, type, fn) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeAddMulti(id);
       }
 
@@ -1391,7 +1486,7 @@
 
     var _executeRemoveAll = function(id) {
       // check if array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeRemoveAllMulti(id);
       }
 
@@ -1491,7 +1586,7 @@
     // Execute
     // =======================================
     var _executeUpdate = function(id, options) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeUpdateMulti(id);
       }
 
@@ -1535,7 +1630,7 @@
 
 
     var _executeUpdatePosition = function(id, position) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeUpdatePositionMulti(id);
       }
 
@@ -1585,7 +1680,7 @@
     // Actions
     // =======================================
     var _update = function(id, options) {
-      if (typeof options.position == "string") {
+      if ($.type(options.position) == "string") {
         options.position = GMH.Utility.toLatLng(options.position);
       }
       
@@ -1596,7 +1691,7 @@
     };
 
     var _updatePosition = function(id, position) {
-      if (typeof position == "string") {
+      if ($.type(position) == "string") {
         position = GMH.Utility.toLatLng(position);
       }
 
@@ -1642,7 +1737,7 @@
     // Execute
     // =======================================
     var _execute = function(id, path, userOptions) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -1691,7 +1786,7 @@
     // Actions
     // =======================================
     var _add = function(id, path, userOptions) {
-      if (typeof path == "string") {
+      if ($.type(path) == "string") {
         path = GMH.Utility.toLatLngArray(path);
       }
 
@@ -1753,7 +1848,7 @@
     // Execute
     // =======================================
     var _execute = function(id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -1842,7 +1937,7 @@
     // Execute
     // =======================================
     var _execute = function(id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(id);
       }
 
@@ -1934,7 +2029,7 @@
     // Execute
     // =======================================
     var _execute = function(action, id) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeMulti(action, id);
       }
 
@@ -2047,7 +2142,7 @@
     // Execute
     // =======================================
     var _executeAdd = function(id, type, fn) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeAddMulti(id);
       }
 
@@ -2086,7 +2181,7 @@
       type = GMH.Utility.getEventType(type);
 
       // check if array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeRemoveTypeMulti(id, type);
       }
 
@@ -2120,7 +2215,7 @@
     var _executeRemoveAll = function(id) {
 
       // check if array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeRemoveAllMulti(id);
       }
 
@@ -2220,7 +2315,7 @@
     // Execute
     // =======================================
     var _executeUpdate = function(id, options) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeUpdateMulti(id);
       }
 
@@ -2264,7 +2359,7 @@
 
 
     var _executeupdatePath = function(id, path) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeupdatePathMulti(id);
       }
 
@@ -2314,7 +2409,7 @@
     // Actions
     // =======================================
     var _update = function(id, options) {
-      if (typeof options.path == "string") {
+      if ($.type(options.path) == "string") {
         options.path = GMH.Utility.toLatLngArray(options.path);
       }
       
@@ -2325,7 +2420,7 @@
     };
 
     var _updatePath = function(id, path) {
-      if (typeof path == "string") {
+      if ($.type(path) == "string") {
         path = GMH.Utility.toLatLngArray(path);
       }
 

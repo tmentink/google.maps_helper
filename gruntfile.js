@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-  var banner =  '/* <%= pkg.name %> - v<%= pkg.version %> | License: <%= pkg.license %>\n' +
+  var banner =  '/* <%= pkg.name %> - v<%= pkg.version %> | <%= pkg.license %> License\n' +
                 ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
                 ' * <%= pkg.homepage %>\n' +
                 ' */\n'

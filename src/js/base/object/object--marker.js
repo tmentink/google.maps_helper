@@ -21,6 +21,7 @@
     };
 
     Marker.prototype = {
+      ObjectType: "Marker",
       hide: function() { return GMH.Marker.hide(this.ID); },
       show: function() { return GMH.Marker.show(this.ID); },
       toggle: function() { return GMH.Marker.toggle(this.ID); },
@@ -41,8 +42,10 @@
     };
 
     MarkerArray.prototype = {
-      nextIndex: function() { this._i++; return this._i -1; },
+      ObjectType: "MarkerArray",
       IDs: function() { return GMH.Utility.getIDs(this); },
+      not: function() { return GMH.Utility.copy(GMH.Data.Marker, this) },
+      nextIndex: function() { this._i++; return this._i -1; },
       hide: function() { return GMH.Marker.hide(this.IDs()); },
       show: function() { return GMH.Marker.show(this.IDs()); },
       toggle: function() { return GMH.Marker.toggle(this.IDs()); },

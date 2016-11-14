@@ -1,4 +1,4 @@
-/* Google Maps Helper - v1.1 | License: MIT
+/* Google Maps Helper - v1.11 | MIT License
  * Copyright 2016 Trent Mentink
  * https://github.com/tmentink/google.maps_helper
  */
@@ -8,6 +8,38 @@
     return;
   }
   var $ = {};
+  $.isWindow = function(obj) {
+    return obj && obj === obj.window;
+  };
+  $.type = function(obj) {
+    if (!obj) {
+      return obj + "";
+    }
+    return typeof obj === "object" || typeof obj === "function" ? class2type[toString.call(obj)] || "object" : typeof obj;
+  };
+  $.isArray = Array.isArray || function(obj) {
+    return $.type(obj) === "array";
+  };
+  $.isPlainObject = function(obj) {
+    var key;
+    if (!obj || $.type(obj) !== "object" || obj.nodeType || $.isWindow(obj)) {
+      return false;
+    }
+    try {
+      if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+    for (key in obj) {}
+    return key === undefined || hasOwn.call(obj, key);
+  };
+  var class2type = {}, hasOwn = class2type.hasOwnProperty, toString = class2type.toString;
+  var types = "Boolean Number String Function Array Date RegExp Object Error".split(" ");
+  for (var i = 0; i < types.length; i++) {
+    class2type["[object " + types[i] + "]"] = types[i].toLowerCase();
+  }
   $.extend = function() {
     var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {}, i = 1, length = arguments.length, deep = false;
     if (typeof target === "boolean") {
@@ -30,14 +62,14 @@
           if (target === copy) {
             continue;
           }
-          if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+          if (deep && copy && ($.isPlainObject(copy) || (copyIsArray = $.isArray(copy)))) {
             if (copyIsArray) {
               copyIsArray = false;
-              clone = src && jQuery.isArray(src) ? src : [];
+              clone = src && $.isArray(src) ? src : [];
             } else {
-              clone = src && jQuery.isPlainObject(src) ? src : {};
+              clone = src && $.isPlainObject(src) ? src : {};
             }
-            target[name] = jQuery.extend(deep, clone, copy);
+            target[name] = $.extend(deep, clone, copy);
           } else if (copy !== undefined) {
             target[name] = copy;
           }
@@ -58,6 +90,7 @@ var GMH = function(GMH) {
     this.Obj = obj;
   };
   Map.prototype = {
+    ObjectType: "Map",
     setBounds: function(type, id) {
       return GMH.Map.setBounds(type, id);
     },
@@ -85,6 +118,7 @@ var GMH = function(GMH) {
     this.Obj = obj;
   };
   Marker.prototype = {
+    ObjectType: "Marker",
     hide: function() {
       return GMH.Marker.hide(this.ID);
     },
@@ -120,12 +154,16 @@ var GMH = function(GMH) {
     this._i = 0;
   };
   MarkerArray.prototype = {
+    ObjectType: "MarkerArray",
+    IDs: function() {
+      return GMH.Utility.getIDs(this);
+    },
+    not: function() {
+      return GMH.Utility.copy(GMH.Data.Marker, this);
+    },
     nextIndex: function() {
       this._i++;
       return this._i - 1;
-    },
-    IDs: function() {
-      return GMH.Utility.getIDs(this);
     },
     hide: function() {
       return GMH.Marker.hide(this.IDs());
@@ -190,6 +228,7 @@ var GMH = function(GMH) {
     this.Obj = obj;
   };
   Polygon.prototype = {
+    ObjectType: "Polygon",
     hide: function() {
       return GMH.Polygon.hide(this.ID);
     },
@@ -225,12 +264,16 @@ var GMH = function(GMH) {
     this._i = 0;
   };
   PolygonArray.prototype = {
+    ObjectType: "PolygonArray",
+    IDs: function() {
+      return GMH.Utility.getIDs(this);
+    },
+    not: function() {
+      return GMH.Utility.copy(GMH.Data.Polygon, this);
+    },
     nextIndex: function() {
       this._i++;
       return this._i - 1;
-    },
-    IDs: function() {
-      return GMH.Utility.getIDs(this);
     },
     hide: function() {
       return GMH.Polygon.hide(this.IDs());
@@ -337,6 +380,24 @@ var GMH = function(GMH) {
   if (typeof GMH.Utility == "undefined") {
     GMH.Utility = {};
   }
+  var copy = function(source, exclude) {
+    var src_copy = $.extend(true, {}, source);
+    if ($.type(exclude) == "object") {
+      exclude = Object.keys(exclude);
+    } else if ($.type(exclude) == "string") {
+      exclude = exclude.split(",");
+    }
+    var src_proto = Object.keys(Object.getPrototypeOf(source));
+    var exclude = src_proto.concat(exclude);
+    for (var i = 0, i_len = exclude.length; i < i_len; i++) {
+      delete src_copy[exclude[i]];
+    }
+    var GMH_Obj = {};
+    if (source.ObjectType) {
+      GMH_Obj = new GMH.Object[source.ObjectType]();
+    }
+    return $.extend(GMH_Obj, src_copy);
+  };
   var getIDs = function(obj) {
     var ids = Object.keys(obj);
     var _i = ids.indexOf("_i");
@@ -479,6 +540,7 @@ var GMH = function(GMH) {
     }
     return type;
   };
+  GMH.Utility.copy = copy;
   GMH.Utility.getIDs = getIDs;
   GMH.Utility.toLatLng = toLatLng;
   GMH.Utility.toLatLngArray = toLatLngArray;
@@ -497,7 +559,7 @@ var GMH = function(GMH) {
     return GMH.Data.Map;
   };
   var _execute = function(type, id) {
-    if (Array.isArray(type)) {
+    if ($.isArray(type)) {
       return _executeMulti(type);
     }
     type = GMH.Utility.getObjectType(type);
@@ -522,7 +584,7 @@ var GMH = function(GMH) {
     GMH.Data.Map.Obj.fitBounds(bounds);
   };
   var _getBounds = function(type, id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _getBoundsMulti(type, id);
     }
     if (GMH.Data[type][id] == null) {
@@ -587,7 +649,7 @@ var GMH = function(GMH) {
     return GMH.Data.Map;
   };
   var _executeAdd = function(type, fn) {
-    if (Array.isArray(type)) {
+    if ($.isArray(type)) {
       return _executeAddMulti(type);
     }
     _add(type, fn);
@@ -600,7 +662,7 @@ var GMH = function(GMH) {
     }
   };
   var _executeRemoveType = function(type) {
-    if (Array.isArray(type)) {
+    if ($.isArray(type)) {
       return _executeRemoveTypeMulti(type);
     }
     _removeType(type);
@@ -639,7 +701,7 @@ var GMH = function(GMH) {
     return _execute(id, position, options);
   };
   var _execute = function(id, position, userOptions) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(id);
     }
     id = id == null ? GMH.Data.Marker.nextIndex() : id;
@@ -667,7 +729,7 @@ var GMH = function(GMH) {
     return markerArray;
   };
   var _add = function(id, position, userOptions) {
-    if (typeof position == "string") {
+    if ($.type(position) == "string") {
       position = GMH.Utility.toLatLng(position);
     }
     var options = $.extend({}, GMH.Defaults.Marker, userOptions);
@@ -696,7 +758,7 @@ var GMH = function(GMH) {
     return _execute(id);
   };
   var _execute = function(id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -733,7 +795,7 @@ var GMH = function(GMH) {
     return _execute(id);
   };
   var _execute = function(id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -778,7 +840,7 @@ var GMH = function(GMH) {
     return _execute("hide", id);
   };
   var _execute = function(action, id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(action, id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -850,7 +912,7 @@ var GMH = function(GMH) {
     return _executeRemoveAll(id);
   };
   var _executeAdd = function(id, type, fn) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeAddMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -895,7 +957,7 @@ var GMH = function(GMH) {
     return markerArray;
   };
   var _executeRemoveAll = function(id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeRemoveAllMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -948,7 +1010,7 @@ var GMH = function(GMH) {
     return _executeUpdatePosition(id, position);
   };
   var _executeUpdate = function(id, options) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeUpdateMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -972,7 +1034,7 @@ var GMH = function(GMH) {
     return markerArray;
   };
   var _executeUpdatePosition = function(id, position) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeUpdatePositionMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
@@ -1000,14 +1062,14 @@ var GMH = function(GMH) {
     return markerArray;
   };
   var _update = function(id, options) {
-    if (typeof options.position == "string") {
+    if ($.type(options.position) == "string") {
       options.position = GMH.Utility.toLatLng(options.position);
     }
     GMH.Data.Marker[id].Obj.setOptions(options);
     return GMH.Data.Marker[id];
   };
   var _updatePosition = function(id, position) {
-    if (typeof position == "string") {
+    if ($.type(position) == "string") {
       position = GMH.Utility.toLatLng(position);
     }
     GMH.Data.Marker[id].Obj.setOptions({
@@ -1029,7 +1091,7 @@ var GMH = function(GMH) {
     return _execute(id, path, options);
   };
   var _execute = function(id, path, userOptions) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(id);
     }
     id = id == null ? GMH.Data.Polygon.nextIndex() : id;
@@ -1057,7 +1119,7 @@ var GMH = function(GMH) {
     return polyArray;
   };
   var _add = function(id, path, userOptions) {
-    if (typeof path == "string") {
+    if ($.type(path) == "string") {
       path = GMH.Utility.toLatLngArray(path);
     }
     var options = $.extend({}, GMH.Defaults.Polygon, userOptions);
@@ -1086,7 +1148,7 @@ var GMH = function(GMH) {
     return _execute(id);
   };
   var _execute = function(id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1129,7 +1191,7 @@ var GMH = function(GMH) {
     return _execute(id);
   };
   var _execute = function(id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1174,7 +1236,7 @@ var GMH = function(GMH) {
     return _execute("hide", id);
   };
   var _execute = function(action, id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeMulti(action, id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1246,7 +1308,7 @@ var GMH = function(GMH) {
     return _executeRemoveAll(id);
   };
   var _executeAdd = function(id, type, fn) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeAddMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1270,7 +1332,7 @@ var GMH = function(GMH) {
   };
   var _executeRemoveType = function(id, type) {
     type = GMH.Utility.getEventType(type);
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeRemoveTypeMulti(id, type);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1291,7 +1353,7 @@ var GMH = function(GMH) {
     return polyArray;
   };
   var _executeRemoveAll = function(id) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeRemoveAllMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1344,7 +1406,7 @@ var GMH = function(GMH) {
     return _executeupdatePath(id, path);
   };
   var _executeUpdate = function(id, options) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeUpdateMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1368,7 +1430,7 @@ var GMH = function(GMH) {
     return polyArray;
   };
   var _executeupdatePath = function(id, path) {
-    if (Array.isArray(id)) {
+    if ($.isArray(id)) {
       return _executeupdatePathMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
@@ -1396,14 +1458,14 @@ var GMH = function(GMH) {
     return polyArray;
   };
   var _update = function(id, options) {
-    if (typeof options.path == "string") {
+    if ($.type(options.path) == "string") {
       options.path = GMH.Utility.toLatLngArray(options.path);
     }
     GMH.Data.Polygon[id].Obj.setOptions(options);
     return GMH.Data.Polygon[id];
   };
   var _updatePath = function(id, path) {
-    if (typeof path == "string") {
+    if ($.type(path) == "string") {
       path = GMH.Utility.toLatLngArray(path);
     }
     GMH.Data.Polygon[id].Obj.setOptions({

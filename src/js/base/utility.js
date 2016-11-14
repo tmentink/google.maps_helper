@@ -15,6 +15,40 @@
 
     // Public Methods
     // =======================================
+    var copy = function(source, exclude) {
+      // make a deep copy of the source
+      var src_copy = $.extend(true, {}, source);
+   
+      // convert exclude into an array
+      if ($.type(exclude) == "object") {
+        exclude = Object.keys(exclude);
+      }
+      else if ($.type(exclude) == "string") {
+        exclude = exclude.split(",");
+      }
+
+      // get the source's prototype and convert into array
+      var src_proto = Object.keys(Object.getPrototypeOf(source));
+      
+      // merge the src_proto and exclude arrays
+      var exclude = src_proto.concat(exclude);
+
+      // loop through array and delete ids and prototype from src_copy
+      for (var i = 0, i_len = exclude.length; i < i_len; i++) {
+        delete src_copy[exclude[i]];
+      }
+
+      var GMH_Obj = {};
+
+      // create new object array based on source
+      if (source.ObjectType) {
+        GMH_Obj = new GMH.Object[source.ObjectType];
+      }
+      
+      // copy into new object 
+      return $.extend(GMH_Obj, src_copy);
+    };
+
     var getIDs = function(obj) {
       var ids = Object.keys(obj);
 
@@ -186,6 +220,7 @@
 
     // Expose Public Methods
     // =======================================
+    GMH.Utility.copy = copy;
     GMH.Utility.getIDs = getIDs;
     GMH.Utility.toLatLng = toLatLng;
     GMH.Utility.toLatLngArray = toLatLngArray;

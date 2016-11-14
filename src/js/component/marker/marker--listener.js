@@ -31,7 +31,7 @@
     // Execute
     // =======================================
     var _executeAdd = function(id, type, fn) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeAddMulti(id);
       }
 
@@ -103,7 +103,7 @@
 
     var _executeRemoveAll = function(id) {
       // check if array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeRemoveAllMulti(id);
       }
 

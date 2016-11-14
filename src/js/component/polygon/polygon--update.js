@@ -27,7 +27,7 @@
     // Execute
     // =======================================
     var _executeUpdate = function(id, options) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeUpdateMulti(id);
       }
 
@@ -71,7 +71,7 @@
 
 
     var _executeupdatePath = function(id, path) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeupdatePathMulti(id);
       }
 
@@ -121,7 +121,7 @@
     // Actions
     // =======================================
     var _update = function(id, options) {
-      if (typeof options.path == "string") {
+      if ($.type(options.path) == "string") {
         options.path = GMH.Utility.toLatLngArray(options.path);
       }
       
@@ -132,7 +132,7 @@
     };
 
     var _updatePath = function(id, path) {
-      if (typeof path == "string") {
+      if ($.type(path) == "string") {
         path = GMH.Utility.toLatLngArray(path);
       }
 

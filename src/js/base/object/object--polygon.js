@@ -21,6 +21,7 @@
     };
 
     Polygon.prototype = {
+      ObjectType: "Polygon",
       hide: function() { return GMH.Polygon.hide(this.ID); },
       show: function() { return GMH.Polygon.show(this.ID); },
       toggle: function() { return GMH.Polygon.toggle(this.ID); },
@@ -41,8 +42,10 @@
     };
 
     PolygonArray.prototype = {
-      nextIndex: function() { this._i++; return this._i -1; },
+      ObjectType: "PolygonArray",
       IDs: function() { return GMH.Utility.getIDs(this); },
+      not: function() { return GMH.Utility.copy(GMH.Data.Polygon, this) },
+      nextIndex: function() { this._i++; return this._i -1; },
       hide: function() { return GMH.Polygon.hide(this.IDs()); },
       show: function() { return GMH.Polygon.show(this.IDs()); },
       toggle: function() { return GMH.Polygon.toggle(this.IDs()); },

@@ -31,7 +31,7 @@
     // Execute
     // =======================================
     var _executeAdd = function(id, type, fn) {
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeAddMulti(id);
       }
 
@@ -70,7 +70,7 @@
       type = GMH.Utility.getEventType(type);
 
       // check if array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeRemoveTypeMulti(id, type);
       }
 
@@ -104,7 +104,7 @@
     var _executeRemoveAll = function(id) {
 
       // check if array of ids is passed
-      if (Array.isArray(id)) {
+      if ($.isArray(id)) {
         return _executeRemoveAllMulti(id);
       }
 
