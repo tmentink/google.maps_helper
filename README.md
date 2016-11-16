@@ -1,4 +1,4 @@
-<h1 id="title" align="center">Same Google Maps. Simpler API.</h1>
+<h1 id="title" align="center">Same Google Maps. Less API.</h1>
 
 <p align="center">
 <b><a href="#getting-started">Getting Started</a></b>
@@ -12,7 +12,7 @@
 <b><a href="http://www.trentmentink.com">Author</a></b>
 </p>
 
-![Google Maps Helper](https://s26.postimg.org/4h2mrl8dl/google_maps_helper.png)
+![Google Maps Helper](https://s26.postimg.org/x5bg0g23t/google_maps_helper.png)
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ Download and add [Google Maps Helper](https://raw.githubusercontent.com/tmentink
   <li>
     <a href="#utility">Utility</a>
     <ul>
-      <li><a href="#utility-not">not</a></li>
+      <li><a href="#utility-copy">copy</a></li>
       <li><a href="#utility-getIDs">getIDs</a></li>
       <li><a href="#utility-toLatLng">toLatLng</a></li>
       <li><a href="#utility-toLatLngArray">toLatLngArray</a></li>
@@ -169,7 +169,7 @@ GMH.Defaults.Polygon = {
 <p align="right"><a href="#documentation">:arrow_up:</a></p>
 ### Utility
 
-<h4 id="utility-not">copy(source, exclude)</h4>
+<h4 id="utility-copy">copy(source, exclude)</h4>
 Returns a copy of the `source` minus the values of `exclude`
 
 * `exclude` can be a comma separated string, an array or an object

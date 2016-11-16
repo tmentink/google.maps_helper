@@ -29,7 +29,7 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        return console.log("ERROR: ID does not reference a Polygon");
+        throw "Error: ID does not reference a Polygon";
       }
 
       // return the deleted object
@@ -60,16 +60,16 @@
     // =======================================
     var _delete = function(id) {
       // get the object
-      var Polygon = GMH.Data.Polygon[id];
+      var polygon = GMH.Data.Polygon[id];
 
       // remove from map
-      Polygon.Obj.setMap(null);
+      polygon.Obj.setMap(null);
 
       // delete the id 
       delete GMH.Data.Polygon[id];
 
       // return the object
-      return Polygon;
+      return polygon;
     };
 
 

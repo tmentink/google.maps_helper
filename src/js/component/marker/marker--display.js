@@ -37,7 +37,7 @@
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        return console.log("ERROR: ID does not reference a Marker");
+        throw "Error: ID does not reference a Marker";
       }
 
       return _switch(action, id);

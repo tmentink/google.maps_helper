@@ -51,36 +51,10 @@
       toggle: function() { return GMH.Marker.toggle(this.IDs()); },
       delete: function() { return GMH.Marker.delete(this.IDs()); },
       getBounds: function() { return GMH.Marker.getBounds(this.IDs()); },
-      update: function(options) { return GMH.Marker.update(_buildUpdateObjects(this.IDs(), options)); },
-      addListener: function(type, fn) { return GMH.Marker.addListener(_buildListenerObjects(this.IDs(), type, fn)); },
+      update: function(options) { return GMH.Marker.update(this.IDs(), options); },
+      addListener: function(type, fn) { return GMH.Marker.addListener(this.IDs(), type, fn); },
       removeListenerType: function(type) { return GMH.Marker.removeListenerType(this.IDs(), type); },
       removeAllListeners: function() { return GMH.Marker.removeAllListeners(this.IDs()); }
-    };
-
-    
-    // Utility Functions
-    // =======================================
-    var _buildUpdateObjects = function(ids, options) { 
-      var objArray = [];
-
-      for (var i = 0, i_len = ids.length; i < i_len; i++) {
-        var obj = {};
-        obj[ids[i]] = options;
-
-        objArray.push(obj);
-      }
-
-      return objArray;
-    };
-
-    var _buildListenerObjects = function(ids, type, fn) {
-      var objArray = [];
-
-      for (var i = 0, i_len = ids.length; i < i_len; i++) {
-        objArray.push({ "id": ids[i], "type": type, "fn": fn });
-      }
-
-      return objArray;
     };
 
 

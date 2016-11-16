@@ -58,16 +58,10 @@
 
 
     var _executeRemoveType = function(type) {
-
-      // check if array of types is passed
-      if ($.isArray(type)) {
-        return _executeRemoveTypeMulti(type);
+      if ($.type(type) == "string") {
+        type = type.split(",");
       }
 
-      _removeType(type);
-    };
-
-    var _executeRemoveTypeMulti = function(types) {
       for (var i = 0, i_len = types.length; i < i_len; i++) {
         var type = types[i];
 
@@ -79,21 +73,14 @@
     // Actions
     // =======================================
     var _add = function(type, func) {
-      try {
-        // allow type to be less sensitive
-        type = GMH.Utility.getEventType(type);
-
-        google.maps.event.addListener(GMH.Data.Map.Obj, type, func);
-      }
-      catch (ex) {
-        
-      }
+      // allow type to be less sensitive
+      type = GMH.Utility.getEventType(type);
+      google.maps.event.addListener(GMH.Data.Map.Obj, type, func);
     };
 
     var _removeType = function(type) {
       // allow type to be less sensitive
       type = GMH.Utility.getEventType(type);
-
       google.maps.event.clearListeners(GMH.Data.Map.Obj, type);
     };
 

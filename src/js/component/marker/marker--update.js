@@ -27,39 +27,36 @@
     // Execute
     // =======================================
     var _executeUpdate = function(id, options) {
+      // if options is null, get default options
+      options = (options == null) ? GMH.Defaults.Marker : options;
+
+      // convert position into latlng
+      if ($.type(options.position) == "string") {
+        options.position = GMH.Utility.toLatLng(options.position);
+      }
+
       if ($.isArray(id)) {
-        return _executeUpdateMulti(id);
+        return _executeUpdateMulti(id, options);
       }
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        return console.log("ERROR: ID does not reference a marker");
+        throw "Error: ID does not reference a marker";
       }
-
-      // if options is null, get default options
-      options = (options == null) ? GMH.Defaults.Marker : options;
 
       return _update(id, options);
     };
 
-    var _executeUpdateMulti = function(objects) {
+    var _executeUpdateMulti = function(ids, options) {
       var markerArray = new GMH.Object.MarkerArray();
 
-      for (var i = 0, i_len = objects.length; i < i_len; i++) {
-        
-        // the only property in the object should be the id
-        var id = Object.keys(objects[i])[0];
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
 
         // skip if id doesnt exists
         if (GMH.Data.Marker[id] == undefined) {
           continue;
         }
-
-        // get the options
-        var options = objects[i][id];
-
-        // if options are null, get default options
-        options = (options == null) ? GMH.Defaults.Marker : options;
 
         // add marker object to array
         var marker = _update(id, options);
@@ -71,41 +68,36 @@
 
 
     var _executeUpdatePosition = function(id, position) {
+      // check if position is supplied
+      if (position == null) {
+        throw "Error: Must supply a position";
+      }
+
+      // convert position into latlng
+      if ($.type(position) == "string") {
+        position = GMH.Utility.toLatLng(position);
+      }
+
       if ($.isArray(id)) {
-        return _executeUpdatePositionMulti(id);
+        return _executeUpdatePositionMulti(id, position);
       }
 
       // check if id exists
       if (GMH.Data.Marker[id] == undefined) {
-        return console.log("ERROR: ID does not reference a Marker");
-      }
-
-      // check if position is supplied
-      if (position == null) {
-        return console.log("ERROR: Must supply a position");
+        throw "Error: ID does not reference a Marker";
       }
 
       return _updatePosition(id, position);
     };
 
-    var _executeUpdatePositionMulti = function(objects) {
+    var _executeUpdatePositionMulti = function(ids, position) {
       var markerArray = new GMH.Object.MarkerArray();
 
-      for (var i = 0, i_len = objects.length; i < i_len; i++) {
-        
-        // the only property in the object should be the id
-        var id = Object.keys(objects[i])[0];
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
 
         // skip if id doesnt exists
         if (GMH.Data.Marker[id] == undefined) {
-          continue;
-        }
-
-        // get the position
-        var position = objects[i][id];
-
-        // skip over if position is null
-        if (position == null) {
           continue;
         }
 
@@ -121,22 +113,12 @@
     // Actions
     // =======================================
     var _update = function(id, options) {
-      if ($.type(options.position) == "string") {
-        options.position = GMH.Utility.toLatLng(options.position);
-      }
-      
-      // update with new options
       GMH.Data.Marker[id].Obj.setOptions(options);
 
       return GMH.Data.Marker[id];
     };
 
     var _updatePosition = function(id, position) {
-      if ($.type(position) == "string") {
-        position = GMH.Utility.toLatLng(position);
-      }
-
-      // update the markers position
       GMH.Data.Marker[id].Obj.setOptions({"position": position});
 
       return GMH.Data.Marker[id];

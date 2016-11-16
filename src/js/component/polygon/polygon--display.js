@@ -37,7 +37,7 @@
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        return console.log("ERROR: ID does not reference a Polygon");
+        throw "Error: ID does not reference a Polygon";
       }
 
       return _switch(action, id);

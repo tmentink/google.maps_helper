@@ -32,12 +32,12 @@
 
       // check if id already exists
       if (GMH.Data.Marker[id]) {
-        return console.log("ERROR: ID already exists");
+        throw "Error: ID already exists";
       }
 
       // check if position is supplied
       if (position == null) {
-        return console.log("ERROR: Must supply a position");
+        throw "Error: Must supply a position";
       }
 
       // return the marker object

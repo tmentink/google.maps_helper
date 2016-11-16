@@ -50,17 +50,17 @@
       GMH.Data.Map.Obj.fitBounds(bounds);
     };
     
-    var _executeMulti = function(typeObjects) {
+    var _executeMulti = function(objects) {
       var bounds = new google.maps.LatLngBounds();
 
       // loop through each type object
-      for (var i = 0, i_len = typeObjects.length; i < i_len; i++) {
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
 
         // the only property in the object should be the type
-        var type = Object.keys(typeObjects[i])[0];
+        var type = Object.keys(objects[i])[0];
 
         // get the id(s)
-        var id = typeObjects[i][type];
+        var id = objects[i][type];
 
         // allow type to be less sensitive
         type = GMH.Utility.getObjectType(type);

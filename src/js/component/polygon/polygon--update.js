@@ -27,39 +27,36 @@
     // Execute
     // =======================================
     var _executeUpdate = function(id, options) {
+      // if options is null, get default options
+      options = (options == null) ? GMH.Defaults.Polygon : options;
+
+      // convert path into latlng array
+      if ($.type(options.path) == "string") {
+        options.path = GMH.Utility.toLatLngArray(options.path);
+      }
+
       if ($.isArray(id)) {
-        return _executeUpdateMulti(id);
+        return _executeUpdateMulti(id, options);
       }
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        return console.log("ERROR: ID does not reference a Polygon");
+        throw "Error: ID does not reference a Polygon";
       }
-
-      // if options is null, get default options
-      options = (options == null) ? GMH.Defaults.Polygon : options;
-
+      
       return _update(id, options);
     };
 
-    var _executeUpdateMulti = function(objects) {
+    var _executeUpdateMulti = function(ids, options) {
       var polyArray = new GMH.Object.PolygonArray();
 
-      for (var i = 0, i_len = objects.length; i < i_len; i++) {
-        
-        // the only property in the object should be the id
-        var id = Object.keys(objects[i])[0];
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
 
         // skip if id doesnt exists
         if (GMH.Data.Polygon[id] == undefined) {
           continue;
         }
-
-        // get the options
-        var options = objects[i][id];
-
-        // if options are null, get default options
-        options = (options == null) ? GMH.Defaults.Polygon : options;
 
         // add polygon object to array
         var poly = _update(id, options);
@@ -71,41 +68,36 @@
 
 
     var _executeupdatePath = function(id, path) {
+      // check if path is supplied
+      if (path == null) {
+        throw "Error: Must supply a path";
+      }
+
+      // convert path to latlng array
+      if ($.type(path) == "string") {
+        path = GMH.Utility.toLatLngArray(path);
+      }
+
       if ($.isArray(id)) {
-        return _executeupdatePathMulti(id);
+        return _executeupdatePathMulti(id, path);
       }
 
       // check if id exists
       if (GMH.Data.Polygon[id] == undefined) {
-        return console.log("ERROR: ID does not reference a Polygon");
-      }
-
-      // check if path is supplied
-      if (path == null) {
-        return console.log("ERROR: Must supply a path");
+        throw "Error: ID does not reference a Polygon";
       }
 
       return _updatePath(id, path);
     };
 
-    var _executeupdatePathMulti = function(objects) {
+    var _executeupdatePathMulti = function(ids) {
       var polyArray = new GMH.Object.PolygonArray();
 
-      for (var i = 0, i_len = objects.length; i < i_len; i++) {
-        
-        // the only property in the object should be the id
-        var id = Object.keys(objects[i])[0];
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
 
         // skip if id doesnt exists
         if (GMH.Data.Polygon[id] == undefined) {
-          continue;
-        }
-
-        // get the path
-        var path = objects[i][id];
-
-        // skip over if path is null
-        if (path == null) {
           continue;
         }
 
@@ -121,24 +113,12 @@
     // Actions
     // =======================================
     var _update = function(id, options) {
-      if ($.type(options.path) == "string") {
-        options.path = GMH.Utility.toLatLngArray(options.path);
-      }
-      
-      // update with new options
       GMH.Data.Polygon[id].Obj.setOptions(options);
-
       return GMH.Data.Polygon[id];
     };
 
     var _updatePath = function(id, path) {
-      if ($.type(path) == "string") {
-        path = GMH.Utility.toLatLngArray(path);
-      }
-
-      // update the polygons path
       GMH.Data.Polygon[id].Obj.setOptions({"path": path});
-
       return GMH.Data.Polygon[id];
     };
 

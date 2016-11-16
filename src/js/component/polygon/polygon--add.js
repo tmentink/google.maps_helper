@@ -31,13 +31,13 @@
       id = (id == null) ? GMH.Data.Polygon.nextIndex() : id;
 
       // check if id already exists
-      if (GMH.Data.Polygon[id]) {
-        return console.log("ERROR: ID already exists");
+      if (GMH.Data.Polygon[id] || id == "_i") {
+        throw "Error: ID already exists";
       }
 
       // check if path is supplied
       if (path == null) {
-        return console.log("ERROR: Must supply a path");
+        throw "Error: Must supply a path";
       }
 
       // return the polygon object

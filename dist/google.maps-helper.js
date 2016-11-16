@@ -181,10 +181,10 @@ var GMH = function(GMH) {
       return GMH.Marker.getBounds(this.IDs());
     },
     update: function(options) {
-      return GMH.Marker.update(_buildUpdateObjects(this.IDs(), options));
+      return GMH.Marker.update(this.IDs(), options);
     },
     addListener: function(type, fn) {
-      return GMH.Marker.addListener(_buildListenerObjects(this.IDs(), type, fn));
+      return GMH.Marker.addListener(this.IDs(), type, fn);
     },
     removeListenerType: function(type) {
       return GMH.Marker.removeListenerType(this.IDs(), type);
@@ -192,26 +192,6 @@ var GMH = function(GMH) {
     removeAllListeners: function() {
       return GMH.Marker.removeAllListeners(this.IDs());
     }
-  };
-  var _buildUpdateObjects = function(ids, options) {
-    var objArray = [];
-    for (var i = 0, i_len = ids.length; i < i_len; i++) {
-      var obj = {};
-      obj[ids[i]] = options;
-      objArray.push(obj);
-    }
-    return objArray;
-  };
-  var _buildListenerObjects = function(ids, type, fn) {
-    var objArray = [];
-    for (var i = 0, i_len = ids.length; i < i_len; i++) {
-      objArray.push({
-        id: ids[i],
-        type: type,
-        fn: fn
-      });
-    }
-    return objArray;
   };
   GMH.Object.Marker = Marker;
   GMH.Object.MarkerArray = MarkerArray;
@@ -291,10 +271,10 @@ var GMH = function(GMH) {
       return GMH.Polygon.getBounds(this.IDs());
     },
     update: function(options) {
-      return GMH.Polygon.update(_buildUpdateObjects(this.IDs(), options));
+      return GMH.Polygon.update(this.IDs(), options);
     },
     addListener: function(type, fn) {
-      return GMH.Polygon.addListener(_buildListenerObjects(this.IDs(), type, fn));
+      return GMH.Polygon.addListener(this.IDs(), type, fn);
     },
     removeListenerType: function(type) {
       return GMH.Polygon.removeListenerType(this.IDs(), type);
@@ -302,26 +282,6 @@ var GMH = function(GMH) {
     removeAllListeners: function() {
       return GMH.Polygon.removeAllListeners(this.IDs());
     }
-  };
-  var _buildUpdateObjects = function(ids, options) {
-    var objArray = [];
-    for (var i = 0, i_len = ids.length; i < i_len; i++) {
-      var obj = {};
-      obj[ids[i]] = options;
-      objArray.push(obj);
-    }
-    return objArray;
-  };
-  var _buildListenerObjects = function(ids, type, fn) {
-    var objArray = [];
-    for (var i = 0, i_len = ids.length; i < i_len; i++) {
-      objArray.push({
-        id: ids[i],
-        type: type,
-        fn: fn
-      });
-    }
-    return objArray;
   };
   GMH.Object.Polygon = Polygon;
   GMH.Object.PolygonArray = PolygonArray;
@@ -572,11 +532,11 @@ var GMH = function(GMH) {
     var bounds = _getBounds(type, id);
     GMH.Data.Map.Obj.fitBounds(bounds);
   };
-  var _executeMulti = function(typeObjects) {
+  var _executeMulti = function(objects) {
     var bounds = new google.maps.LatLngBounds();
-    for (var i = 0, i_len = typeObjects.length; i < i_len; i++) {
-      var type = Object.keys(typeObjects[i])[0];
-      var id = typeObjects[i][type];
+    for (var i = 0, i_len = objects.length; i < i_len; i++) {
+      var type = Object.keys(objects[i])[0];
+      var id = objects[i][type];
       type = GMH.Utility.getObjectType(type);
       id = id == null ? GMH.Utility.getIDs(GMH.Data[type]) : id;
       bounds.union(_getBounds(type, id));
@@ -662,22 +622,17 @@ var GMH = function(GMH) {
     }
   };
   var _executeRemoveType = function(type) {
-    if ($.isArray(type)) {
-      return _executeRemoveTypeMulti(type);
+    if ($.type(type) == "string") {
+      type = type.split(",");
     }
-    _removeType(type);
-  };
-  var _executeRemoveTypeMulti = function(types) {
     for (var i = 0, i_len = types.length; i < i_len; i++) {
       var type = types[i];
       _removeType(type);
     }
   };
   var _add = function(type, func) {
-    try {
-      type = GMH.Utility.getEventType(type);
-      google.maps.event.addListener(GMH.Data.Map.Obj, type, func);
-    } catch (ex) {}
+    type = GMH.Utility.getEventType(type);
+    google.maps.event.addListener(GMH.Data.Map.Obj, type, func);
   };
   var _removeType = function(type) {
     type = GMH.Utility.getEventType(type);
@@ -706,10 +661,10 @@ var GMH = function(GMH) {
     }
     id = id == null ? GMH.Data.Marker.nextIndex() : id;
     if (GMH.Data.Marker[id]) {
-      return console.log("ERROR: ID already exists");
+      throw "Error: ID already exists";
     }
     if (position == null) {
-      return console.log("ERROR: Must supply a position");
+      throw "Error: Must supply a position";
     }
     return _add(id, position, userOptions);
   };
@@ -762,7 +717,7 @@ var GMH = function(GMH) {
       return _executeMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a marker");
+      throw "Error: ID does not reference a marker";
     }
     return _getBounds(id);
   };
@@ -799,7 +754,7 @@ var GMH = function(GMH) {
       return _executeMulti(id);
     }
     if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a marker");
+      throw "Error: ID does not reference a marker";
     }
     return _delete(id);
   };
@@ -844,7 +799,7 @@ var GMH = function(GMH) {
       return _executeMulti(action, id);
     }
     if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Marker");
+      throw "Error: ID does not reference a Marker";
     }
     return _switch(action, id);
   };
@@ -903,86 +858,51 @@ var GMH = function(GMH) {
     GMH.Marker = {};
   }
   var addListener = function(id, type, fn) {
-    return _executeAdd(id, type, fn);
+    return _execute("add", id, type, fn);
   };
   var removeListenerType = function(id, type) {
-    return _executeRemoveType(id, type);
+    return _execute("removeType", id, type);
   };
   var removeAllListeners = function(id) {
-    return _executeRemoveAll(id);
+    return _execute("removeAll", id);
   };
-  var _executeAdd = function(id, type, fn) {
+  var _execute = function(action, id, type, fn) {
+    type = type ? GMH.Utility.getEventType(type) : null;
     if ($.isArray(id)) {
-      return _executeAddMulti(id);
+      return _executeAddMulti(action, id, type, fn);
     }
     if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Marker");
+      throw "Error: ID does not reference a Marker";
     }
-    return _add(id, type, fn);
+    return _switch(action, id, type, fn);
   };
-  var _executeAddMulti = function(objects) {
-    var markerArray = new GMH.Object.MarkerArray();
-    for (var i = 0, i_len = objects.length; i < i_len; i++) {
-      var id = objects[i].id;
-      var type = objects[i].type;
-      var fn = objects[i].fn;
-      if (GMH.Data.Marker[id] == undefined) {
-        continue;
-      }
-      var marker = _add(id, type, fn);
-      markerArray[marker.ID] = marker;
-    }
-    return markerArray;
-  };
-  var _executeRemoveType = function(id, type) {
-    type = GMH.Utility.getEventType(type);
-    if (Array.isArray(id)) {
-      return _executeRemoveTypeMulti(id, type);
-    }
-    if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a marker");
-    }
-    return _removeType(id, type);
-  };
-  var _executeRemoveTypeMulti = function(ids, type) {
+  var _executeMulti = function(action, ids, type, fn) {
     var markerArray = new GMH.Object.MarkerArray();
     for (var i = 0, i_len = ids.length; i < i_len; i++) {
       var id = ids[i];
       if (GMH.Data.Marker[id] == undefined) {
         continue;
       }
-      var marker = _removeType(id, type);
+      var marker = _switch(action, id, type, fn);
       markerArray[marker.ID] = marker;
     }
     return markerArray;
   };
-  var _executeRemoveAll = function(id) {
-    if ($.isArray(id)) {
-      return _executeRemoveAllMulti(id);
+  var _switch = function(action, id, type, fn) {
+    switch (action) {
+     case "add":
+      return _add(id, type, fn);
+
+     case "removeType":
+      return _removeType(id, type);
+
+     case "removeAll":
+      return _removeAll(id);
     }
-    if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a marker");
-    }
-    return _removeAll(id);
-  };
-  var _executeRemoveAllMulti = function(ids) {
-    var markerArray = new GMH.Object.MarkerArray();
-    for (var i = 0, i_len = ids.length; i < i_len; i++) {
-      var id = ids[i];
-      if (GMH.Data.Marker[id] == undefined) {
-        continue;
-      }
-      var marker = _removeAll(id);
-      markerArray[marker.ID] = marker;
-    }
-    return markerArray;
   };
   var _add = function(id, type, fn) {
-    try {
-      type = GMH.Utility.getEventType(type);
-      google.maps.event.addListener(GMH.Data.Marker[id].Obj, type, fn);
-      return GMH.Data.Marker[id];
-    } catch (ex) {}
+    google.maps.event.addListener(GMH.Data.Marker[id].Obj, type, fn);
+    return GMH.Data.Marker[id];
   };
   var _removeType = function(id, type) {
     google.maps.event.clearListeners(GMH.Data.Marker[id].Obj, type);
@@ -1010,50 +930,50 @@ var GMH = function(GMH) {
     return _executeUpdatePosition(id, position);
   };
   var _executeUpdate = function(id, options) {
+    options = options == null ? GMH.Defaults.Marker : options;
+    if ($.type(options.position) == "string") {
+      options.position = GMH.Utility.toLatLng(options.position);
+    }
     if ($.isArray(id)) {
-      return _executeUpdateMulti(id);
+      return _executeUpdateMulti(id, options);
     }
     if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a marker");
+      throw "Error: ID does not reference a marker";
     }
-    options = options == null ? GMH.Defaults.Marker : options;
     return _update(id, options);
   };
-  var _executeUpdateMulti = function(objects) {
+  var _executeUpdateMulti = function(ids, options) {
     var markerArray = new GMH.Object.MarkerArray();
-    for (var i = 0, i_len = objects.length; i < i_len; i++) {
-      var id = Object.keys(objects[i])[0];
+    for (var i = 0, i_len = ids.length; i < i_len; i++) {
+      var id = ids[i];
       if (GMH.Data.Marker[id] == undefined) {
         continue;
       }
-      var options = objects[i][id];
-      options = options == null ? GMH.Defaults.Marker : options;
       var marker = _update(id, options);
       markerArray[marker.ID] = marker;
     }
     return markerArray;
   };
   var _executeUpdatePosition = function(id, position) {
+    if (position == null) {
+      throw "Error: Must supply a position";
+    }
+    if ($.type(position) == "string") {
+      position = GMH.Utility.toLatLng(position);
+    }
     if ($.isArray(id)) {
-      return _executeUpdatePositionMulti(id);
+      return _executeUpdatePositionMulti(id, position);
     }
     if (GMH.Data.Marker[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Marker");
-    }
-    if (position == null) {
-      return console.log("ERROR: Must supply a position");
+      throw "Error: ID does not reference a Marker";
     }
     return _updatePosition(id, position);
   };
-  var _executeUpdatePositionMulti = function(objects) {
+  var _executeUpdatePositionMulti = function(ids, position) {
     var markerArray = new GMH.Object.MarkerArray();
-    for (var i = 0, i_len = objects.length; i < i_len; i++) {
-      var id = Object.keys(objects[i])[0];
+    for (var i = 0, i_len = ids.length; i < i_len; i++) {
+      var id = ids[i];
       if (GMH.Data.Marker[id] == undefined) {
-        continue;
-      }
-      var position = objects[i][id];
-      if (position == null) {
         continue;
       }
       var marker = _updatePosition(id, position);
@@ -1062,16 +982,10 @@ var GMH = function(GMH) {
     return markerArray;
   };
   var _update = function(id, options) {
-    if ($.type(options.position) == "string") {
-      options.position = GMH.Utility.toLatLng(options.position);
-    }
     GMH.Data.Marker[id].Obj.setOptions(options);
     return GMH.Data.Marker[id];
   };
   var _updatePosition = function(id, position) {
-    if ($.type(position) == "string") {
-      position = GMH.Utility.toLatLng(position);
-    }
     GMH.Data.Marker[id].Obj.setOptions({
       position: position
     });
@@ -1095,11 +1009,11 @@ var GMH = function(GMH) {
       return _executeMulti(id);
     }
     id = id == null ? GMH.Data.Polygon.nextIndex() : id;
-    if (GMH.Data.Polygon[id]) {
-      return console.log("ERROR: ID already exists");
+    if (GMH.Data.Polygon[id] || id == "_i") {
+      throw "Error: ID already exists";
     }
     if (path == null) {
-      return console.log("ERROR: Must supply a path");
+      throw "Error: Must supply a path";
     }
     return _add(id, path, userOptions);
   };
@@ -1152,7 +1066,7 @@ var GMH = function(GMH) {
       return _executeMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a polygon");
+      throw "Error: ID does not reference a polygon";
     }
     return _getBounds(id);
   };
@@ -1195,7 +1109,7 @@ var GMH = function(GMH) {
       return _executeMulti(id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
+      throw "Error: ID does not reference a Polygon";
     }
     return _delete(id);
   };
@@ -1212,10 +1126,10 @@ var GMH = function(GMH) {
     return polyArray;
   };
   var _delete = function(id) {
-    var Polygon = GMH.Data.Polygon[id];
-    Polygon.Obj.setMap(null);
+    var polygon = GMH.Data.Polygon[id];
+    polygon.Obj.setMap(null);
     delete GMH.Data.Polygon[id];
-    return Polygon;
+    return polygon;
   };
   GMH.Polygon.delete = deletePolygon;
   return GMH;
@@ -1240,7 +1154,7 @@ var GMH = function(GMH) {
       return _executeMulti(action, id);
     }
     if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
+      throw "Error: ID does not reference a Polygon";
     }
     return _switch(action, id);
   };
@@ -1299,86 +1213,51 @@ var GMH = function(GMH) {
     GMH.Polygon = {};
   }
   var addListener = function(id, type, fn) {
-    return _executeAdd(id, type, fn);
+    return _execute("add", id, type, fn);
   };
   var removeListenerType = function(id, type) {
-    return _executeRemoveType(id, type);
+    return _execute("removeType", id, type);
   };
   var removeAllListeners = function(id) {
-    return _executeRemoveAll(id);
+    return _execute("removeAll", id);
   };
-  var _executeAdd = function(id, type, fn) {
+  var _execute = function(action, id, type, fn) {
+    type = type ? GMH.Utility.getEventType(type) : null;
     if ($.isArray(id)) {
-      return _executeAddMulti(id);
+      return _executeMulti(action, id, type, fn);
     }
     if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
+      throw "Error: ID does not reference a Polygon";
     }
-    return _add(id, type, fn);
+    return _switch(action, id, type, fn);
   };
-  var _executeAddMulti = function(objects) {
-    var polyArray = new GMH.Object.PolygonArray();
-    for (var i = 0, i_len = objects.length; i < i_len; i++) {
-      var id = objects[i].id;
-      var type = objects[i].type;
-      var fn = objects[i].fn;
-      if (GMH.Data.Polygon[id] == undefined) {
-        continue;
-      }
-      var poly = _add(id, type, fn);
-      polyArray[poly.ID] = poly;
-    }
-    return polyArray;
-  };
-  var _executeRemoveType = function(id, type) {
-    type = GMH.Utility.getEventType(type);
-    if ($.isArray(id)) {
-      return _executeRemoveTypeMulti(id, type);
-    }
-    if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
-    }
-    return _removeType(id, type);
-  };
-  var _executeRemoveTypeMulti = function(ids, type) {
+  var _executeMulti = function(action, ids, type, fn) {
     var polyArray = new GMH.Object.PolygonArray();
     for (var i = 0, i_len = ids.length; i < i_len; i++) {
       var id = ids[i];
       if (GMH.Data.Polygon[id] == undefined) {
         continue;
       }
-      var poly = _removeType(id, type);
+      var poly = _switch(action, id, type, fn);
       polyArray[poly.ID] = poly;
     }
     return polyArray;
   };
-  var _executeRemoveAll = function(id) {
-    if ($.isArray(id)) {
-      return _executeRemoveAllMulti(id);
+  var _switch = function(action, id, type, fn) {
+    switch (action) {
+     case "add":
+      return _add(id, type, fn);
+
+     case "removeType":
+      return _removeType(id, type);
+
+     case "removeAll":
+      return _removeAll(id);
     }
-    if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
-    }
-    return _removeAll(id);
-  };
-  var _executeRemoveAllMulti = function(ids) {
-    var polyArray = new GMH.Object.PolygonArray();
-    for (var i = 0, i_len = ids.length; i < i_len; i++) {
-      var id = ids[i];
-      if (GMH.Data.Polygon[id] == undefined) {
-        continue;
-      }
-      var poly = _removeAll(id);
-      polyArray[poly.ID] = poly;
-    }
-    return polyArray;
   };
   var _add = function(id, type, func) {
-    try {
-      type = GMH.Utility.getEventType(type);
-      google.maps.event.addListener(GMH.Data.Polygon[id].Obj, type, func);
-      return GMH.Data.Polygon[id];
-    } catch (ex) {}
+    google.maps.event.addListener(GMH.Data.Polygon[id].Obj, type, func);
+    return GMH.Data.Polygon[id];
   };
   var _removeType = function(id, type) {
     google.maps.event.clearListeners(GMH.Data.Polygon[id].Obj, type);
@@ -1406,50 +1285,50 @@ var GMH = function(GMH) {
     return _executeupdatePath(id, path);
   };
   var _executeUpdate = function(id, options) {
+    options = options == null ? GMH.Defaults.Polygon : options;
+    if ($.type(options.path) == "string") {
+      options.path = GMH.Utility.toLatLngArray(options.path);
+    }
     if ($.isArray(id)) {
-      return _executeUpdateMulti(id);
+      return _executeUpdateMulti(id, options);
     }
     if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
+      throw "Error: ID does not reference a Polygon";
     }
-    options = options == null ? GMH.Defaults.Polygon : options;
     return _update(id, options);
   };
-  var _executeUpdateMulti = function(objects) {
+  var _executeUpdateMulti = function(ids, options) {
     var polyArray = new GMH.Object.PolygonArray();
-    for (var i = 0, i_len = objects.length; i < i_len; i++) {
-      var id = Object.keys(objects[i])[0];
+    for (var i = 0, i_len = ids.length; i < i_len; i++) {
+      var id = ids[i];
       if (GMH.Data.Polygon[id] == undefined) {
         continue;
       }
-      var options = objects[i][id];
-      options = options == null ? GMH.Defaults.Polygon : options;
       var poly = _update(id, options);
       polyArray[poly.ID] = poly;
     }
     return polyArray;
   };
   var _executeupdatePath = function(id, path) {
+    if (path == null) {
+      throw "Error: Must supply a path";
+    }
+    if ($.type(path) == "string") {
+      path = GMH.Utility.toLatLngArray(path);
+    }
     if ($.isArray(id)) {
-      return _executeupdatePathMulti(id);
+      return _executeupdatePathMulti(id, path);
     }
     if (GMH.Data.Polygon[id] == undefined) {
-      return console.log("ERROR: ID does not reference a Polygon");
-    }
-    if (path == null) {
-      return console.log("ERROR: Must supply a path");
+      throw "Error: ID does not reference a Polygon";
     }
     return _updatePath(id, path);
   };
-  var _executeupdatePathMulti = function(objects) {
+  var _executeupdatePathMulti = function(ids) {
     var polyArray = new GMH.Object.PolygonArray();
-    for (var i = 0, i_len = objects.length; i < i_len; i++) {
-      var id = Object.keys(objects[i])[0];
+    for (var i = 0, i_len = ids.length; i < i_len; i++) {
+      var id = ids[i];
       if (GMH.Data.Polygon[id] == undefined) {
-        continue;
-      }
-      var path = objects[i][id];
-      if (path == null) {
         continue;
       }
       var poly = _updatePath(id, path);
@@ -1458,16 +1337,10 @@ var GMH = function(GMH) {
     return polyArray;
   };
   var _update = function(id, options) {
-    if ($.type(options.path) == "string") {
-      options.path = GMH.Utility.toLatLngArray(options.path);
-    }
     GMH.Data.Polygon[id].Obj.setOptions(options);
     return GMH.Data.Polygon[id];
   };
   var _updatePath = function(id, path) {
-    if ($.type(path) == "string") {
-      path = GMH.Utility.toLatLngArray(path);
-    }
     GMH.Data.Polygon[id].Obj.setOptions({
       path: path
     });

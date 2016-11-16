@@ -51,39 +51,13 @@
       toggle: function() { return GMH.Polygon.toggle(this.IDs()); },
       delete: function() { return GMH.Polygon.delete(this.IDs()); },
       getBounds: function() { return GMH.Polygon.getBounds(this.IDs()); },
-      update: function(options) { return GMH.Polygon.update(_buildUpdateObjects(this.IDs(), options)); },
-      addListener: function(type, fn) { return GMH.Polygon.addListener(_buildListenerObjects(this.IDs(), type, fn)); },
+      update: function(options) { return GMH.Polygon.update(this.IDs(), options); },
+      addListener: function(type, fn) { return GMH.Polygon.addListener(this.IDs(), type, fn); },
       removeListenerType: function(type) { return GMH.Polygon.removeListenerType(this.IDs(), type); },
       removeAllListeners: function() { return GMH.Polygon.removeAllListeners(this.IDs()); }
     };
 
     
-    // Utility Functions
-    // =======================================
-    var _buildUpdateObjects = function(ids, options) { 
-      var objArray = [];
-
-      for (var i = 0, i_len = ids.length; i < i_len; i++) {
-        var obj = {};
-        obj[ids[i]] = options;
-
-        objArray.push(obj);
-      }
-
-      return objArray;
-    };
-
-    var _buildListenerObjects = function(ids, type, fn) {
-      var objArray = [];
-
-      for (var i = 0, i_len = ids.length; i < i_len; i++) {
-        objArray.push({ "id": ids[i], "type": type, "fn": fn });
-      }
-
-      return objArray;
-    };
-
-
     // Expose Public Objects
     // =======================================
     GMH.Object.Polygon = Polygon;
