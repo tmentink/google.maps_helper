@@ -18,6 +18,9 @@ Polygons:
   ☐ Methods for adding/updating/deleting labels
 
 
+Labels:
+  
+
 Markers:
 
 
@@ -30,6 +33,17 @@ Marker Clustering:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Methods for updating @done (16-11-18 11:50) @project(Labels)
+ ✔ Methods for showing/hiding @done (16-11-18 11:50) @project(Labels)
+ ✔ Method for reseting @done (16-11-18 11:50) @project(Labels)
+ ✔ Method for getting center @done (16-11-18 11:50) @project(Labels)
+ ✔ Method for getting bounds @done (16-11-18 11:50) @project(Labels)
+ ✔ Method for deleting @done (16-11-18 11:50) @project(Labels)
+ ✔ Method for adding @done (16-11-18 11:50) @project(Labels)
+ ✔ Method for updating @done (16-11-18 11:47) @project(Map)
+ ✔ Method for reseting @done (16-11-18 11:47) @project(Polygons)
+ ✔ Method for reseting @done (16-11-18 11:47) @project(Markers)
+ ✔ Method for reseting @done (16-11-18 11:47) @project(Map)
  ✔ Method for getting center @done (16-11-17 20:46) @project(Markers)
  ✔ Method for getting center @done (16-11-17 20:46) @project(Map)
  ✔ Method for getting center  @done (16-11-17 20:46) @project(Polygons)

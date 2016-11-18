@@ -1,4 +1,4 @@
-/* Google Maps Helper - v1.11 | MIT License
+/* Google Maps Helper - v1.13 | MIT License
  * Copyright 2016 Trent Mentink
  * https://github.com/tmentink/google.maps_helper
  */
