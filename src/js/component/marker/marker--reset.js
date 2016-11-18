@@ -1,21 +1,21 @@
 
 // ===========================================
-// Polygon - Delete
+// Marker - Reset
 // ===========================================
   
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Namespace
+    // GMH Marker Namespace
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Marker == "undefined") {
+      GMH.Marker = {};
     }   
 
 
     // Public Methods
     // =======================================
-    var deletePolygon = function(id) {
+    var resetMarker = function(id) {
       return _execute(id);
     }
 
@@ -28,54 +28,48 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        throw "Error: ID does not reference a Polygon";
+      if (GMH.Data.Marker[id] == undefined) {
+        throw "Error: ID does not reference a marker";
       }
 
       // return the deleted object
-      return _delete(id);
+      return _reset(id);
     };
 
     var _executeMulti = function(ids) {
-      var polygonArray = new GMH.Object.PolygonArray();
+      var markerArray = new GMH.Object.MarkerArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Marker[id] == undefined) { 
           continue; 
         }
 
-        // add polygon object to array
-        var polygon = _delete(id);
-        polygonArray[polygon.ID] = polygon;
+        // add marker object to array
+        var marker = _reset(id);
+        markerArray[marker.ID] = marker;
       }
 
-      return polygonArray;
+      return markerArray;
     };
 
 
     // Actions
     // =======================================
-    var _delete = function(id) {
-      // get the object
-      var polygon = GMH.Data.Polygon[id];
-
-      // remove from map
-      polygon.Obj.setMap(null);
-
-      // delete the id 
-      delete GMH.Data.Polygon[id];
-
-      // return the object
-      return polygon;
+    var _reset = function(id) {
+      // get initial options
+      var options = GMH.Data.Marker[id].initialOptions;
+      
+      // return the updated object
+      return GMH.Marker.update(id, options);
     };
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.delete = deletePolygon;
+    GMH.Marker.reset = resetMarker;
 
 
     return GMH;

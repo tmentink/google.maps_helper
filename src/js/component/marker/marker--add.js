@@ -95,6 +95,9 @@
       // create new marker and save reference
       GMH.Data.Marker[id] = new GMH.Object.Marker(id, googleMarker);
 
+      // save initial options
+      GMH.Data.Marker[id].initialOptions = options;
+
       // return marker object
       return GMH.Data.Marker[id];
     };

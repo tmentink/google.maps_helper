@@ -48,7 +48,7 @@
     };
 
     var _executeUpdateMulti = function(ids, options) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -59,11 +59,11 @@
         }
 
         // add polygon object to array
-        var poly = _update(id, options);
-        polyArray[poly.ID] = poly;
+        var polygon = _update(id, options);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
 
@@ -90,7 +90,7 @@
       return _updatePath(id, path);
     };
 
-    var _executeupdatePathMulti = function(ids) {
+    var _executeupdatePathMulti = function(ids, path) {
       var polyArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
@@ -118,7 +118,7 @@
     };
 
     var _updatePath = function(id, path) {
-      GMH.Data.Polygon[id].Obj.setOptions({"path": path});
+      GMH.Data.Polygon[id].Obj.setOptions({"paths": path});
       return GMH.Data.Polygon[id];
     };
 

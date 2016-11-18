@@ -1,29 +1,29 @@
 
 // ===========================================
-// Polygon - Display
+// Label - Display
 // ===========================================
 
   var GMH = (function(GMH) {
     "use strict";
 
-    // GMH Polygon Namespace
+    // GMH Label Namespace
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
     }  
 
 
     // Public Methods
     // =======================================
-    var togglePolygon = function(id) {
+    var toggleLabel = function(id) {
       return _execute("toggle", id);
     };
 
-    var showPolygon = function(id) {
+    var showLabel = function(id) {
       return _execute("show", id);
     };
 
-    var hidePolygon = function(id) {
+    var hideLabel = function(id) {
       return _execute("hide", id);
     };
 
@@ -36,30 +36,30 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        throw "Error: ID does not reference a Polygon";
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
       }
 
       return _switch(action, id);
     };
 
     var _executeMulti = function(action, ids) {
-      var polygonArray = new GMH.Object.PolygonArray();
+      var labelArray = new GMH.Object.LabelArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Label[id] == undefined) { 
           continue; 
         }
 
-        // add polygon object to array
-        var polygon = _switch(action, id);
-        polygonArray[polygon.ID] = polygon;
+        // add label object to array
+        var label = _switch(action, id);
+        labelArray[label.ID] = label;
       }
 
-      return polygonArray;
+      return labelArray;
     };
 
     // determine which action to execute
@@ -80,31 +80,30 @@
     // Actions
     // =======================================
     var _toggle = function(id) {
-      // get the current visibility
-      var state = GMH.Data.Polygon[id].Obj.getVisible();
+      // check if the label is on the map
+      var map = (GMH.Data.Label[id].Obj.map == null) ? GMH.Data.Map.Obj : null;
 
-      // toggle the visibility
-      GMH.Data.Polygon[id].Obj.setOptions({ "visible": !state });
-
-      return GMH.Data.Polygon[id];
+      // toggle the label's map
+      GMH.Data.Label[id].Obj.setMap(map);
+      return GMH.Data.Label[id];
     };
 
     var _show = function(id) {
-      GMH.Data.Polygon[id].Obj.setOptions({ "visible": true });
-      return GMH.Data.Polygon[id];
+      GMH.Data.Label[id].Obj.setMap(GMH.Data.Map.Obj);
+      return GMH.Data.Label[id];
     };
 
     var _hide = function(id) {
-      GMH.Data.Polygon[id].Obj.setOptions({ "visible": false });
-      return GMH.Data.Polygon[id];
+      GMH.Data.Label[id].Obj.setMap(null);
+      return GMH.Data.Label[id];
     };
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.toggle = togglePolygon;
-    GMH.Polygon.show = showPolygon;
-    GMH.Polygon.hide = hidePolygon;
+    GMH.Label.toggle = toggleLabel;
+    GMH.Label.show = showLabel;
+    GMH.Label.hide = hideLabel;
     
 
     return GMH;

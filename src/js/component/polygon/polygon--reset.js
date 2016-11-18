@@ -1,6 +1,6 @@
 
 // ===========================================
-// Polygon - Delete
+// Polygon - Reset
 // ===========================================
   
   var GMH = (function(GMH) {
@@ -15,7 +15,7 @@
 
     // Public Methods
     // =======================================
-    var deletePolygon = function(id) {
+    var resetPolygon = function(id) {
       return _execute(id);
     }
 
@@ -33,7 +33,7 @@
       }
 
       // return the deleted object
-      return _delete(id);
+      return _reset(id);
     };
 
     var _executeMulti = function(ids) {
@@ -48,7 +48,7 @@
         }
 
         // add polygon object to array
-        var polygon = _delete(id);
+        var polygon = _reset(id);
         polygonArray[polygon.ID] = polygon;
       }
 
@@ -58,24 +58,18 @@
 
     // Actions
     // =======================================
-    var _delete = function(id) {
-      // get the object
-      var polygon = GMH.Data.Polygon[id];
-
-      // remove from map
-      polygon.Obj.setMap(null);
-
-      // delete the id 
-      delete GMH.Data.Polygon[id];
-
-      // return the object
-      return polygon;
+    var _reset = function(id) {
+      // get initial options
+      var options = GMH.Data.Polygon[id].initialOptions;
+      
+      // return the updated object
+      return GMH.Polygon.update(id, options);
     };
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.delete = deletePolygon;
+    GMH.Polygon.reset = resetPolygon;
 
 
     return GMH;

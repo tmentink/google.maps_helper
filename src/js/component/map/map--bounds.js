@@ -40,7 +40,7 @@
       // set map bounds and zoom to it's initial value
       if (type == "initial" || type == "init") {
         GMH.Data.Map.Obj.fitBounds(GMH.Data.Map.initialBounds);
-        GMH.Data.Map.Obj.setZoom(GMH.Data.Map.initialZoom);
+        GMH.Data.Map.Obj.setZoom(GMH.Data.Map.initialOptions.zoom);
         return;
       }
 

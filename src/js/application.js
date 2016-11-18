@@ -1,213 +1,3 @@
-/**
- * @license
- *
- * Copyright 2011 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview Map Label.
- *
- * @author Luke Mahe (lukem@google.com),
- *         Chris Broadfoot (cbro@google.com)
- */
-
-/**
- * Creates a new Map Label
- * @constructor
- * @extends google.maps.OverlayView
- * @param {Object.<string, *>=} opt_options Optional properties to set.
- */
-
-
-function MapLabel(opt_options) {
-  this.set('fontFamily', 'sans-serif');
-  this.set('fontSize', 12);
-  this.set('fontColor', '#000000');
-  this.set('strokeWeight', 4);
-  this.set('strokeColor', '#ffffff');
-  this.set('align', 'center');
-
-  this.set('zIndex', 1e3);
-
-  this.setValues(opt_options);
-}
-MapLabel.prototype = new google.maps.OverlayView;
-
-window['MapLabel'] = MapLabel;
-
-
-/** @inheritDoc */
-MapLabel.prototype.changed = function(prop) {
-  switch (prop) {
-    case 'fontFamily':
-    case 'fontSize':
-    case 'fontColor':
-    case 'strokeWeight':
-    case 'strokeColor':
-    case 'align':
-    case 'text':
-      return this.drawCanvas_();
-    case 'maxZoom':
-    case 'minZoom':
-    case 'position':
-      return this.draw();
-  }
-};
-
-/**
- * Draws the label to the canvas 2d context.
- * @private
- */
-MapLabel.prototype.drawCanvas_ = function() {
-  var canvas = this.canvas_;
-  if (!canvas) return;
-
-  var style = canvas.style;
-  style.zIndex = /** @type number */(this.get('zIndex'));
-
-  var ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = this.get('strokeColor');
-  ctx.fillStyle = this.get('fontColor');
-  ctx.font = this.get('fontSize') + 'px ' + this.get('fontFamily');
-
-  var strokeWeight = Number(this.get('strokeWeight'));
-
-  var text = this.get('text');
-  if (text) {
-    if (strokeWeight) {
-      ctx.lineWidth = strokeWeight;
-      ctx.strokeText(text, strokeWeight, strokeWeight);
-    }
-
-    ctx.fillText(text, strokeWeight, strokeWeight);
-
-    var textMeasure = ctx.measureText(text);
-    var textWidth = textMeasure.width + strokeWeight;
-    style.marginLeft = this.getMarginLeft_(textWidth) + 'px';
-    // Bring actual text top in line with desired latitude.
-    // Cheaper than calculating height of text.
-    style.marginTop = '-0.4em';
-  }
-};
-
-/**
- * @inheritDoc
- */
-MapLabel.prototype.onAdd = function() {
-  var canvas = this.canvas_ = document.createElement('canvas');
-  var style = canvas.style;
-  style.position = 'absolute';
-
-  var ctx = canvas.getContext('2d');
-  ctx.lineJoin = 'round';
-  ctx.textBaseline = 'top';
-
-  this.drawCanvas_();
-
-  var panes = this.getPanes();
-  if (panes) {
-    panes.mapPane.appendChild(canvas);
-  }
-};
-MapLabel.prototype['onAdd'] = MapLabel.prototype.onAdd;
-
-/**
- * Gets the appropriate margin-left for the canvas.
- * @private
- * @param {number} textWidth  the width of the text, in pixels.
- * @return {number} the margin-left, in pixels.
- */
-MapLabel.prototype.getMarginLeft_ = function(textWidth) {
-  switch (this.get('align')) {
-    case 'left':
-      return 0;
-    case 'right':
-      return -textWidth;
-  }
-  return textWidth / -2;
-};
-
-/**
- * @inheritDoc
- */
-MapLabel.prototype.draw = function() {
-  var projection = this.getProjection();
-
-  if (!projection) {
-    // The map projection is not ready yet so do nothing
-    return;
-  }
-
-  if (!this.canvas_) {
-    // onAdd has not been called yet.
-    return;
-  }
-
-  var latLng = /** @type {google.maps.LatLng} */ (this.get('position'));
-  if (!latLng) {
-    return;
-  }
-  var pos = projection.fromLatLngToDivPixel(latLng);
-
-  var style = this.canvas_.style;
-
-  style['top'] = pos.y + 'px';
-  style['left'] = pos.x + 'px';
-
-  style['visibility'] = this.getVisible_();
-};
-MapLabel.prototype['draw'] = MapLabel.prototype.draw;
-
-/**
- * Get the visibility of the label.
- * @private
- * @return {string} blank string if visible, 'hidden' if invisible.
- */
-MapLabel.prototype.getVisible_ = function() {
-  var minZoom = /** @type number */(this.get('minZoom'));
-  var maxZoom = /** @type number */(this.get('maxZoom'));
-
-  if (minZoom === undefined && maxZoom === undefined) {
-    return '';
-  }
-
-  var map = this.getMap();
-  if (!map) {
-    return '';
-  }
-
-  var mapZoom = map.getZoom();
-  if (mapZoom < minZoom || mapZoom > maxZoom) {
-    return 'hidden';
-  }
-  return '';
-};
-
-/**
- * @inheritDoc
- */
-MapLabel.prototype.onRemove = function() {
-  var canvas = this.canvas_;
-  if (canvas && canvas.parentNode) {
-    canvas.parentNode.removeChild(canvas);
-  }
-};
-MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
-
-
 
 // ===========================================
 // jQuery Shim
@@ -362,6 +152,250 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
 
 // ===========================================
+// Object - Google Label
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Object Namespace
+    // =======================================
+    if (typeof GMH.Object == "undefined") {
+      GMH.Object = {};
+    } 
+
+
+    // Google Label Object
+    // =======================================
+    var googleLabel = function(options) {
+      this.set("fontFamily", "sans-serif");
+      this.set("fontSize", 14);
+      this.set("fontColor", "#000");
+      this.set("strokeWeight", 2);
+      this.set("strokeColor", "#FFF");
+      this.set("align", "center");
+      this.set("zIndex", 1e3);
+
+      this.setValues(options);
+    };
+    googleLabel.prototype = new google.maps.OverlayView;
+    
+
+    googleLabel.prototype.changed = function(prop) {
+      switch (prop) {
+        case "fontFamily":
+        case "fontSize":
+        case "fontColor":
+        case "strokeWeight":
+        case "strokeColor":
+        case "align":
+        case "text":
+          return this.drawCanvas_();
+        case "maxZoom":
+        case "minZoom":
+        case "position":
+          return this.draw();
+      }
+    };
+
+
+    googleLabel.prototype.drawCanvas_ = function() {
+      var canvas = this.canvas_;
+      if (!canvas) return;
+
+      var style = canvas.style;
+      style.zIndex = (this.get("zIndex"));
+
+      var ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = this.get("strokeColor");
+      ctx.fillStyle = this.get("fontColor");
+      ctx.font = this.get("fontSize") + "px " + this.get("fontFamily");
+
+      var strokeWeight = Number(this.get("strokeWeight"));
+
+      var text = this.get("text").toString();
+      if (text) {
+        if (strokeWeight) {
+          ctx.lineWidth = strokeWeight;
+          ctx.strokeText(text, strokeWeight, strokeWeight);
+        }
+
+        ctx.fillText(text, strokeWeight, strokeWeight);
+
+        var textMeasure = ctx.measureText(text);
+        var textWidth = textMeasure.width + strokeWeight;
+        style.marginLeft = this.getMarginLeft_(textWidth) + "px";
+        style.marginTop = "-0.4em";
+      }
+    };
+
+
+    googleLabel.prototype.onAdd = function() {
+      var canvas = this.canvas_ = document.createElement("canvas");
+      var style = canvas.style;
+      style.position = "absolute";
+
+      var ctx = canvas.getContext("2d");
+      ctx.lineJoin = "round";
+      ctx.textBaseline = "top";
+
+      this.drawCanvas_();
+
+      var panes = this.getPanes();
+      if (panes) {
+        panes.floatPane.appendChild(canvas);
+      }
+    };
+    
+
+    googleLabel.prototype.getMarginLeft_ = function(textWidth) {
+      switch (this.get("align")) {
+        case "left":
+          return 0;
+        case "right":
+          return -textWidth;
+      }
+      return textWidth / -2;
+    };
+
+
+    googleLabel.prototype.draw = function() {
+      var projection = this.getProjection();
+
+      if (!projection) {
+        return;
+      }
+
+      if (!this.canvas_) {
+        return;
+      }
+
+      var latLng = (this.get("position"));
+      if (!latLng) {
+        return;
+      }
+      var pos = projection.fromLatLngToDivPixel(latLng);
+
+      var style = this.canvas_.style;
+
+      style["top"] = pos.y + "px";
+      style["left"] = pos.x + "px";
+
+      style["visibility"] = this.getVisible_();
+    };
+
+
+    googleLabel.prototype.getVisible_ = function() {
+      var minZoom = (this.get("minZoom"));
+      var maxZoom = (this.get("maxZoom"));
+
+      if (minZoom === undefined && maxZoom === undefined) {
+        return "";
+      }
+
+      var map = this.getMap();
+      if (!map) {
+        return "";
+      }
+
+      var mapZoom = map.getZoom();
+      if (mapZoom < minZoom || mapZoom > maxZoom) {
+        return "hidden";
+      }
+      return "";
+    };
+
+
+    googleLabel.prototype.onRemove = function() {
+      var canvas = this.canvas_;
+      if (canvas && canvas.parentNode) {
+        canvas.parentNode.removeChild(canvas);
+      }
+    };
+
+    
+    // Expose Public Objects
+    // =======================================
+    GMH.Object.googleLabel = googleLabel;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Object - Label
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Object Namespace
+    // =======================================
+    if (typeof GMH.Object == "undefined") {
+      GMH.Object = {};
+    } 
+
+
+    // Label Object
+    // =======================================
+    var Label = function(id, obj) {
+      this.ID = id;
+      this.Obj = obj;
+    };
+
+    Label.prototype = {
+      ObjectType: "Label",
+      not: function() { return GMH.Utility.copy(GMH.Data.Label, this.ID) },
+      hide: function() { return GMH.Label.hide(this.ID); },
+      show: function() { return GMH.Label.show(this.ID); },
+      toggle: function() { return GMH.Label.toggle(this.ID); },
+      delete: function() { return GMH.Label.delete(this.ID); },
+      reset: function() { return GMH.Label.reset(this.ID); },
+      update: function(options) { return GMH.Label.update(this.ID, options); },
+      updatePosition: function(position) { return GMH.Label.updatePosition(this.ID, position); },
+      getBounds: function() { return GMH.Label.getBounds(this.ID); },
+      getCenter: function() { return GMH.Label.getCenter(this.ID); }
+    };
+
+
+    // Label Array Object
+    // =======================================
+    var LabelArray = function() {
+      this._i = 0;
+    };
+
+    LabelArray.prototype = {
+      ObjectType: "LabelArray",
+      IDs: function() { return GMH.Utility.getIDs(this); },
+      not: function() { return GMH.Utility.copy(GMH.Data.Label, this) },
+      nextIndex: function() { this._i++; return this._i -1; },
+      hide: function() { return GMH.Label.hide(this.IDs()); },
+      show: function() { return GMH.Label.show(this.IDs()); },
+      toggle: function() { return GMH.Label.toggle(this.IDs()); },
+      delete: function() { return GMH.Label.delete(this.IDs()); },
+      reset: function() { return GMH.Label.reset(this.IDs()); },
+      update: function(options) { return GMH.Label.update(this.IDs(), options); },
+      updatePosition: function(position) { return GMH.Label.updatePosition(this.IDs(), position); },
+      getBounds: function() { return GMH.Label.getBounds(this.IDs()); },
+      getCenter: function() { return GMH.Label.getCenter(this.IDs()); }
+    };
+    
+
+    // Expose Public Objects
+    // =======================================
+    GMH.Object.Label = Label;
+    GMH.Object.LabelArray = LabelArray;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
 // Object - Map
 // ===========================================
   
@@ -383,10 +417,12 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
     Map.prototype = {
       ObjectType: "Map",
-      setBounds: function(type, id) { return GMH.Map.setBounds(type, id) },
-      addListener: function(type, fn) { return GMH.Map.addListener(type, fn) },
-      removeListenerType: function(type) { return GMH.Map.removeListenerType(type) },
-      removeAllListeners: function() { return GMH.Map.removeAllListeners() }
+      reset: function() { return GMH.Map.reset(); },
+      update: function(options) { return GMH.Map.update(options); },
+      setBounds: function(type, id) { return GMH.Map.setBounds(type, id); },
+      addListener: function(type, fn) { return GMH.Map.addListener(type, fn); },
+      removeListenerType: function(type) { return GMH.Map.removeListenerType(type); },
+      removeAllListeners: function() { return GMH.Map.removeAllListeners(); }
     };
     
 
@@ -423,13 +459,16 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
     Marker.prototype = {
       ObjectType: "Marker",
+      not: function() { return GMH.Utility.copy(GMH.Data.Marker, this.ID) },
       hide: function() { return GMH.Marker.hide(this.ID); },
       show: function() { return GMH.Marker.show(this.ID); },
       toggle: function() { return GMH.Marker.toggle(this.ID); },
       delete: function() { return GMH.Marker.delete(this.ID); },
+      reset: function() { return GMH.Marker.reset(this.ID); },
       update: function(options) { return GMH.Marker.update(this.ID, options); },
       updatePosition: function(position) { return GMH.Marker.updatePosition(this.ID, position); },
       getBounds: function() { return GMH.Marker.getBounds(this.ID); },
+      getCenter: function() { return GMH.Marker.getCenter(this.ID); },
       addListener: function(type, func) { return GMH.Marker.addListener(this.ID, type, func); },
       removeListenerType: function(type) { return GMH.Marker.removeListenerType(this.ID, type); },
       removeAllListeners: function() { return GMH.Marker.removeAllListeners(this.ID); }
@@ -451,8 +490,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
       show: function() { return GMH.Marker.show(this.IDs()); },
       toggle: function() { return GMH.Marker.toggle(this.IDs()); },
       delete: function() { return GMH.Marker.delete(this.IDs()); },
-      getBounds: function() { return GMH.Marker.getBounds(this.IDs()); },
+      reset: function() { return GMH.Marker.reset(this.IDs()); },
       update: function(options) { return GMH.Marker.update(this.IDs(), options); },
+      updatePosition: function(position) { return GMH.Marker.updatePosition(this.IDs(), position); },
+      getBounds: function() { return GMH.Marker.getBounds(this.IDs()); },
+      getCenter: function() { return GMH.Marker.getCenter(this.IDs()); },
       addListener: function(type, fn) { return GMH.Marker.addListener(this.IDs(), type, fn); },
       removeListenerType: function(type) { return GMH.Marker.removeListenerType(this.IDs(), type); },
       removeAllListeners: function() { return GMH.Marker.removeAllListeners(this.IDs()); }
@@ -493,13 +535,16 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
     Polygon.prototype = {
       ObjectType: "Polygon",
+      not: function() { return GMH.Utility.copy(GMH.Data.Polygon, this.ID) },
       hide: function() { return GMH.Polygon.hide(this.ID); },
       show: function() { return GMH.Polygon.show(this.ID); },
       toggle: function() { return GMH.Polygon.toggle(this.ID); },
       delete: function() { return GMH.Polygon.delete(this.ID); },
+      reset: function() { return GMH.Polygon.reset(this.ID); },
       update: function(options) { return GMH.Polygon.update(this.ID, options); },
       updatePath: function(path) { return GMH.Polygon.updatePath(this.ID, path); },
       getBounds: function() { return GMH.Polygon.getBounds(this.ID); },
+      getCenter: function() { return GMH.Polygon.getCenter(this.ID); },
       addListener: function(type, func) { return GMH.Polygon.addListener(this.ID, type, func); },
       removeListenerType: function(type) { return GMH.Polygon.removeListenerType(this.ID, type); },
       removeAllListeners: function() { return GMH.Polygon.removeAllListeners(this.ID); }
@@ -521,8 +566,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
       show: function() { return GMH.Polygon.show(this.IDs()); },
       toggle: function() { return GMH.Polygon.toggle(this.IDs()); },
       delete: function() { return GMH.Polygon.delete(this.IDs()); },
-      getBounds: function() { return GMH.Polygon.getBounds(this.IDs()); },
+      reset: function() { return GMH.Polygon.reset(this.IDs()); },
       update: function(options) { return GMH.Polygon.update(this.IDs(), options); },
+      updatePath: function(path) { return GMH.Polygon.updatePath(this.IDs(), path); },
+      getBounds: function() { return GMH.Polygon.getBounds(this.IDs()); },
+      getCenter: function() { return GMH.Polygon.getCenter(this.IDs()); },
       addListener: function(type, fn) { return GMH.Polygon.addListener(this.IDs(), type, fn); },
       removeListenerType: function(type) { return GMH.Polygon.removeListenerType(this.IDs(), type); },
       removeAllListeners: function() { return GMH.Polygon.removeAllListeners(this.IDs()); }
@@ -551,6 +599,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     // =======================================
     GMH.Data = {};
     GMH.Data.Map = {};
+    GMH.Data.Label = new GMH.Object.LabelArray();
     GMH.Data.Marker = new GMH.Object.MarkerArray();
     GMH.Data.Polygon = new GMH.Object.PolygonArray();
     
@@ -578,6 +627,14 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
       zoom: 6,
       center: { lat: 37.5, lng: -120 },
       mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    GMH.Defaults.Label = {
+      fontSize: 14,
+      fontColor: "#000",
+      strokeColor: '#FFF',
+      strokeWeight: 1,
+      align: "center"
     };
 
     GMH.Defaults.Marker = {};
@@ -743,12 +800,12 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
           type = "Map";
           break;
 
-        case "polygon":
-          type = "Polygon";
+        case "label":
+          type = "Label";
           break;
 
-        case "polygons":
-          type = "Polygon";
+        case "labels":
+          type = "Label";
           break;
 
         case "marker":
@@ -757,6 +814,14 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
         case "markers":
           type = "Marker";
+          break;
+
+        case "polygon":
+          type = "Polygon";
+          break;
+
+        case "polygons":
+          type = "Polygon";
           break;
       }
 
@@ -866,6 +931,620 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
 
 // ===========================================
+// Label - Add
+// ===========================================
+
+  var GMH = (function(GMH) {
+    "use strict";
+
+    // GMH Label Namespace
+    // =======================================
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
+    }  
+
+
+    // Public Methods
+    // =======================================
+    var addLabel = function(id, text, position, options) {
+      return _execute(id, text, position, options);
+    }
+
+
+    // Execute
+    // =======================================
+    var _execute = function(id, text, position, userOptions) {
+      if ($.isArray(id)) {
+        return _executeMulti(id);
+      }
+
+      // if left null, default id to next index
+      id = (id == null) ? GMH.Data.Label.nextIndex() : id;
+
+      // check if id already exists
+      if (GMH.Data.Label[id]) {
+        throw "Error: ID already exists";
+      }
+
+      // if left null, default text to id
+      text = (text == null) ? id : text;
+
+      // check if position is supplied
+      if (position == null) {
+        throw "Error: Must supply a position";
+      }
+
+      // return the label object
+      return _add(id, text, position, userOptions);
+    };
+
+    var _executeMulti = function(objects) {
+      var labelArray = new GMH.Object.LabelArray();
+
+      for (var i = 0, i_len = objects.length; i < i_len; i++) {
+        var id = objects[i].id;
+        var text = objects[i].text;
+        var position = objects[i].position;
+        var options = objects[i].options;
+
+        // if left null, default id to next index
+        id = (id == null) ? GMH.Data.Label.nextIndex() : id;
+
+        // skip if id already exists or position is null
+        if (GMH.Data.Label[id] || position == null) {
+          continue;
+        }
+
+        // if left null, default text to id
+        text = (text == null) ? id : text;
+
+        // add label object to array
+        var label = _add(id, text, position, options);
+        labelArray[label.ID] = label;
+      }
+
+      return labelArray;
+    };
+
+
+    // Actions
+    // =======================================
+    var _add = function(id, text, position, userOptions) {
+      if ($.type(position) == "string") {
+        position = GMH.Utility.toLatLng(position);
+      }
+
+      // combine user and default options
+      var options = $.extend({}, GMH.Defaults.Label, userOptions);
+
+      // add map, text and position to options
+      options.map = GMH.Data.Map.Obj;
+      options.text = text;
+      options.position = position;
+
+      // create new google label
+      var googleLabel = new GMH.Object.googleLabel(options)
+
+      // add GMH object to google label
+      googleLabel.GMH = {
+        ID: id,
+        Parent: function(){ return GMH.Data.Label[this.ID]; }
+      };
+
+      // create new label and save reference
+      GMH.Data.Label[id] = new GMH.Object.Label(id, googleLabel);
+
+      // save initial options
+      GMH.Data.Label[id].initialOptions = options;
+
+      // return label object
+      return GMH.Data.Label[id];
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Label.add = addLabel;
+    
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Label - Bounds
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Label Namespace
+    // =======================================
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var getBounds = function(id) {
+      return _execute(id);
+    };
+
+    var getCenter = function(id) {
+      return getBounds(id).getCenter();
+    };
+
+
+    // Execute
+    // =======================================
+    var _execute = function(id) {
+      if ($.isArray(id)) {
+        return _executeMulti(id);
+      }
+
+      // check if id exists
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
+      }
+
+      return _getBounds(id);
+    };
+    
+    var _executeMulti = function(ids) {
+      var bounds = new google.maps.LatLngBounds();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont exist
+        if (GMH.Data.Label[id] == undefined) { 
+          continue; 
+        }
+
+        // merge the bounds
+        bounds.union(_getBounds(id));
+      }
+
+      return bounds;
+    };
+
+
+    // Actions
+    // =======================================
+    var _getBounds = function(id) {
+      var bounds = new google.maps.LatLngBounds();
+
+      bounds.extend(GMH.Data.Label[id].Obj.position);
+
+      return bounds;
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Label.getBounds = getBounds;
+    GMH.Label.getCenter = getCenter;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Label - Delete
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Label Namespace
+    // =======================================
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var deleteLabel = function(id) {
+      return _execute(id);
+    };
+
+
+    // Execute
+    // =======================================
+    var _execute = function(id) {
+      if ($.isArray(id)) {
+        return _executeMulti(id);
+      }
+
+      // check if id exists
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
+      }
+
+      // return the deleted object
+      return _delete(id);
+    };
+
+    var _executeMulti = function(ids) {
+      var labelArray = new GMH.Object.LabelArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont exist
+        if (GMH.Data.Label[id] == undefined) { 
+          continue; 
+        }
+
+        // add label object to array
+        var label = _delete(id);
+        labelArray[label.ID] = label;
+      }
+
+      return labelArray;
+    };
+
+
+    // Actions
+    // =======================================
+    var _delete = function(id) {
+      // get the object
+      var label = GMH.Data.Label[id];
+
+      // remove from map
+      label.Obj.setMap(null);
+
+      // delete the id 
+      delete GMH.Data.Label[id];
+
+      // return the object
+      return label;
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Label.delete = deleteLabel;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Label - Display
+// ===========================================
+
+  var GMH = (function(GMH) {
+    "use strict";
+
+    // GMH Label Namespace
+    // =======================================
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
+    }  
+
+
+    // Public Methods
+    // =======================================
+    var toggleLabel = function(id) {
+      return _execute("toggle", id);
+    };
+
+    var showLabel = function(id) {
+      return _execute("show", id);
+    };
+
+    var hideLabel = function(id) {
+      return _execute("hide", id);
+    };
+
+
+    // Execute
+    // =======================================
+    var _execute = function(action, id) {
+      if ($.isArray(id)) {
+        return _executeMulti(action, id);
+      }
+
+      // check if id exists
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
+      }
+
+      return _switch(action, id);
+    };
+
+    var _executeMulti = function(action, ids) {
+      var labelArray = new GMH.Object.LabelArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont exist
+        if (GMH.Data.Label[id] == undefined) { 
+          continue; 
+        }
+
+        // add label object to array
+        var label = _switch(action, id);
+        labelArray[label.ID] = label;
+      }
+
+      return labelArray;
+    };
+
+    // determine which action to execute
+    var _switch = function(action, id) {
+      switch(action) {
+        case "toggle":
+          return _toggle(id);
+
+        case "show":
+          return _show(id);
+
+        case "hide":
+          return _hide(id);
+      }
+    };
+
+
+    // Actions
+    // =======================================
+    var _toggle = function(id) {
+      // check if the label is on the map
+      var map = (GMH.Data.Label[id].Obj.map == null) ? GMH.Data.Map.Obj : null;
+
+      // toggle the label's map
+      GMH.Data.Label[id].Obj.setMap(map);
+      return GMH.Data.Label[id];
+    };
+
+    var _show = function(id) {
+      GMH.Data.Label[id].Obj.setMap(GMH.Data.Map.Obj);
+      return GMH.Data.Label[id];
+    };
+
+    var _hide = function(id) {
+      GMH.Data.Label[id].Obj.setMap(null);
+      return GMH.Data.Label[id];
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Label.toggle = toggleLabel;
+    GMH.Label.show = showLabel;
+    GMH.Label.hide = hideLabel;
+    
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Label - Reset
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Label Namespace
+    // =======================================
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var resetLabel = function(id) {
+      return _execute(id);
+    }
+
+
+    // Execute
+    // =======================================
+    var _execute = function(id) {
+      if ($.isArray(id)) {
+        return _executeMulti(id);
+      }
+
+      // check if id exists
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
+      }
+
+      // return the deleted object
+      return _reset(id);
+    };
+
+    var _executeMulti = function(ids) {
+      var labelArray = new GMH.Object.LabelArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont exist
+        if (GMH.Data.Label[id] == undefined) { 
+          continue; 
+        }
+
+        // add label object to array
+        var label = _reset(id);
+        labelArray[label.ID] = label;
+      }
+
+      return labelArray;
+    };
+
+
+    // Actions
+    // =======================================
+    var _reset = function(id) {
+      // get initial options
+      var options = GMH.Data.Label[id].initialOptions;
+      
+      // return the updated object
+      return GMH.Label.update(id, options);
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Label.reset = resetLabel;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Label - Update
+// ===========================================
+
+  var GMH = (function(GMH) {
+    "use strict";
+
+    // GMH Label Namespace
+    // =======================================
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
+    }  
+
+
+    // Public Methods
+    // =======================================
+    var updateLabel = function(id, options) {
+      return _executeUpdate(id, options);
+    }
+
+    var updatePosition = function(id, position) {
+      return _executeUpdatePosition(id, position);
+    }
+
+
+    // Execute
+    // =======================================
+    var _executeUpdate = function(id, options) {
+      // if options is null, get default options
+      options = (options == null) ? GMH.Defaults.Label : options;
+
+      // convert position into latlng
+      if ($.type(options.position) == "string") {
+        options.position = GMH.Utility.toLatLng(options.position);
+      }
+
+      if ($.isArray(id)) {
+        return _executeUpdateMulti(id, options);
+      }
+
+      // check if id exists
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
+      }
+
+      return _update(id, options);
+    };
+
+    var _executeUpdateMulti = function(ids, options) {
+      var labelArray = new GMH.Object.LabelArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+
+        // skip if id doesnt exists
+        if (GMH.Data.Label[id] == undefined) {
+          continue;
+        }
+
+        // add label object to array
+        var label = _update(id, options);
+        labelArray[label.ID] = label;
+      }
+
+      return labelArray;
+    };
+
+
+    var _executeUpdatePosition = function(id, position) {
+      // check if position is supplied
+      if (position == null) {
+        throw "Error: Must supply a position";
+      }
+
+      // convert position into latlng
+      if ($.type(position) == "string") {
+        position = GMH.Utility.toLatLng(position);
+      }
+
+      if ($.isArray(id)) {
+        return _executeUpdatePositionMulti(id, position);
+      }
+
+      // check if id exists
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
+      }
+
+      return _updatePosition(id, position);
+    };
+
+    var _executeUpdatePositionMulti = function(ids, position) {
+      var labelArray = new GMH.Object.LabelArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+
+        // skip if id doesnt exists
+        if (GMH.Data.Label[id] == undefined) {
+          continue;
+        }
+
+        // add Label object to array
+        var label = _updatePosition(id, position);
+        labelArray[label.ID] = label;
+      }
+
+      return labelArray;
+    };
+
+
+    // Actions
+    // =======================================
+    var _update = function(id, options) {
+      GMH.Data.Label[id].Obj.setOptions(options);
+
+      return GMH.Data.Label[id];
+    };
+
+    var _updatePosition = function(id, position) {
+      GMH.Data.Label[id].Obj.setOptions({"position": position});
+
+      return GMH.Data.Label[id];
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Label.update = updateLabel;
+    GMH.Label.updatePosition = updatePosition;
+    
+
+    return GMH;
+  })(GMH || {});
+
+ 
+
+// ===========================================
 // Map - Bounds
 // ===========================================
   
@@ -906,7 +1585,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
       // set map bounds and zoom to it's initial value
       if (type == "initial" || type == "init") {
         GMH.Data.Map.Obj.fitBounds(GMH.Data.Map.initialBounds);
-        GMH.Data.Map.Obj.setZoom(GMH.Data.Map.initialZoom);
+        GMH.Data.Map.Obj.setZoom(GMH.Data.Map.initialOptions.zoom);
         return;
       }
 
@@ -1026,10 +1705,12 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
       // create new map and save reference
       GMH.Data.Map = new GMH.Object.Map(googleMap);
 
+      // save initial options
+      GMH.Data.Map.initialOptions = options;
+
       // save bounds after map has finished initializing
       setTimeout(function() {
         GMH.Data.Map.initialBounds = GMH.Data.Map.Obj.getBounds();
-        GMH.Data.Map.initialZoom = GMH.Data.Map.Obj.getZoom();
       }, 500);
 
       return GMH.Data.Map;
@@ -1149,6 +1830,106 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
 
 // ===========================================
+// Map - Reset
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Map Namespace
+    // =======================================
+    if (typeof GMH.Map == "undefined") {
+      GMH.Map = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var resetMap = function() {
+      return _reset();
+    }
+
+
+    // Actions
+    // =======================================
+    var _reset = function() {
+      // get initial options
+      var options = GMH.Data.Map.initialOptions;
+      
+      // reset the bounds
+      GMH.Data.Map.Obj.fitBounds(GMH.Data.Map.initialBounds);
+
+      // return the updated object
+      return GMH.Map.update(options);
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Map.reset = resetMap;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Map - Update
+// ===========================================
+
+  var GMH = (function(GMH) {
+    "use strict";
+
+    // GMH Map Namespace
+    // =======================================
+    if (typeof GMH.Map == "undefined") {
+      GMH.Map = {};
+    }  
+
+
+    // Public Methods
+    // =======================================
+    var updateMap = function(options) {
+      return _execute(options);
+    }
+
+
+    // Execute
+    // =======================================
+    var _execute = function(options) {
+      // if options is null, get default options
+      options = (options == null) ? GMH.Defaults.Map : options;
+
+      // convert center into latlng
+      if ($.type(options.center) == "string") {
+        options.center = GMH.Utility.toLatLng(options.center);
+      }
+
+      return _update(options);
+    };
+
+
+    // Actions
+    // =======================================
+    var _update = function(options) {
+      GMH.Data.Map.Obj.setOptions(options);
+
+      return GMH.Data.Map;
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Map.update = updateMap;
+    
+
+    return GMH;
+  })(GMH || {});
+
+ 
+
+// ===========================================
 // Marker - Add
 // ===========================================
 
@@ -1243,6 +2024,9 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
       // create new marker and save reference
       GMH.Data.Marker[id] = new GMH.Object.Marker(id, googleMarker);
+
+      // save initial options
+      GMH.Data.Marker[id].initialOptions = options;
 
       // return marker object
       return GMH.Data.Marker[id];
@@ -1648,6 +2432,84 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
 
 // ===========================================
+// Marker - Reset
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Marker Namespace
+    // =======================================
+    if (typeof GMH.Marker == "undefined") {
+      GMH.Marker = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var resetMarker = function(id) {
+      return _execute(id);
+    }
+
+
+    // Execute
+    // =======================================
+    var _execute = function(id) {
+      if ($.isArray(id)) {
+        return _executeMulti(id);
+      }
+
+      // check if id exists
+      if (GMH.Data.Marker[id] == undefined) {
+        throw "Error: ID does not reference a marker";
+      }
+
+      // return the deleted object
+      return _reset(id);
+    };
+
+    var _executeMulti = function(ids) {
+      var markerArray = new GMH.Object.MarkerArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont exist
+        if (GMH.Data.Marker[id] == undefined) { 
+          continue; 
+        }
+
+        // add marker object to array
+        var marker = _reset(id);
+        markerArray[marker.ID] = marker;
+      }
+
+      return markerArray;
+    };
+
+
+    // Actions
+    // =======================================
+    var _reset = function(id) {
+      // get initial options
+      var options = GMH.Data.Marker[id].initialOptions;
+      
+      // return the updated object
+      return GMH.Marker.update(id, options);
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Marker.reset = resetMarker;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
 // Marker - Update
 // ===========================================
 
@@ -1830,7 +2692,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     };
 
     var _executeMulti = function(objects) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         var id = objects[i].id;
@@ -1846,11 +2708,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
         }
 
         // add polygon object to array
-        var poly = _add(id, path, options);
-        polyArray[poly.ID] = poly;
+        var polygon = _add(id, path, options);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
 
@@ -1866,7 +2728,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
       // add map and path to options
       options.map = GMH.Data.Map.Obj;
-      options.path = path;
+      options.paths = path;
 
       // create new google Polygon
       var googlePolygon = new google.maps.Polygon(options);
@@ -1879,6 +2741,9 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
 
       // create new polygon and save reference
       GMH.Data.Polygon[id] = new GMH.Object.Polygon(id, googlePolygon);
+
+      // save initial options
+      GMH.Data.Polygon[id].initialOptions = options;
 
       // return polygon object
       return GMH.Data.Polygon[id];
@@ -2027,7 +2892,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     };
 
     var _executeMulti = function(ids) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -2038,11 +2903,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
         }
 
         // add polygon object to array
-        var poly = _delete(id);
-        polyArray[poly.ID] = poly;
+        var polygon = _delete(id);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
 
@@ -2118,7 +2983,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     };
 
     var _executeMulti = function(action, ids) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -2129,11 +2994,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
         }
 
         // add polygon object to array
-        var poly = _switch(action, id);
-        polyArray[poly.ID] = poly;
+        var polygon = _switch(action, id);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
     // determine which action to execute
@@ -2234,7 +3099,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     };
 
     var _executeMulti = function(action, ids, type, fn) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -2245,11 +3110,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
         }
 
         // add polygon object to array
-        var poly = _switch(action, id, type, fn);
-        polyArray[poly.ID] = poly;
+        var polygon = _switch(action, id, type, fn);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
     var _switch = function(action, id, type, fn) {
@@ -2289,6 +3154,84 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     GMH.Polygon.addListener = addListener;
     GMH.Polygon.removeListenerType = removeListenerType;
     GMH.Polygon.removeAllListeners = removeAllListeners;
+
+
+    return GMH;
+  })(GMH || {});
+
+
+
+// ===========================================
+// Polygon - Reset
+// ===========================================
+  
+  var GMH = (function(GMH) {
+    "use strict";
+  
+    // GMH Polygon Namespace
+    // =======================================
+    if (typeof GMH.Polygon == "undefined") {
+      GMH.Polygon = {};
+    }   
+
+
+    // Public Methods
+    // =======================================
+    var resetPolygon = function(id) {
+      return _execute(id);
+    }
+
+
+    // Execute
+    // =======================================
+    var _execute = function(id) {
+      if ($.isArray(id)) {
+        return _executeMulti(id);
+      }
+
+      // check if id exists
+      if (GMH.Data.Polygon[id] == undefined) {
+        throw "Error: ID does not reference a Polygon";
+      }
+
+      // return the deleted object
+      return _reset(id);
+    };
+
+    var _executeMulti = function(ids) {
+      var polygonArray = new GMH.Object.PolygonArray();
+
+      for (var i = 0, i_len = ids.length; i < i_len; i++) {
+        var id = ids[i];
+        
+        // skip over ids that dont exist
+        if (GMH.Data.Polygon[id] == undefined) { 
+          continue; 
+        }
+
+        // add polygon object to array
+        var polygon = _reset(id);
+        polygonArray[polygon.ID] = polygon;
+      }
+
+      return polygonArray;
+    };
+
+
+    // Actions
+    // =======================================
+    var _reset = function(id) {
+      // get initial options
+      var options = GMH.Data.Polygon[id].initialOptions;
+      
+      // return the updated object
+      return GMH.Polygon.update(id, options);
+    };
+
+
+    // Expose Public Methods
+    // =======================================
+    GMH.Polygon.reset = resetPolygon;
 
 
     return GMH;
@@ -2345,7 +3288,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     };
 
     var _executeUpdateMulti = function(ids, options) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -2356,11 +3299,11 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
         }
 
         // add polygon object to array
-        var poly = _update(id, options);
-        polyArray[poly.ID] = poly;
+        var polygon = _update(id, options);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
 
@@ -2387,7 +3330,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
       return _updatePath(id, path);
     };
 
-    var _executeupdatePathMulti = function(ids) {
+    var _executeupdatePathMulti = function(ids, path) {
       var polyArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
@@ -2415,7 +3358,7 @@ MapLabel.prototype['onRemove'] = MapLabel.prototype.onRemove;
     };
 
     var _updatePath = function(id, path) {
-      GMH.Data.Polygon[id].Obj.setOptions({"path": path});
+      GMH.Data.Polygon[id].Obj.setOptions({"paths": path});
       return GMH.Data.Polygon[id];
     };
 

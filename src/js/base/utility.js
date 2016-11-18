@@ -111,12 +111,12 @@
           type = "Map";
           break;
 
-        case "polygon":
-          type = "Polygon";
+        case "label":
+          type = "Label";
           break;
 
-        case "polygons":
-          type = "Polygon";
+        case "labels":
+          type = "Label";
           break;
 
         case "marker":
@@ -125,6 +125,14 @@
 
         case "markers":
           type = "Marker";
+          break;
+
+        case "polygon":
+          type = "Polygon";
+          break;
+
+        case "polygons":
+          type = "Polygon";
           break;
       }
 

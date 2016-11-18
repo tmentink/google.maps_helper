@@ -22,13 +22,16 @@
 
     Polygon.prototype = {
       ObjectType: "Polygon",
+      not: function() { return GMH.Utility.copy(GMH.Data.Polygon, this.ID) },
       hide: function() { return GMH.Polygon.hide(this.ID); },
       show: function() { return GMH.Polygon.show(this.ID); },
       toggle: function() { return GMH.Polygon.toggle(this.ID); },
       delete: function() { return GMH.Polygon.delete(this.ID); },
+      reset: function() { return GMH.Polygon.reset(this.ID); },
       update: function(options) { return GMH.Polygon.update(this.ID, options); },
       updatePath: function(path) { return GMH.Polygon.updatePath(this.ID, path); },
       getBounds: function() { return GMH.Polygon.getBounds(this.ID); },
+      getCenter: function() { return GMH.Polygon.getCenter(this.ID); },
       addListener: function(type, func) { return GMH.Polygon.addListener(this.ID, type, func); },
       removeListenerType: function(type) { return GMH.Polygon.removeListenerType(this.ID, type); },
       removeAllListeners: function() { return GMH.Polygon.removeAllListeners(this.ID); }
@@ -50,8 +53,11 @@
       show: function() { return GMH.Polygon.show(this.IDs()); },
       toggle: function() { return GMH.Polygon.toggle(this.IDs()); },
       delete: function() { return GMH.Polygon.delete(this.IDs()); },
-      getBounds: function() { return GMH.Polygon.getBounds(this.IDs()); },
+      reset: function() { return GMH.Polygon.reset(this.IDs()); },
       update: function(options) { return GMH.Polygon.update(this.IDs(), options); },
+      updatePath: function(path) { return GMH.Polygon.updatePath(this.IDs(), path); },
+      getBounds: function() { return GMH.Polygon.getBounds(this.IDs()); },
+      getCenter: function() { return GMH.Polygon.getCenter(this.IDs()); },
       addListener: function(type, fn) { return GMH.Polygon.addListener(this.IDs(), type, fn); },
       removeListenerType: function(type) { return GMH.Polygon.removeListenerType(this.IDs(), type); },
       removeAllListeners: function() { return GMH.Polygon.removeAllListeners(this.IDs()); }

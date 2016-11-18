@@ -31,10 +31,12 @@
       // create new map and save reference
       GMH.Data.Map = new GMH.Object.Map(googleMap);
 
+      // save initial options
+      GMH.Data.Map.initialOptions = options;
+
       // save bounds after map has finished initializing
       setTimeout(function() {
         GMH.Data.Map.initialBounds = GMH.Data.Map.Obj.getBounds();
-        GMH.Data.Map.initialZoom = GMH.Data.Map.Obj.getZoom();
       }, 500);
 
       return GMH.Data.Map;

@@ -1,23 +1,27 @@
 
 // ===========================================
-// Polygon - Delete
+// Label - Bounds
 // ===========================================
   
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Namespace
+    // GMH Label Namespace
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
     }   
 
 
     // Public Methods
     // =======================================
-    var deletePolygon = function(id) {
+    var getBounds = function(id) {
       return _execute(id);
-    }
+    };
+
+    var getCenter = function(id) {
+      return getBounds(id).getCenter();
+    };
 
 
     // Execute
@@ -28,54 +32,47 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        throw "Error: ID does not reference a Polygon";
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
       }
 
-      // return the deleted object
-      return _delete(id);
+      return _getBounds(id);
     };
-
+    
     var _executeMulti = function(ids) {
-      var polygonArray = new GMH.Object.PolygonArray();
+      var bounds = new google.maps.LatLngBounds();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Label[id] == undefined) { 
           continue; 
         }
 
-        // add polygon object to array
-        var polygon = _delete(id);
-        polygonArray[polygon.ID] = polygon;
+        // merge the bounds
+        bounds.union(_getBounds(id));
       }
 
-      return polygonArray;
+      return bounds;
     };
 
 
     // Actions
     // =======================================
-    var _delete = function(id) {
-      // get the object
-      var polygon = GMH.Data.Polygon[id];
+    var _getBounds = function(id) {
+      var bounds = new google.maps.LatLngBounds();
 
-      // remove from map
-      polygon.Obj.setMap(null);
+      bounds.extend(GMH.Data.Label[id].Obj.position);
 
-      // delete the id 
-      delete GMH.Data.Polygon[id];
-
-      // return the object
-      return polygon;
+      return bounds;
     };
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.delete = deletePolygon;
+    GMH.Label.getBounds = getBounds;
+    GMH.Label.getCenter = getCenter;
 
 
     return GMH;

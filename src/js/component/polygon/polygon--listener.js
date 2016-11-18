@@ -47,7 +47,7 @@
     };
 
     var _executeMulti = function(action, ids, type, fn) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
@@ -58,11 +58,11 @@
         }
 
         // add polygon object to array
-        var poly = _switch(action, id, type, fn);
-        polyArray[poly.ID] = poly;
+        var polygon = _switch(action, id, type, fn);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
     var _switch = function(action, id, type, fn) {

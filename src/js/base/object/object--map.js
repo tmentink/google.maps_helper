@@ -21,10 +21,12 @@
 
     Map.prototype = {
       ObjectType: "Map",
-      setBounds: function(type, id) { return GMH.Map.setBounds(type, id) },
-      addListener: function(type, fn) { return GMH.Map.addListener(type, fn) },
-      removeListenerType: function(type) { return GMH.Map.removeListenerType(type) },
-      removeAllListeners: function() { return GMH.Map.removeAllListeners() }
+      reset: function() { return GMH.Map.reset(); },
+      update: function(options) { return GMH.Map.update(options); },
+      setBounds: function(type, id) { return GMH.Map.setBounds(type, id); },
+      addListener: function(type, fn) { return GMH.Map.addListener(type, fn); },
+      removeListenerType: function(type) { return GMH.Map.removeListenerType(type); },
+      removeAllListeners: function() { return GMH.Map.removeAllListeners(); }
     };
     
 

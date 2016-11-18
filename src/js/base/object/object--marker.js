@@ -22,13 +22,16 @@
 
     Marker.prototype = {
       ObjectType: "Marker",
+      not: function() { return GMH.Utility.copy(GMH.Data.Marker, this.ID) },
       hide: function() { return GMH.Marker.hide(this.ID); },
       show: function() { return GMH.Marker.show(this.ID); },
       toggle: function() { return GMH.Marker.toggle(this.ID); },
       delete: function() { return GMH.Marker.delete(this.ID); },
+      reset: function() { return GMH.Marker.reset(this.ID); },
       update: function(options) { return GMH.Marker.update(this.ID, options); },
       updatePosition: function(position) { return GMH.Marker.updatePosition(this.ID, position); },
       getBounds: function() { return GMH.Marker.getBounds(this.ID); },
+      getCenter: function() { return GMH.Marker.getCenter(this.ID); },
       addListener: function(type, func) { return GMH.Marker.addListener(this.ID, type, func); },
       removeListenerType: function(type) { return GMH.Marker.removeListenerType(this.ID, type); },
       removeAllListeners: function() { return GMH.Marker.removeAllListeners(this.ID); }
@@ -50,8 +53,11 @@
       show: function() { return GMH.Marker.show(this.IDs()); },
       toggle: function() { return GMH.Marker.toggle(this.IDs()); },
       delete: function() { return GMH.Marker.delete(this.IDs()); },
-      getBounds: function() { return GMH.Marker.getBounds(this.IDs()); },
+      reset: function() { return GMH.Marker.reset(this.IDs()); },
       update: function(options) { return GMH.Marker.update(this.IDs(), options); },
+      updatePosition: function(position) { return GMH.Marker.updatePosition(this.IDs(), position); },
+      getBounds: function() { return GMH.Marker.getBounds(this.IDs()); },
+      getCenter: function() { return GMH.Marker.getCenter(this.IDs()); },
       addListener: function(type, fn) { return GMH.Marker.addListener(this.IDs(), type, fn); },
       removeListenerType: function(type) { return GMH.Marker.removeListenerType(this.IDs(), type); },
       removeAllListeners: function() { return GMH.Marker.removeAllListeners(this.IDs()); }

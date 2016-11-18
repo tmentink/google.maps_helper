@@ -45,7 +45,7 @@
     };
 
     var _executeMulti = function(objects) {
-      var polyArray = new GMH.Object.PolygonArray();
+      var polygonArray = new GMH.Object.PolygonArray();
 
       for (var i = 0, i_len = objects.length; i < i_len; i++) {
         var id = objects[i].id;
@@ -61,11 +61,11 @@
         }
 
         // add polygon object to array
-        var poly = _add(id, path, options);
-        polyArray[poly.ID] = poly;
+        var polygon = _add(id, path, options);
+        polygonArray[polygon.ID] = polygon;
       }
 
-      return polyArray;
+      return polygonArray;
     };
 
 
@@ -81,7 +81,7 @@
 
       // add map and path to options
       options.map = GMH.Data.Map.Obj;
-      options.path = path;
+      options.paths = path;
 
       // create new google Polygon
       var googlePolygon = new google.maps.Polygon(options);
@@ -94,6 +94,9 @@
 
       // create new polygon and save reference
       GMH.Data.Polygon[id] = new GMH.Object.Polygon(id, googlePolygon);
+
+      // save initial options
+      GMH.Data.Polygon[id].initialOptions = options;
 
       // return polygon object
       return GMH.Data.Polygon[id];

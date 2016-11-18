@@ -19,6 +19,14 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
+    GMH.Defaults.Label = {
+      fontSize: 14,
+      fontColor: "#000",
+      strokeColor: '#FFF',
+      strokeWeight: 1,
+      align: "center"
+    };
+
     GMH.Defaults.Marker = {};
 
     GMH.Defaults.Polygon = {

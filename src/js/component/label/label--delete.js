@@ -1,23 +1,23 @@
 
 // ===========================================
-// Polygon - Delete
+// Label - Delete
 // ===========================================
   
   var GMH = (function(GMH) {
     "use strict";
   
-    // GMH Polygon Namespace
+    // GMH Label Namespace
     // =======================================
-    if (typeof GMH.Polygon == "undefined") {
-      GMH.Polygon = {};
+    if (typeof GMH.Label == "undefined") {
+      GMH.Label = {};
     }   
 
 
     // Public Methods
     // =======================================
-    var deletePolygon = function(id) {
+    var deleteLabel = function(id) {
       return _execute(id);
-    }
+    };
 
 
     // Execute
@@ -28,8 +28,8 @@
       }
 
       // check if id exists
-      if (GMH.Data.Polygon[id] == undefined) {
-        throw "Error: ID does not reference a Polygon";
+      if (GMH.Data.Label[id] == undefined) {
+        throw "Error: ID does not reference a label";
       }
 
       // return the deleted object
@@ -37,22 +37,22 @@
     };
 
     var _executeMulti = function(ids) {
-      var polygonArray = new GMH.Object.PolygonArray();
+      var labelArray = new GMH.Object.LabelArray();
 
       for (var i = 0, i_len = ids.length; i < i_len; i++) {
         var id = ids[i];
         
         // skip over ids that dont exist
-        if (GMH.Data.Polygon[id] == undefined) { 
+        if (GMH.Data.Label[id] == undefined) { 
           continue; 
         }
 
-        // add polygon object to array
-        var polygon = _delete(id);
-        polygonArray[polygon.ID] = polygon;
+        // add label object to array
+        var label = _delete(id);
+        labelArray[label.ID] = label;
       }
 
-      return polygonArray;
+      return labelArray;
     };
 
 
@@ -60,22 +60,22 @@
     // =======================================
     var _delete = function(id) {
       // get the object
-      var polygon = GMH.Data.Polygon[id];
+      var label = GMH.Data.Label[id];
 
       // remove from map
-      polygon.Obj.setMap(null);
+      label.Obj.setMap(null);
 
       // delete the id 
-      delete GMH.Data.Polygon[id];
+      delete GMH.Data.Label[id];
 
       // return the object
-      return polygon;
+      return label;
     };
 
 
     // Expose Public Methods
     // =======================================
-    GMH.Polygon.delete = deletePolygon;
+    GMH.Label.delete = deleteLabel;
 
 
     return GMH;
