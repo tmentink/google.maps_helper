@@ -19,6 +19,10 @@
       return _execute(id);
     };
 
+    var getCenter = function(id) {
+      return getBounds(id).getCenter();
+    };
+
 
     // Execute
     // =======================================
@@ -68,6 +72,7 @@
     // Expose Public Methods
     // =======================================
     GMH.Marker.getBounds = getBounds;
+    GMH.Marker.getCenter = getCenter;
 
 
     return GMH;

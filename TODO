@@ -1,39 +1,24 @@
 
 Project:
   ☐ Write README
-    ✔ Include API documentation @done (16-11-12 14:38)
     ☐ Add Demos
     ☐ Add Chaining
 
 
 Utility:
+  ☐ Hide internal methods in prototype?
   ☐ Clean up copy method
     Always return the array version of the GMH Object?
 
 
 Map:
-  ✔ Method for initializing @done (16-11-10 08:59)
-  ✔ Method for setting bounds @done (16-11-10 08:59)
-  ✔ Methods for event listeners @done (16-11-11 14:55)
-  ✔ Allow chaining @done (16-11-11 14:30)
 
 
 Polygons:
-  ✔ Methods for adding @done (16-11-10 15:21)
-  ✔ Methods for showing/hiding @done (16-11-10 15:21)
-  ✔ Methods for updating @done (16-11-10 15:21)
-  ✔ Methods for deleting @done (16-11-10 15:21)
-  ✔ Methods for event listeners @done (16-11-10 15:21)
-  ✔ Allow chaining @done (16-11-10 15:21)
+  ☐ Methods for adding/updating/deleting labels
 
 
 Markers:
-  ✔ Methods for adding @done (16-11-11 14:30)
-  ✔ Methods for showing/hiding @done (16-11-11 14:30)
-  ✔ Methods for updating @done (16-11-11 14:30)
-  ✔ Methods for deleting @done (16-11-11 14:30)
-  ✔ Methods for event listeners @done (16-11-11 14:30)
-  ✔ Allow chaining @done (16-11-11 14:30)
 
 
 Marker Clustering:
@@ -41,3 +26,27 @@ Marker Clustering:
   ☐ Add options to turn on for polygons at certain zoom levels
 
 
+
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Method for getting center @done (16-11-17 20:46) @project(Markers)
+ ✔ Method for getting center @done (16-11-17 20:46) @project(Map)
+ ✔ Method for getting center  @done (16-11-17 20:46) @project(Polygons)
+ ✔ Include API documentation @done (16-11-12 14:38) @project(Project)
+ ✔ Methods for event listeners @done (16-11-11 14:55) @project(Map)
+ ✔ Methods for updating @done (16-11-11 14:30) @project(Markers)
+ ✔ Methods for showing/hiding @done (16-11-11 14:30) @project(Markers)
+ ✔ Methods for event listeners @done (16-11-11 14:30) @project(Markers)
+ ✔ Methods for deleting @done (16-11-11 14:30) @project(Markers)
+ ✔ Methods for adding @done (16-11-11 14:30) @project(Markers)
+ ✔ Allow chaining @done (16-11-11 14:30) @project(Markers)
+ ✔ Allow chaining @done (16-11-11 14:30) @project(Map)
+ ✔ Methods for updating @done (16-11-10 15:21) @project(Polygons)
+ ✔ Methods for showing/hiding @done (16-11-10 15:21) @project(Polygons)
+ ✔ Methods for event listeners @done (16-11-10 15:21) @project(Polygons)
+ ✔ Methods for deleting @done (16-11-10 15:21) @project(Polygons)
+ ✔ Methods for adding @done (16-11-10 15:21) @project(Polygons)
+ ✔ Allow chaining @done (16-11-10 15:21) @project(Polygons)
+ ✔ Method for setting bounds @done (16-11-10 08:59) @project(Map)
+ ✔ Method for initializing @done (16-11-10 08:59) @project(Map)

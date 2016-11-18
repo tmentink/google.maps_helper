@@ -20,6 +20,10 @@
       return GMH.Data.Map;
     };
 
+    var getCenter = function() {
+      return GMH.Data.Map.Obj.getCenter();
+    };
+
 
     // Execute
     // =======================================
@@ -116,6 +120,7 @@
     // Expose Public Methods
     // =======================================
     GMH.Map.setBounds = setBounds;
+    GMH.Map.getCenter = getCenter;
 
 
     return GMH;
