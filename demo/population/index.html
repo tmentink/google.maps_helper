@@ -16,6 +16,7 @@
       body {
         margin: 2.5px;
         background: #e6e8fa;
+        overflow: hidden;
       }
       #map {
         height: calc(100vh - 5px);
@@ -27,7 +28,7 @@
         max-height:  calc(100vh - 5px);
         width: 250px;
         float: left;
-        border-left: 1px solid rgba(0,0,0,0.1);
+        border-left: 1px solid rgba(0,0,0,0.2);
         background: #f3f3f3;
         overflow: auto;
       }
@@ -60,7 +61,6 @@
     </style>
   </head>
   <body>
-
     <div id="map"></div>
     <div id="sidebar">
       <h3 id="scale--header">Population in the 10,000s</h3>
@@ -124,15 +124,18 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 
     <!-- Google Maps Helper -->
-    <script src="../dist/google.maps-helper.js"></script>
+    <script src="../../dist/google.maps-helper.js"></script>
+
+    <!-- Dummy Ajax -->
+    <script src="ajax.js"></script>
 
     <!-- Demo Javascript -->
-    <script src="ajax--population.js"></script>
     <script type="text/javascript">
-      var page = {};
-      page.ids = null;
-      page.labels = "hide";
-      page.polygons = "all";
+      var page = {
+        ids: null,
+        labels: "hide",
+        polygons: "all"
+      };
 
 
       $(document).ready(function(){
@@ -158,54 +161,80 @@
       
       function drawCounties() {
         // dummy ajax call
-        var counties = GMH_Demo.AjaxCalls.getCountyData();
+        var counties = GMH_Demo.Ajax.getCountyData();
 
-        var polygons = [];
-        for (var i = 0, i_len = counties.length; i < i_len; i++) {
-          var county = counties[i];
-          var id = county.countyID;
-          var path = county.geoCords;
-          var population = county.population;
-
-          // get color code based on population
-          var colorCode = getColor(population);
-
-          // build options needed to create polygon
-          var polyOptions = { id: id, path: path, options: {fillOpacity: 1, fillColor: colorCode} };
-          
-          // add options to array
-          polygons.push(polyOptions);
-        }
+        // build array of options to build polygons
+        var polygons = counties.map(_buildPolyOptions);
 
         // add polygons to map
         GMH.Polygon.add(polygons);
 
-        
         // labels need to be made after polygons 
         // so the position can be calculated
-        var labels = [];
-        for (var i = 0, i_len = counties.length; i < i_len; i++) {
-          var county = counties[i];
-          var id = county.countyID;
-          var population = county.population;
-
-          // build options needed to create label
-          var labelOptions = { id: id, text: "", position: GMH.Polygon.getCenter(id) };
-          
-          // add options to array
-          labels.push(labelOptions);
-        }
+        var labels = counties.map(_buildLabelOptions);
 
         // add labels to map
         GMH.Label.add(labels);
 
         // store a reference of the ids
         page.ids = GMH.Data.Polygon.IDs();
+
+
+        // private functions for building option arrays
+        function _buildPolyOptions(county) {
+          // get color code based on population
+          var colorCode = _getColorCode(county.population);
+
+          // build options needed to create polygon
+          var polyOptions = { 
+            id: county.countyID, 
+            path: county.geoCords, 
+            options: {fillOpacity: 1, fillColor: colorCode} 
+          };
+          
+          return polyOptions;
+        }
+
+        function _buildLabelOptions(county) {
+          // calculate the center of the polygon for the given ID
+          var center = GMH.Polygon.getCenter(county.countyID);
+
+          // build options needed to create label
+          var labelOptions = { 
+            id: county.countyID, 
+            text: "", 
+            position: center
+          };
+            
+          return labelOptions;
+        }
+
+        function _getColorCode(population) {
+          var colorCodes = [
+            "#FF0000", // 0%-10%
+            "#FF3300", // 10%-20%
+            "#FF6600", // 20-30%
+            "#FF9900", // 30-40%
+            "#FFCC00", // 40-50%
+            "#FFFF00", // 50-60%
+            "#CCFF00", // 60-70%
+            "#99FF00", // 70-80%
+            "#65FF00", // 80-90%
+            "#32FF00", // 90-100%
+            "#00FF00"  // 100%
+          ];
+          var max = 135;
+          var pct = (parseFloat(population) / max) * 100;
+          pct = (pct > 100) ? 100 : pct;
+          
+          var index = Math.floor(pct / 10);
+          return colorCodes[index];
+        }
       };
 
       function updateLabels() {
         // dummy ajax call
-        var counties = GMH_Demo.AjaxCalls.getCountyData();
+        var counties = GMH_Demo.Ajax.getCountyData();
 
         for (var i = 0, i_len = counties.length; i < i_len; i++) {
           var county = counties[i];
@@ -232,21 +261,22 @@
             break;
 
           case "300+":
-            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(300);
+            page.ids = GMH_Demo.Ajax.getCountiesByMinPopulation(300);
             break;
 
           case "200+":
-            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(200);
+            page.ids = GMH_Demo.Ajax.getCountiesByMinPopulation(200);
             break;
 
           case "100+":
-            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(100);
+            page.ids = GMH_Demo.Ajax.getCountiesByMinPopulation(100);
             break;
 
           case "25+":
-            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(25);
+            page.ids = GMH_Demo.Ajax.getCountiesByMinPopulation(25);
             break;
         }
+
         // set the map's bounds to the selected polygons
         GMH.Map.setBounds("polygon", page.ids);
 
@@ -257,28 +287,6 @@
           // show the selected labels and hide the others
           GMH.Label.show(page.ids).not().hide();
         }
-      }
-
-      function getColor(population) {
-        var colorCodes = [
-          "#FF0000", // 0%-10%
-          "#FF3300", // 10%-20%
-          "#FF6600", // 20-30%
-          "#FF9900", // 30-40%
-          "#FFCC00", // 40-50%
-          "#FFFF00", // 50-60%
-          "#CCFF00", // 60-70%
-          "#99FF00", // 70-80%
-          "#65FF00", // 80-90%
-          "#32FF00", // 90-100%
-          "#00FF00"  // 100%
-        ];
-        var max = 135;
-        var pct = (parseFloat(population) / max) * 100;
-        pct = (pct > 100) ? 100 : pct;
-        
-        var index = Math.floor(pct / 10);
-        return colorCodes[index];
       }
     </script>
   </body>
