@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Google Maps Helper</title>
+    <meta name="description" content="">
+    <meta name="author" content="Trent Mentink">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Google Maps V3 Library -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0SLOL7qb7Ch3gVhP0yBCVYCp1_lVwF60"></script>
+    
+    <!-- Demo Styles -->
+    <style type="text/css">
+      body {
+        margin: 2.5px;
+        background: #e6e8fa;
+      }
+      #map {
+        height: calc(100vh - 5px);
+        width: calc(100vw - 257px);
+        float: left;
+      }
+      #sidebar {
+        height: calc(100vh - 5px);
+        max-height:  calc(100vh - 5px);
+        width: 250px;
+        float: left;
+        border-left: 1px solid rgba(0,0,0,0.1);
+        background: #f3f3f3;
+        overflow: auto;
+      }
+
+      #scale--header {
+        margin: 0;
+        padding: 5px 0;
+        text-align: center;
+      }
+      #scale {
+        width: 100%;
+      }
+      .gradient-bar {
+        height: 25px;
+        text-align: center;
+      }
+
+      #label--header,
+      #county--header {
+        margin: 10px 0 0 10px;
+        padding: 5px 0;
+      }
+      label {
+        display: inline-block;
+        width: 150px;
+      }
+      .row {
+        padding: 2.5px 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="map"></div>
+    <div id="sidebar">
+      <h3 id="scale--header">Population in the 10,000s</h3>
+      <div id="scale">
+        <div class="gradient-bar" style="background: #32FF00;">135 - 150+</div>
+        <div class="gradient-bar" style="background: #65FF00;">120 - 135</div>
+        <div class="gradient-bar" style="background: #99FF00;">105 - 120</div>
+        <div class="gradient-bar" style="background: #CCFF00;">90 - 105</div>
+        <div class="gradient-bar" style="background: #FFFF00;">75 - 90</div>
+        <div class="gradient-bar" style="background: #FFCC00;">60 - 75</div>
+        <div class="gradient-bar" style="background: #FF9900;">45 - 60</div>
+        <div class="gradient-bar" style="background: #FF6600;">30 - 45</div>
+        <div class="gradient-bar" style="background: #FF3300;">15 - 30</div>
+        <div class="gradient-bar" style="background: #FF0000;">0 - 15</div>
+      </div>
+
+      <h3 id="label--header">Labels</h3>
+      <div id="label--radios">
+        <div class="row">
+          <label for="hide">Hide Labels:</label>
+          <input type="radio" name="label" id="hide" value="hide" checked="checked" />
+        </div>
+        <div class="row">
+          <label for="population">Show Population:</label>
+          <input type="radio" name="label" id="population" value="population" />
+        </div>
+        <div class="row">
+          <label for="countyName">Show County Names:</label>
+          <input type="radio" name="label" id="countyName" value="countyName" />
+        </div>
+      </div>
+
+      <h3 id="county--header">Counties</h3>
+      <div id="county--radios">
+        <div class="row">
+          <label for="all">All Counties:</label>
+          <input type="radio" name="polygon" id="all" value="all" checked="checked" />
+        </div>
+        <div class="row">
+          <label for="300+">Population > 300:</label>
+          <input type="radio" name="polygon" id="300+" value="300+" />
+        </div>
+        <div class="row">
+          <label for="200+">Population > 200:</label>
+          <input type="radio" name="polygon" id="200+" value="200+" />
+        </div>
+        <div class="row">
+          <label for="100+">Population > 100:</label>
+          <input type="radio" name="polygon" id="100+" value="100+" />
+        </div>
+        <div class="row">
+          <label for="25+">Population > 25:</label>
+          <input type="radio" name="polygon" id="25+" value="25+" />
+        </div>
+      </div>
+    </div>
+
+<!-- SCRIPTS
+===========================================-->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <!-- Google Maps Helper -->
+    <script src="../dist/google.maps-helper.js"></script>
+
+    <!-- Demo Javascript -->
+    <script src="ajax--population.js"></script>
+    <script type="text/javascript">
+      var page = {};
+      page.ids = null;
+      page.labels = "hide";
+      page.polygons = "all";
+
+
+      $(document).ready(function(){
+        // initialize the map
+        GMH.Map.init("map");
+
+        // draw the polygons
+        drawCounties();
+
+        // add events for updating labels
+        $("#label--radios").on("click", "input:radio[name=label]", function(){
+          page.labels = $("input:radio[name=label]:checked").val();
+          updateLabels();
+        });
+
+        // add events for showing polygons
+        $("#county--radios").on("click", "input:radio[name=polygon]", function(){
+          page.polygons = $("input:radio[name=polygon]:checked").val();
+          showPolygons();
+        });
+      });
+
+      
+      function drawCounties() {
+        // dummy ajax call
+        var counties = GMH_Demo.AjaxCalls.getCountyData();
+
+        var polygons = [];
+        for (var i = 0, i_len = counties.length; i < i_len; i++) {
+          var county = counties[i];
+          var id = county.countyID;
+          var path = county.geoCords;
+          var population = county.population;
+
+          // get color code based on population
+          var colorCode = getColor(population);
+
+          // build options needed to create polygon
+          var polyOptions = { id: id, path: path, options: {fillOpacity: 1, fillColor: colorCode} };
+          
+          // add options to array
+          polygons.push(polyOptions);
+        }
+
+        // add polygons to map
+        GMH.Polygon.add(polygons);
+
+        
+        // labels need to be made after polygons 
+        // so the position can be calculated
+        var labels = [];
+        for (var i = 0, i_len = counties.length; i < i_len; i++) {
+          var county = counties[i];
+          var id = county.countyID;
+          var population = county.population;
+
+          // build options needed to create label
+          var labelOptions = { id: id, text: "", position: GMH.Polygon.getCenter(id) };
+          
+          // add options to array
+          labels.push(labelOptions);
+        }
+
+        // add labels to map
+        GMH.Label.add(labels);
+
+        // store a reference of the ids
+        page.ids = GMH.Data.Polygon.IDs();
+      };
+
+      function updateLabels() {
+        // dummy ajax call
+        var counties = GMH_Demo.AjaxCalls.getCountyData();
+
+        for (var i = 0, i_len = counties.length; i < i_len; i++) {
+          var county = counties[i];
+          var id = county.countyID;
+          var text = "";
+
+          // get the text value if not hiding labels
+          if (page.labels != "hide") {
+            text = county[page.labels];
+          }
+
+          // update the label's text
+          GMH.Label.update(id, {text: text});
+        }
+
+        // show the selected labels and hide the others
+        GMH.Label.show(page.ids).not().hide();
+      }
+
+      function showPolygons() {
+        switch (page.polygons) {
+          case "all":
+            page.ids = GMH.Data.Polygon.IDs();
+            break;
+
+          case "300+":
+            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(300);
+            break;
+
+          case "200+":
+            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(200);
+            break;
+
+          case "100+":
+            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(100);
+            break;
+
+          case "25+":
+            page.ids = GMH_Demo.AjaxCalls.getCountiesByMinPopulation(25);
+            break;
+        }
+        // set the map's bounds to the selected polygons
+        GMH.Map.setBounds("polygon", page.ids);
+
+        // show the selected polygons and hide the others
+        GMH.Polygon.show(page.ids).not().hide();
+
+        if (page.labels != "hide") {  
+          // show the selected labels and hide the others
+          GMH.Label.show(page.ids).not().hide();
+        }
+      }
+
+      function getColor(population) {
+        var colorCodes = [
+          "#FF0000", // 0%-10%
+          "#FF3300", // 10%-20%
+          "#FF6600", // 20-30%
+          "#FF9900", // 30-40%
+          "#FFCC00", // 40-50%
+          "#FFFF00", // 50-60%
+          "#CCFF00", // 60-70%
+          "#99FF00", // 70-80%
+          "#65FF00", // 80-90%
+          "#32FF00", // 90-100%
+          "#00FF00"  // 100%
+        ];
+        var max = 135;
+        var pct = (parseFloat(population) / max) * 100;
+        pct = (pct > 100) ? 100 : pct;
+        
+        var index = Math.floor(pct / 10);
+        return colorCodes[index];
+      }
+    </script>
+  </body>
+</html>

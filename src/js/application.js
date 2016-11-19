@@ -626,7 +626,10 @@
     GMH.Defaults.Map = {
       zoom: 6,
       center: { lat: 37.5, lng: -120 },
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      clickableIcons: false,
+      mapTypeControl: false,
+      streetViewControl: false
     };
 
     GMH.Defaults.Label = {
