@@ -2360,7 +2360,7 @@
       type = type ? GMH.Utility.getEventType(type) : null;
 
       if ($.isArray(id)) {
-        return _executeAddMulti(action, id, type ,fn);
+        return _executeMulti(action, id, type ,fn);
       }
 
       // check if id exists

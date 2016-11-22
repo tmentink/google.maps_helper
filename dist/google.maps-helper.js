@@ -1516,7 +1516,7 @@ var GMH = function(GMH) {
   var _execute = function(action, id, type, fn) {
     type = type ? GMH.Utility.getEventType(type) : null;
     if ($.isArray(id)) {
-      return _executeAddMulti(action, id, type, fn);
+      return _executeMulti(action, id, type, fn);
     }
     if (GMH.Data.Marker[id] == undefined) {
       throw "Error: ID does not reference a Marker";

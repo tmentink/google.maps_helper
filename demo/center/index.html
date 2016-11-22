@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Google Maps Helper</title>
+    <meta name="description" content="">
+    <meta name="author" content="Trent Mentink">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Google Maps V3 Library -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0SLOL7qb7Ch3gVhP0yBCVYCp1_lVwF60"></script>
+    
+    <!-- Demo Styles -->
+    <style type="text/css">
+      body {
+        margin: 2.5px;
+        background: #e6e8fa;
+        overflow: hidden;
+      }
+      #map {
+        height: calc(100vh - 5px);
+        width: calc(100vw - 257px);
+        float: left;
+      }
+      #sidebar {
+        height: calc(100vh - 5px);
+        max-height:  calc(100vh - 5px);
+        width: 250px;
+        float: left;
+        border-left: 1px solid rgba(0,0,0,0.2);
+        background: #f3f3f3;
+        overflow: auto;
+      }
+
+      #info--header {
+        margin: 10px 0 0 10px;
+        padding: 0;
+      }
+      #info {
+        padding: 0 10px;
+        font-size: 18px;
+      }
+
+      #btnEdit {
+        display: inline-block;       
+        border: 1.5px solid rgba(0,0,0,.25);
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+
+        background: #f8f8f8;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        transition: 0.2s;
+      }
+
+      #btnEdit:hover {
+        background:#fff;
+      }
+
+      #btnEdit:active {
+        background:#f2f2f2;
+      }
+
+      .label {
+        margin: 5px 5px 0 15px;
+        display: inline-block;
+        font-size: 20px;
+      }
+      #autoUpdate {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        top: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="sidebar">
+    <h3 id="info--header">Description</h3>
+    <div id="info">
+      <p>This demo gives an example of drawing labels inside your polygons. It mimics reading from a database to get the coordinates of the polygon's path and center. If the coordinates for the center are null, it calculates the the center of the polygon's bounds. While this may work in most cases, we may want to position the label in a more precise location.</p>
+      <p>Unfortunately label's do not have event listeners but we can draw a marker at the same position and attach an event listener to it. This will allow us to drag the marker to the desired location and save it to the database.</p>
+    </div>
+
+    <span id="btnEdit">Edit Label Positions</span>
+
+    <div class="row">
+      <span class="label">Auto update labels:</span>
+      <input id="autoUpdate" type="checkbox" name="autoUpdate">
+    </div>
+    
+    </div>
+    </div>
+
+<!-- SCRIPTS
+===========================================-->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <!-- Google Maps Helper -->
+    <script src="../../dist/google.maps-helper.js"></script>
+
+    <!-- Dummy Ajax -->
+    <script src="ajax.js"></script>
+
+    <!-- Demo Javascript -->
+    <script type="text/javascript">
+      var page = {
+        editting: false,
+        autoUpdate: false
+      }
+
+      $(document).ready(function(){
+        // initialize the map
+        GMH.Map.init("map");
+
+        // draw the polygons
+        drawCounties();
+
+        $("#btnEdit").on("click", function() {
+          if (page.editting) {
+            page.editting = false;
+            $("#btnEdit").html("Edit Label Positions");
+
+            deleteMarkers();
+
+            if (!page.autoUpdate) {
+              updateLabels();
+            }               
+          }
+          else {
+            page.editting = true;
+            $("#btnEdit").html("Save Label Positions");
+
+            editPolygonCenters();
+          }
+        });
+
+        $("#autoUpdate").on("click", function(){
+          page.autoUpdate = this.checked;
+        });
+      });
+
+      
+      function drawCounties() {
+        // dummy ajax call
+        var counties = GMH_Demo.Ajax.getCountyData();
+
+        // build array of options to build polygons
+        var polygons = counties.map(_buildPolyOptions);
+
+        // add polygons to map
+        GMH.Polygon.add(polygons);
+
+        // labels need to be made after polygons 
+        // so the position can be calculated
+        var labels = counties.map(_buildLabelOptions);
+
+        // add labels to map
+        GMH.Label.add(labels);
+
+
+        // private functions for building option arrays
+        function _buildPolyOptions(county) {
+          // build options needed to create polygon
+          var polyOptions = { 
+            id: county.countyID, 
+            path: county.geoCords, 
+            options: {fillOpacity: 1} 
+          };
+          
+          return polyOptions;
+        }
+
+        function _buildLabelOptions(county) {
+          // calculate the center of the polygon for the given ID if field is null
+          var center = county.center ? county.center : GMH.Polygon.getCenter(county.countyID);
+
+          // build options needed to create label
+          var labelOptions = { 
+            id: county.countyID, 
+            text: county.countyName, 
+            position: center
+          };
+            
+          return labelOptions;
+        }
+      };
+
+      function editPolygonCenters() {
+        // dummy ajax call
+        var counties = GMH_Demo.Ajax.getCountyData();
+
+        // build array of options to build markers
+        var markers = counties.map(_buildMarkerOptions);
+
+        // add markers with listeners to map
+        GMH.Marker.add(markers).addListener("dragend", function(){
+          var id = this.GMH.ID;
+          var center = this.getPosition().toUrlValue(5);
+
+          // save new center to database
+          GMH_Demo.Ajax.updateCenterByID(id, center);
+
+          // update the label's position
+          if (page.autoUpdate) {
+            GMH.Label.updatePosition(id, center);
+          }
+        });
+
+        // private function for building option array
+        function _buildMarkerOptions(county) {
+          // calculate the center of the polygon for the given ID if field is null
+          var center = county.center ? county.center : GMH.Polygon.getCenter(county.countyID);
+
+          // build options needed to create marker
+          var markerOptions = { 
+            id: county.countyID, 
+            position: center,
+            options: {
+              draggable: true
+            }
+          };
+            
+          return markerOptions;
+        }
+      }
+
+
+      function deleteMarkers() {
+        GMH.Data.Marker.delete();
+      }
+
+      function updateLabels() {
+        // dummy ajax call
+        var counties = GMH_Demo.Ajax.getCountyData();
+
+        for (var i = 0, i_len = counties.length; i < i_len; i++) {
+          var county = counties[i];
+        
+          // calculate the center of the polygon for the given ID if field is null
+          var center = county.center ? county.center : GMH.Polygon.getCenter(county.countyID);
+    
+          // update the label's position
+          GMH.Label.updatePosition(county.countyID, center);
+        }
+      }
+    </script>
+  </body>
+</html>
