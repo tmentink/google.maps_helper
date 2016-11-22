@@ -1,7 +1,7 @@
-<h1 id="title" align="center">Same Google Maps. Less API.</h1>
-
-<p align="center">
+<h4 align="center">
 <b><a href="#getting-started">Getting Started</a></b>
+|
+<b><a href="http://projects.trentmentink.com/projects/google_maps_helper/">Demo</a></b>
 |
 <b><a href="#documentation">Documentation</a></b>
 |
@@ -10,9 +10,9 @@
 <b><a href="#license">License</a></b>
 |
 <b><a href="http://www.trentmentink.com">Author</a></b>
-</p>
+</h4>
 
-![Google Maps Helper](https://s26.postimg.org/x5bg0g23t/google_maps_helper.png)
+![Google Maps Helper](https://s26.postimg.org/b8g6ryr3d/google_maps_helper_short.png)
 
 ## Getting Started
 
@@ -25,6 +25,12 @@ Download and add [Google Maps Helper](https://raw.githubusercontent.com/tmentink
 ```html
 <script type="text/javascript" src="google.maps-helper.min.js"></script>
 ```
+
+## Demo
+Here is a [demo](http://projects.trentmentink.com/projects/google_maps_helper/) showing how the library would be used in a "real-life" scenario.
+<br>
+More demos showcasing specific features and methods are coming soon!
+
 
 ## Documentation
 <ul>
