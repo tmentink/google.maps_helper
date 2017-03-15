@@ -1,6 +1,6 @@
 {
   "name": "Google Maps Helper",
-  "version": "1.13",
+  "version": "1.0.0",
   "description": "A helper library for Google Maps Javascript API v3",
   "main": "dist/google.maps-helper.min.js",
   "scripts": {
