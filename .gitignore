@@ -12,8 +12,13 @@
 *.zip
 
 
+# Typescript #
+##############
+.tscache
+
+
 # Custom #
-#########
+##########
 *.exclude
 
 
@@ -31,3 +36,4 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
+

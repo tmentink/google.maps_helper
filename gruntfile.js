@@ -39,6 +39,20 @@ module.exports = function(grunt) {
         },
         src: 'src/js/application.js',
         dest: 'dist/google.maps-helper.min.js',
+      },
+      ts: {
+        options: {
+          beautify: {
+            beautify: true,
+            indent_level: 2,
+          },
+          mangle: false,
+          compress: false,
+          preserveComments: false,
+          banner: banner
+        },
+        src: 'src/ts/application.js',
+        dest: 'dist/google.maps-helper.js',
       }
     },
     watch: {
@@ -46,17 +60,27 @@ module.exports = function(grunt) {
         files: ['src/js/**/*.js'],
         tasks: ['concat','uglify:dev']
       }
-    } 
+    },
+    ts: {
+      options: {
+        fast: 'never'
+      },
+      dev: {
+        files: {'src/ts/application.js': ['src/ts/**/*.ts']}
+      }
+    }
   });
 
   // Load the plugins
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-ts');
 
   // Register the task(s)
   grunt.registerTask('default', ['concat','uglify:dev']);
   grunt.registerTask('dist', ['concat','uglify:dist']);
+  grunt.registerTask('ts-dev', ['ts:dev', 'uglify:ts']);
 };
 
 
