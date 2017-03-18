@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
-  var banner =  '/* <%= pkg.name %> - v<%= pkg.version %> | <%= pkg.license %> License\n' +
+  var banner =  '/*!\n' +
+                ' * <%= pkg.name %> - v<%= pkg.version %> | <%= pkg.license %> License\n' +
                 ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
                 ' * <%= pkg.homepage %>\n' +
                 ' */\n'
@@ -10,11 +11,7 @@ module.exports = function(grunt) {
     concat: {
       js: {
         files: {
-          'src/js/application.js' : [ 'src/js/vendor/**/*.js',
-                                      'src/js/base/object/*.js', 
-                                      'src/js/base/**/*.js',
-                                      'src/js/component/**/*.js'
-                                    ]
+          'src/js/main.js' : ['src/js/vendor/jquery-shim.js', 'src/js/ts-compile.js']
         }
       }
     },
@@ -30,43 +27,30 @@ module.exports = function(grunt) {
           preserveComments: false,
           banner: banner
         },
-        src: 'src/js/application.js',
+        src: 'src/js/main.js',
         dest: 'dist/google.maps-helper.js',
       },
       dist: {
         options: {
           banner: banner
         },
-        src: 'src/js/application.js',
+        src: 'src/js/main.js',
         dest: 'dist/google.maps-helper.min.js',
-      },
-      ts: {
-        options: {
-          beautify: {
-            beautify: true,
-            indent_level: 2,
-          },
-          mangle: false,
-          compress: false,
-          preserveComments: false,
-          banner: banner
-        },
-        src: 'src/ts/application.js',
-        dest: 'dist/google.maps-helper.js',
       }
     },
     watch: {
-      js: {
-        files: ['src/js/**/*.js'],
-        tasks: ['concat','uglify:dev']
+      ts: {
+        files: ['src/ts/**/*.ts'],
+        tasks: ['ts:dev','concat','uglify:dev']
       }
     },
     ts: {
       options: {
-        fast: 'never'
+        fast: 'never',
+        comments: true
       },
       dev: {
-        files: {'src/ts/application.js': ['src/ts/**/*.ts']}
+        files: {'src/js/ts-compile.js': ['src/ts/**/*.ts']}
       }
     }
   });
@@ -78,12 +62,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-ts');
 
   // Register the task(s)
-  grunt.registerTask('default', ['concat','uglify:dev']);
-  grunt.registerTask('dist', ['concat','uglify:dist']);
-  grunt.registerTask('ts-dev', ['ts:dev', 'uglify:ts']);
+  grunt.registerTask('default', ['ts:dev','concat','uglify:dev']);
+  grunt.registerTask('dist', ['ts:dev','concat','uglify']);
 };
-
-
-
-
 

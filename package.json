@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/tmentink/google.maps_helper",
   "devDependencies": {
+    "@types/googlemaps": "^3.26.4",
+    "@types/jquery": "^2.0.41",
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-uglify": "^2.0.0",
