@@ -64,5 +64,6 @@ module.exports = function(grunt) {
   // Register the task(s)
   grunt.registerTask('default', ['ts:dev','concat','uglify:dev']);
   grunt.registerTask('dist', ['ts:dev','concat','uglify']);
+  grunt.registerTask('ts-compile', ['ts:dev']);
 };
 
