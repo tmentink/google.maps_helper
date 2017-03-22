@@ -19,11 +19,8 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class PolygonArray extends ObjectArray {
-    Type: string
-
     constructor() {
-      super()
-      this.Type = TYPE
+      super(TYPE)
     }
   }
 }
