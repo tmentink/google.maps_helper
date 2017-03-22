@@ -1,5 +1,5 @@
 {
-  "name": "Google Maps Helper",
+  "name": "google.maps-helper",
   "version": "1.0.0",
   "description": "A helper library for Google Maps Javascript API v3",
   "main": "dist/google.maps-helper.min.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tmentink/google.maps_helper.git"
+    "url": "https://github.com/tmentink/google.maps_helper.git"
   },
   "author": "Trent Mentink",
   "license": "MIT",
@@ -20,10 +20,13 @@
     "@types/googlemaps": "^3.26.4",
     "@types/jquery": "^2.0.41",
     "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-uglify": "^2.2.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-ts": "^6.0.0-beta.15",
+    "load-grunt-tasks": "^3.5.2",
+    "time-grunt": "^1.4.0",
     "typescript": "^2.2.1"
   }
 }
