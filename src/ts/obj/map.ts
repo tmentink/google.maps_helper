@@ -17,12 +17,10 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class Map {
-    ID: number
     Obj: google.maps.Map
     Type: string 
 
-    constructor(id:number, obj:google.maps.Map) {
-      this.ID = id
+    constructor(obj:google.maps.Map) {
       this.Obj = obj
       this.Type = TYPE
     }

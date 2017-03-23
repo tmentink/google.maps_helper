@@ -8,9 +8,9 @@
  
 namespace GMH.Data {
 
-  export const Map      = {}
-  export const Labels   = new GMH.Obj.LabelArray()
-  export const Markers  = new GMH.Obj.MarkerArray()
-  export const Polygons = new GMH.Obj.PolygonArray()
+  export let Map: GMH.Obj.Map                 = undefined
+  export const Labels: GMH.Obj.LabelArray     = new GMH.Obj.LabelArray()
+  export const Markers: GMH.Obj.MarkerArray   = new GMH.Obj.MarkerArray()
+  export const Polygons: GMH.Obj.PolygonArray = new GMH.Obj.PolygonArray()
 
 }
