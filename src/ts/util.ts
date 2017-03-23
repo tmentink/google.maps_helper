@@ -10,7 +10,7 @@ namespace GMH.Util {
   // ----------------------------------------------------------------------
   // Constants 
   // ----------------------------------------------------------------------
-  
+
   const EventType = {
     ANIMATION_CHANGED   : "animation_changed",
     BOUNDS_CHANGED      : "bounds_changed",
@@ -159,14 +159,12 @@ namespace GMH.Util {
    * @param str A comma separated string of x and y coordinates 
    */
   export function toLatLng(str: string) {  
-    try {
-      const points = str.split(",")
-      return new google.maps.LatLng(parseFloat(points[0]), parseFloat(points[1]))
+    const Delimeter = {
+      LatLng: GMH.Config.Delimeter.LatLng || ","
     }
-    catch (ex) {
-      console.log(ex)
-      return {}
-    }
+
+    const points = str.split(Delimeter.LatLng)
+    return new google.maps.LatLng(parseFloat(points[0]), parseFloat(points[1]))
   }
 
   /**
@@ -174,22 +172,21 @@ namespace GMH.Util {
    * @param str A custom formatted string of x and y coordinate pairs 
    */
   export function toLatLngArray(str: string) {
-    try {
-      const latLngArray = [];
-      const coordPairs = str.split("|");
-
-      for (var i = 0, i_end = coordPairs.length; i < i_end; i++) {
-        let points = coordPairs[i].split(",")
-        let latLng = new google.maps.LatLng(parseFloat(points[0]), parseFloat(points[1]))
-        latLngArray.push(latLng);
-      }
-
-      return latLngArray;
+    const Delimeter = {
+      LatLng: GMH.Config.Delimeter.LatLng || ",",
+      LatLngPair: GMH.Config.Delimeter.LatLngPair || "|"
     }
-    catch (ex) {
-      console.log(ex);
-      return [];
+
+    const latLngArray = [];
+    const coordPairs = str.split(Delimeter.LatLngPair);
+
+    for (var i = 0, i_end = coordPairs.length; i < i_end; i++) {
+      let points = coordPairs[i].split(Delimeter.LatLng)
+      let latLng = new google.maps.LatLng(parseFloat(points[0]), parseFloat(points[1]))
+      latLngArray.push(latLng);
     }
+
+    return latLngArray;
   }
 
   /**
