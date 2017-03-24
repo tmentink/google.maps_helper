@@ -8,6 +8,57 @@
 namespace GMH.Util {
 
 
+  // ----------------------------------------------------------------------
+  // Constants 
+  // ----------------------------------------------------------------------
+  
+  const EventTypeAlias = {
+    animationchanged  : _C.Event.Type.ANIMATION_CHANGED,
+    boundschanged     : _C.Event.Type.BOUNDS_CHANGED,
+    centerchanged     : _C.Event.Type.CENTER_CHANGED,
+    click             : _C.Event.Type.CLICK,
+    clickablechanged  : _C.Event.Type.CLICKABLE_CHANGED,
+    cursorchanged     : _C.Event.Type.CURSOR_CHANGED,
+    doubleclick       : _C.Event.Type.DOUBLE_CLICK,
+    drag              : _C.Event.Type.DRAG,
+    dragend           : _C.Event.Type.DRAG_END,
+    dragstart         : _C.Event.Type.DRAG_START,
+    draggablechanged  : _C.Event.Type.DRAGGABLE_CHANGED,
+    flatchanged       : _C.Event.Type.FLAT_CHANGED,
+    headingchanged    : _C.Event.Type.HEADING_CHANGED,
+    iconchanged       : _C.Event.Type.ICON_CHANGED,
+    idle              : _C.Event.Type.IDLE,
+    maptypeidchanged  : _C.Event.Type.MAP_TYPE_ID_CHANGED,
+    mousedown         : _C.Event.Type.MOUSE_DOWN,
+    mousemove         : _C.Event.Type.MOUSE_MOVE,
+    mouseout          : _C.Event.Type.MOUSE_OUT,
+    mouseover         : _C.Event.Type.MOUSE_OVER,
+    mouseup           : _C.Event.Type.MOUSE_UP,
+    positionchanged   : _C.Event.Type.POSITION_CHANGED,
+    projectionchanged : _C.Event.Type.PROJECTION_CHANGED,
+    resize            : _C.Event.Type.RESIZE,
+    rightclick        : _C.Event.Type.RIGHT_CLICK,
+    shapechanged      : _C.Event.Type.SHAPE_CHANGED,
+    tilesloaded       : _C.Event.Type.TILES_LOADED,
+    tiltchanged       : _C.Event.Type.TILT_CHANGED,
+    titlechanged      : _C.Event.Type.TITLE_CHANGED,
+    visiblechanged    : _C.Event.Type.VISIBLE_CHANGED,
+    zindexchanged     : _C.Event.Type.ZINDEX_CHANGED,
+    zoomchanged       : _C.Event.Type.ZOOM_CHANGED
+  }
+
+  const ObjectTypeAlias = {
+    label    : _C.Object.Type.LABEL,
+    labels   : _C.Object.Type.LABEL,
+    map      : _C.Object.Type.MAP,
+    maps     : _C.Object.Type.MAP,
+    marker   : _C.Object.Type.MARKER,
+    markers  : _C.Object.Type.MARKER,
+    polygon  : _C.Object.Type.POLYGON,
+    polygons : _C.Object.Type.POLYGON
+  }
+
+
   // ------------------------------------------------------------------------
   // Public Functions 
   // ------------------------------------------------------------------------
@@ -103,7 +154,7 @@ namespace GMH.Util {
    */
   export function getObjectType(type: string): string {
     type = type.toLowerCase().replace(/\s+/g, '')
-    return _C.Object.Alias[type] || type
+    return ObjectTypeAlias[type] || type
   }
 
   /**
@@ -112,7 +163,7 @@ namespace GMH.Util {
    */
   export function getEventType(event: string): string {
     event = event.toLowerCase().replace(/\s+/g, '')
-    return _C.Event.Alias[event] || event
+    return EventTypeAlias[event] || event
   }
 }
 
