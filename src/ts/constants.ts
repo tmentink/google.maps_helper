@@ -49,6 +49,10 @@ namespace GMH._C {
     }
   }
 
+  interface IDefaultConstants {
+    Map: google.maps.MapOptions
+  }
+
   interface IObjectConstants {
     Type: {
       readonly LABEL   : string,
@@ -134,6 +138,13 @@ namespace GMH._C {
       visiblechanged    : _C.Event.Type.VISIBLE_CHANGED,
       zindexchanged     : _C.Event.Type.ZINDEX_CHANGED,
       zoomchanged       : _C.Event.Type.ZOOM_CHANGED
+    }
+  }
+
+  export const Default: IDefaultConstants = {
+    Map: {
+      zoom: 6,
+      center: { lat: 37.5, lng: -120 }
     }
   }
 
