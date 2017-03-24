@@ -1,3 +1,4 @@
+/// <reference path="../constants.ts" />
 /// <reference path="objectArray.ts" />
 
 // ------------------------------------------------------------------------
@@ -8,19 +9,12 @@ namespace GMH.Obj {
 
 
   // ----------------------------------------------------------------------
-  // Constants 
-  // ----------------------------------------------------------------------
-  
-  const TYPE = "LabelArray"
-
-
-  // ----------------------------------------------------------------------
   // Class Definition
   // ----------------------------------------------------------------------
   
   export class LabelArray extends ObjectArray {
     constructor() {
-      super(TYPE)
+      super(_C.Object.Type.LABEL_ARRAY)
     }
   }
 }

@@ -1,3 +1,5 @@
+/// <reference path="../constants.ts" />
+
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: polygon.ts 
 // ------------------------------------------------------------------------
@@ -6,25 +8,18 @@ namespace GMH.Obj {
 
 
   // ----------------------------------------------------------------------
-  // Constants 
-  // ----------------------------------------------------------------------
-  
-  const TYPE = "Polygon"
-
-
-  // ----------------------------------------------------------------------
   // Class Definition 
   // ----------------------------------------------------------------------
 
   export class Polygon {
-    ID: number
+    ID: number | string
     Obj: google.maps.Polygon
     Type: string 
 
-    constructor(id:number, obj:google.maps.Polygon) {
+    constructor(id:number | string, obj:google.maps.Polygon) {
       this.ID = id
       this.Obj = obj
-      this.Type = TYPE
+      this.Type = _C.Object.Type.POLYGON
     }
   }
 }

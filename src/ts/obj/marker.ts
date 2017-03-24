@@ -1,3 +1,5 @@
+/// <reference path="../constants.ts" />
+
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: marker.ts 
 // ------------------------------------------------------------------------
@@ -6,25 +8,18 @@ namespace GMH.Obj {
 
 
   // ----------------------------------------------------------------------
-  // Constants 
-  // ----------------------------------------------------------------------
-  
-  const TYPE = "Marker"
-
-
-  // ----------------------------------------------------------------------
   // Class Definition 
   // ----------------------------------------------------------------------
 
   export class Marker {
-    ID: number
+    ID: number | string
     Obj: google.maps.Marker
     Type: string 
 
-    constructor(id:number, obj:google.maps.Marker) {
+    constructor(id:number | string, obj:google.maps.Marker) {
       this.ID = id
       this.Obj = obj
-      this.Type = TYPE
+      this.Type = _C.Object.Type.MARKER
     }
   }
 }

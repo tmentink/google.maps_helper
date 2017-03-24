@@ -1,3 +1,4 @@
+/// <reference path="../constants.ts" />
 /// <reference path="objectArray.ts" />
 
 // ------------------------------------------------------------------------
@@ -8,19 +9,12 @@ namespace GMH.Obj {
 
 
   // ----------------------------------------------------------------------
-  // Constants 
-  // ----------------------------------------------------------------------
-  
-  const TYPE = "MarkerArray"
-
-
-  // ----------------------------------------------------------------------
   // Class Definition 
   // ----------------------------------------------------------------------
 
   export class MarkerArray extends ObjectArray {
     constructor() {
-      super(TYPE)
+      super(_C.Object.Type.MARKER_ARRAY)
     }
   }
 }

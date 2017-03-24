@@ -1,3 +1,5 @@
+/// <reference path="../constants.ts" />
+
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: label.ts 
 // ------------------------------------------------------------------------
@@ -6,25 +8,18 @@ namespace GMH.Obj {
 
 
   // ----------------------------------------------------------------------
-  // Constants 
-  // ----------------------------------------------------------------------
-  
-  const TYPE = "Label"
-
-
-  // ----------------------------------------------------------------------
   // Class Definition
   // ----------------------------------------------------------------------
 
   export class Label {
-    ID: number
-    Obj: any
+    ID: number | string
+    Obj: google.maps.OverlayView
     Type: string 
 
-    constructor(id:number, obj:any) {
+    constructor(id:number | string, obj:any) {
       this.ID = id
       this.Obj = obj
-      this.Type = TYPE
+      this.Type = _C.Object.Type.LABEL
     }
   }
 }

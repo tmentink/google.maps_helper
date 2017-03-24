@@ -1,3 +1,4 @@
+/// <reference path="../constants.ts" />
 /// <reference path="objectArray.ts" />
 
 // ------------------------------------------------------------------------
@@ -8,19 +9,12 @@ namespace GMH.Obj {
 
 
   // ----------------------------------------------------------------------
-  // Constants 
-  // ----------------------------------------------------------------------
-  
-  const TYPE = "PolygonArray"
-
-
-  // ----------------------------------------------------------------------
   // Class Defintion 
   // ----------------------------------------------------------------------
 
   export class PolygonArray extends ObjectArray {
     constructor() {
-      super(TYPE)
+      super(_C.Object.Type.POLYGON_ARRAY)
     }
   }
 }

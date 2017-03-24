@@ -10,11 +10,9 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class ObjectArray {
-    _i: number
     Type: string
 
     constructor(type: string = "ObjectArray") {
-      this._i = 0
       this.Type = type
     }
   }
