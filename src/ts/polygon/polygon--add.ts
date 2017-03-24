@@ -62,22 +62,22 @@ namespace GMH.Polygon {
     return polygonArray
   }
 
-  function addPolygon(id: string, path: any, userOptions: google.maps.PolygonOptions): Obj.Polygon {
-    if (jQuery.type(path) == "string") {
-      path = Util.toLatLngArray(path)
+  function addPolygon(id: string, paths: any, userOptions: google.maps.PolygonOptions): Obj.Polygon {
+    if (jQuery.type(paths) == "string") {
+      paths = Util.toLatLngArray(paths)
     }
 
     const defaults = Config.Default.Polygon || {}
     const options = jQuery.extend({}, defaults, userOptions)
     options.map = $.Map.Obj
-    options.path = path
+    options.paths = paths
 
-    $.Polygons[id] = new Obj.Polygon(id, options)
-    return $.Polygons[id]
+    $.Polygon[id] = new Obj.Polygon(id, options)
+    return $.Polygon[id]
   }
 
   function validParameters(id: string, path: any): boolean {
-    if ($.Polygons[id]) {
+    if ($.Polygon[id]) {
       throw "Error: ID already exists "
     }
     if (!path) {
