@@ -99,18 +99,44 @@ namespace GMH.Util {
   }
 
   /**
+   * Returns correct EventType constant
+   * @param event A string of the event type 
+   */
+  export function getEventType(event: string): string {
+    event = event.toLowerCase().replace(/\s+/g, '')
+    return EventTypeAlias[event] || event
+  }
+
+  /**
    * Returns an array of the object's ids 
    * @param obj A GMH ObjectArray 
    */
   export function getIDs(obj: GMH.Obj.ObjectArray): string[] {
-    let ids = Object.keys(obj)
+    return Object.keys(obj)
+  }
 
-    let _i = ids.indexOf("_i")
-    if (_i !== -1) {
-      ids.splice(_i, 1)
+  /**
+   * Returns correct ObjectType constant
+   * @param type A string of the object type 
+   */
+  export function getObjectType(type: string): string {
+    type = type.toLowerCase().replace(/\s+/g, '')
+    return ObjectTypeAlias[type] || type
+  }
+
+  /**
+   * Returns value converted into an array
+   * @param value Value to be converted into an array 
+   */
+  export function toArray(value: any): any {
+    if (jQuery.type(value) == "number") {
+      value = value.toString().split()
+    }
+    else if (jQuery.type(value) == "string") {
+      value = value.split()
     }
 
-    return ids
+    return value
   }
 
   /**
@@ -148,22 +174,5 @@ namespace GMH.Util {
     return latLngArray;
   }
 
-  /**
-   * Returns correct ObjectType constant
-   * @param type A string of the object type 
-   */
-  export function getObjectType(type: string): string {
-    type = type.toLowerCase().replace(/\s+/g, '')
-    return ObjectTypeAlias[type] || type
-  }
-
-  /**
-   * Returns correct EventType constant
-   * @param event A string of the event type 
-   */
-  export function getEventType(event: string): string {
-    event = event.toLowerCase().replace(/\s+/g, '')
-    return EventTypeAlias[event] || event
-  }
 }
 
