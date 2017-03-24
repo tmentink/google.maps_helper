@@ -19,14 +19,16 @@ namespace GMH.Obj {
     Type: string
     Obj: google.maps.Map
 
-    constructor(containerID:string, options: {}) {
+    constructor(containerID: string, options: google.maps.MapOptions) {
       this.Init = {
         Bounds: undefined,
         Options: options
       }
-      this.Type = _C.Object.Type.MAP
       this.Obj = new google.maps.Map(document.getElementById(containerID), options)
-      this.Obj["GMH"] = { Parent: function() { return GMH.$.Map } }
+      this.Obj["GMH"] = { 
+        Parent: function() { return GMH.$.Map } 
+      }
+      this.Type = _C.Object.Type.MAP
 
       // Save bounds after map has finished loading
       google.maps.event.addListenerOnce(this.Obj, _C.Event.Type.TILES_LOADED, () =>{
