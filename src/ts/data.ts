@@ -6,11 +6,11 @@
 // Google Maps Helper v1.0.0: data.ts 
 // ------------------------------------------------------------------------
  
-namespace GMH.Data {
+namespace GMH.$ {
 
-  export let Map: GMH.Obj.Map                 = undefined
-  export const Labels: GMH.Obj.LabelArray     = new GMH.Obj.LabelArray()
-  export const Markers: GMH.Obj.MarkerArray   = new GMH.Obj.MarkerArray()
-  export const Polygons: GMH.Obj.PolygonArray = new GMH.Obj.PolygonArray()
+  export let Map: Obj.Map                 = undefined
+  export const Labels: Obj.LabelArray     = new Obj.LabelArray()
+  export const Markers: Obj.MarkerArray   = new Obj.MarkerArray()
+  export const Polygons: Obj.PolygonArray = new Obj.PolygonArray()
 
 }

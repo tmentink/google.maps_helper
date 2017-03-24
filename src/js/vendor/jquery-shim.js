@@ -153,6 +153,7 @@
   };
 
   window.$ = $;
+  window.jQuery = $;
 
 })(window);
 
