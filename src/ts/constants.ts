@@ -9,6 +9,10 @@ namespace GMH._C {
   // Interfaces 
   // ----------------------------------------------------------------------
 
+  interface IDefaultConstants {
+    Map: google.maps.MapOptions
+  }
+
   interface IEventConstants {
     Type: {
       readonly ANIMATION_CHANGED   : string
@@ -46,16 +50,15 @@ namespace GMH._C {
     }
   }
 
-  interface IDefaultConstants {
-    Map: google.maps.MapOptions
-  }
-
   interface IObjectConstants {
     Type: {
-      readonly LABEL   : string,
-      readonly MAP     : string,
-      readonly MARKER  : string,
-      readonly POLYGON : string
+      readonly LABEL         : string,
+      readonly LABEL_ARRAY   : string,
+      readonly MAP           : string,
+      readonly MARKER        : string,
+      readonly MARKER_ARRAY  : string
+      readonly POLYGON       : string
+      readonly POLYGON_ARRAY : string
     }
   }
 
@@ -63,6 +66,13 @@ namespace GMH._C {
   // ----------------------------------------------------------------------
   // Constants 
   // ----------------------------------------------------------------------
+
+  export const Default: IDefaultConstants = {
+    Map: {
+      zoom: 6,
+      center: { lat: 37.5, lng: -120 }
+    }
+  }
 
   export const Event: IEventConstants = {
     Type: {
@@ -101,19 +111,15 @@ namespace GMH._C {
     }
   }
 
-  export const Default: IDefaultConstants = {
-    Map: {
-      zoom: 6,
-      center: { lat: 37.5, lng: -120 }
-    }
-  }
-
   export const Object: IObjectConstants = {
     Type: {
-      LABEL   : "Label",
-      MAP     : "Map",
-      MARKER  : "Marker",
-      POLYGON : "Polygon"
+      LABEL         : "Label",
+      LABEL_ARRAY   : "LabelArray",
+      MAP           : "Map",
+      MARKER        : "Marker",
+      MARKER_ARRAY  : "MarkerArray",
+      POLYGON       : "Polygon",
+      POLYGON_ARRAY : "PolygonArray"
     }
   }
 
