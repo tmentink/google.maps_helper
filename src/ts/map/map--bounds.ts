@@ -69,7 +69,7 @@ namespace GMH.Map {
   }
 
   function getBounds(type: string, ids: any): google.maps.LatLngBounds {
-    ids = toArray(ids)
+    ids = Util.toArray(ids)
 
     const bounds = new google.maps.LatLngBounds()
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
@@ -89,15 +89,5 @@ namespace GMH.Map {
     return ids == null ? Util.getIDs($[type]) : ids
   }
 
-  function toArray(ids: any): any {
-    if (jQuery.type(ids) == "number") {
-      ids = ids.toString().split()
-    }
-    else if (jQuery.type(ids) == "string") {
-      ids = ids.split()
-    }
-
-    return ids
-  }
 }
 
