@@ -12,14 +12,25 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class Polygon {
-    ID: number | string
+    ID: string
+    Init: {
+      Options: google.maps.PolygonOptions
+    }
     Obj: google.maps.Polygon
     Type: string 
 
-    constructor(id:number | string, obj:google.maps.Polygon) {
+    constructor(id: string, options: google.maps.PolygonOptions) {
       this.ID = id
-      this.Obj = obj
+      this.Init = {
+        Options: options
+      }
+      this.Obj = new google.maps.Polygon(options)
+      this.Obj["GMH"] = { 
+        ID: id,
+        Parent: function(){ return $.Polygons[id]; }
+      }
       this.Type = _C.Object.Type.POLYGON
     }
   }
 }
+
