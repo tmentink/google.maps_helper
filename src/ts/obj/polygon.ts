@@ -31,6 +31,28 @@ namespace GMH.Obj {
       }
       this.Type = _C.Object.Type.POLYGON
     }
+
+
+    // ----------------------------------------------------------------------
+    // Public Methods 
+    // ----------------------------------------------------------------------
+
+    public getBounds() {
+      return GMH.Polygon.getBounds(this.ID)
+    }
+
+    public getCenter() {
+      return GMH.Polygon.getCenter(this.ID)
+    }
+
+    public reset() {
+      return GMH.Polygon.reset(this.ID)
+    }
+
+    public update(options: google.maps.PolygonOptions) {
+      return GMH.Polygon.update(this.ID, options)
+    }
   }
+
 }
 
