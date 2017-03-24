@@ -1,4 +1,5 @@
 /// <reference path="obj/objectArray.ts" />
+/// <reference path="constants.ts" />
 
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: util.ts 
@@ -8,7 +9,7 @@ namespace GMH.Util {
 
 
   // ------------------------------------------------------------------------
-  // Functions 
+  // Public Functions 
   // ------------------------------------------------------------------------
   
   /**
@@ -65,9 +66,9 @@ namespace GMH.Util {
    * Converts a comma separated string into a LatLng object 
    * @param str A comma separated string of x and y coordinates 
    */
-  export function toLatLng(str: string): google.maps.LatLng {  
+  export function toLatLng(str: any): google.maps.LatLng {  
     const Delimeter = {
-      LatLng: GMH.Config.Delimeter.LatLng || ","
+      LatLng: Config.Delimeter.LatLng || ","
     }
 
     const points = str.split(Delimeter.LatLng)
@@ -78,10 +79,10 @@ namespace GMH.Util {
    * Converts a custom formatted string into an array of LatLng objects 
    * @param str A custom formatted string of x and y coordinate pairs 
    */
-  export function toLatLngArray(str: string): google.maps.LatLng[] {
+  export function toLatLngArray(str: any): google.maps.LatLng[] {
     const Delimeter = {
-      LatLng: GMH.Config.Delimeter.LatLng || ",",
-      LatLngPair: GMH.Config.Delimeter.LatLngPair || "|"
+      LatLng: Config.Delimeter.LatLng || ",",
+      LatLngPair: Config.Delimeter.LatLngPair || "|"
     }
 
     const latLngArray = []
