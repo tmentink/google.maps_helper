@@ -82,4 +82,5 @@ namespace GMH.Obj {
       return GMH.Polygon.updatePath(this.getIDs(), path)
     }
   }
+  
 }
