@@ -1,3 +1,7 @@
+/// <reference path="../obj/polygon.ts" />
+/// <reference path="../util.ts" />
+/// <reference path="../data.ts" />
+
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: polygon--remove.ts 
 // ------------------------------------------------------------------------

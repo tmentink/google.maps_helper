@@ -1,3 +1,7 @@
+/// <reference path="../obj/polygon.ts" />
+/// <reference path="../util.ts" />
+/// <reference path="../data.ts" />
+
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: polygon--display.ts 
 // ------------------------------------------------------------------------
@@ -15,8 +19,8 @@ namespace GMH.Polygon {
   }
 
   const Visibility = {
-    hide   : function(id)   { return false },
-    show   : function(id)   { return true },
+    hide   : function(id) { return false },
+    show   : function(id) { return true },
     toggle : function(id) { return !$.Polygon[id].Obj.getVisibile() }
   }
 
