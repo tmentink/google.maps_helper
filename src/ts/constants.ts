@@ -11,6 +11,8 @@ namespace GMH._C {
 
   interface IDefaultConstants {
     Map: google.maps.MapOptions
+    Marker?: google.maps.MarkerOptions
+    Polygon?: google.maps.PolygonOptions
   }
 
   interface IEventConstants {
