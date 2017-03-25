@@ -49,9 +49,9 @@ namespace GMH.Polygon {
     const polygonArray = new Obj.PolygonArray()
 
     for (var i = 0, i_end = objects.length; i < i_end; i++) {
-      let id = objects[i].id;
-      let path = objects[i].path;
-      let userOptions = objects[i].options;
+      let id = objects[i].id
+      let path = objects[i].path
+      let userOptions = objects[i].options
 
       if (_validParameters(id, path)) {
         polygonArray[id] = _addPolygon(id, path, userOptions)
@@ -77,7 +77,7 @@ namespace GMH.Polygon {
 
   function _validParameters(id: any, path: any): boolean {
     if ($.Polygon[id]) {
-      throw "Error: ID already exists "
+      throw "Error: ID already exists"
     }
     if (!path) {
       throw "Error: Must supply a path"

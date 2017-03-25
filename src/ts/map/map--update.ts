@@ -22,7 +22,7 @@ namespace GMH.Map {
     options = options == null ? defaults : options
 
     if (jQuery.type(options.center) == "string") {
-      options.center = Util.toLatLng(options.center);
+      options.center = Util.toLatLng(options.center)
     }
 
     $.Map.Obj.setOptions(options)

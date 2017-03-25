@@ -13,21 +13,29 @@ namespace GMH.Polygon {
   // Public Functions 
   // ----------------------------------------------------------------------
   
+  /**
+   * Returns the bounds of the polygon(s)
+   * @param ids The id of the polygon. Can also be an array of ids
+   */
   export function getBounds(ids: string | string[]): google.maps.LatLngBounds {
     ids = Util.toArray(ids)
 
     const bounds = new google.maps.LatLngBounds();
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
-      let id = ids[i];
+      let id = ids[i]
       
       if ($.Polygon[id]) { 
-        bounds.union(_getPolygonsBounds(id));
+        bounds.union(_getPolygonsBounds(id))
       }
     }
 
-    return bounds;
+    return bounds
   }
 
+  /**
+   * Returns the center LatLng object of the polygon(s) bounds
+   * @param ids The id of the polygon. Can also be an array of ids
+   */
   export function getCenter(id: string | string[]): google.maps.LatLng {
     return getBounds(id).getCenter()
   }
@@ -38,18 +46,18 @@ namespace GMH.Polygon {
   // ----------------------------------------------------------------------
   
   function _getPolygonsBounds(id) {
-    const bounds = new google.maps.LatLngBounds();
-    const paths = $.Polygon[id].Obj.getPaths();
+    const bounds = new google.maps.LatLngBounds()
+    const paths = $.Polygon[id].Obj.getPaths()
     
     for (var i = 0, i_end = paths.length; i < i_end; i++) {
-      let path = paths.getAt(i);
+      let path = paths.getAt(i)
 
       for (var j = 0, j_end = path.getLength(); j < j_end; j++) {
-        bounds.extend(path.getAt(j));
+        bounds.extend(path.getAt(j))
       }
     }
 
-    return bounds;
+    return bounds
   }
 
 }

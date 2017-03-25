@@ -50,12 +50,11 @@ namespace GMH.Polygon {
   }
 
   function _removePolygon(id: string): Obj.Polygon {
-      const polygon = $.Polygon[id];
+      const polygon = $.Polygon[id]            
+      polygon.Obj.setMap(null)
       
-      polygon.Obj.setMap(null);
-      delete $.Polygon[id];
-
-      return polygon;
+      delete $.Polygon[id]
+      return polygon
   }
 
 }

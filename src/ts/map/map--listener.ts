@@ -40,7 +40,7 @@ namespace GMH.Map {
    * Removes all listeners from the map 
    */
   export function removeAllListeners(): Obj.Map {
-    google.maps.event.clearInstanceListeners($.Map.Obj);
+    google.maps.event.clearInstanceListeners($.Map.Obj)
     return $.Map
   }
 
@@ -54,24 +54,24 @@ namespace GMH.Map {
       return _multiAddListener(type)
     }
 
-    type = Util.getEventType(type);
-    google.maps.event.addListener($.Map.Obj, type, fn);
+    type = Util.getEventType(type)
+    google.maps.event.addListener($.Map.Obj, type, fn)
   }
 
   function _multiAddListener(types: Object[]): void {
     for (var i = 0, i_end = types.length; i < i_end; i++) {
-      let type = Object.keys(types[i])[0];
-      let fn = types[i][type];
+      let type = Object.keys(types[i])[0]
+      let fn = types[i][type]
 
-      type = Util.getEventType(type);
-      google.maps.event.addListener($.Map.Obj, type, fn);
+      type = Util.getEventType(type)
+      google.maps.event.addListener($.Map.Obj, type, fn)
     }
   }
 
   function _removeListenerType(types: string[]): void {
     for (var i = 0, i_end = types.length; i < i_end; i++) {
       let type = Util.getEventType(types[i])
-      google.maps.event.clearListeners($.Map.Obj, type);
+      google.maps.event.clearListeners($.Map.Obj, type)
     }
   }
 

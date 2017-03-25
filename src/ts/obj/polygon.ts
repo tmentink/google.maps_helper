@@ -27,7 +27,7 @@ namespace GMH.Obj {
       this.Obj = new google.maps.Polygon(options)
       this.Obj["GMH"] = { 
         ID: id,
-        Parent: function(){ return $.Polygon[id]; }
+        Parent: function(){ return $.Polygon[id] }
       }
       this.Type = _C.Object.Type.POLYGON
     }
