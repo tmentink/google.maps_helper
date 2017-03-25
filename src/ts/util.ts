@@ -112,7 +112,17 @@ namespace GMH.Util {
    * @param obj A GMH ObjectArray 
    */
   export function getIDs(obj: GMH.Obj.ObjectArray): string[] {
-    return Object.keys(obj)
+    let ids = Object.keys(obj)
+
+    // remove object properties from array
+    for (var prop in _C.Object.Properties) {
+      const index = ids.indexOf(_C.Object.Properties[prop])
+      if (index !== -1) {
+        ids.splice(index, 1)
+      }
+    }
+
+    return ids
   }
 
   /**
