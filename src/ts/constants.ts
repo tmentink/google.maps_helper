@@ -51,6 +51,9 @@ namespace GMH._C {
   }
 
   interface IObjectConstants {
+    Properties: {
+      readonly TYPE          : string
+    }
     Type: {
       readonly LABEL         : string,
       readonly LABEL_ARRAY   : string,
@@ -112,6 +115,9 @@ namespace GMH._C {
   }
 
   export const Object: IObjectConstants = {
+    Properties: {
+      TYPE          : "Type"
+    },
     Type: {
       LABEL         : "Label",
       LABEL_ARRAY   : "LabelArray",
