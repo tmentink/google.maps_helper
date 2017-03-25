@@ -108,11 +108,24 @@ namespace GMH.Util {
   }
 
   /**
+   * Returns an array of the object array's google objects
+   * @param obj A GMH ObjectArray 
+   */
+  export function getGoogleObjects(objectArray: GMH.Obj.ObjectArray): string[] {
+    const ids = getIDs(objectArray)
+    const googleObjects = ids.map(function(id) {
+      return objectArray[id].Obj
+    })
+
+    return googleObjects
+  }
+
+  /**
    * Returns an array of the object's ids 
    * @param obj A GMH ObjectArray 
    */
-  export function getIDs(obj: GMH.Obj.ObjectArray): string[] {
-    let ids = Object.keys(obj)
+  export function getIDs(objectArray: GMH.Obj.ObjectArray): string[] {
+    let ids = Object.keys(objectArray)
 
     // remove object properties from array
     for (var prop in _C.Object.Properties) {
