@@ -21,7 +21,7 @@ namespace GMH.Polygon {
   const Visibility = {
     hide   : function(id) { return false },
     show   : function(id) { return true },
-    toggle : function(id) { return !$.Polygon[id].Obj.getVisibile() }
+    toggle : function(id) { return !$.Polygon[id].Obj.getVisible() }
   }
 
 
