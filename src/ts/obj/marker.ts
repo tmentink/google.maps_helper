@@ -12,14 +12,26 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class Marker {
-    ID: number | string
+    ID: string
+    Init: {
+      Options: google.maps.MarkerOptions
+    }
     Obj: google.maps.Marker
     Type: string 
 
-    constructor(id:number | string, obj:google.maps.Marker) {
+    constructor(id: string, options: google.maps.MarkerOptions) {
       this.ID = id
-      this.Obj = obj
+      this.Init = {
+        Options: options
+      }
+      this.Obj = new google.maps.Marker(options)
+      this.Obj["GMH"] = { 
+        ID: id,
+        Parent: function(){ return $.Marker[id] }
+      }
       this.Type = _C.Object.Type.MARKER
     }
   }
+
 }
+
