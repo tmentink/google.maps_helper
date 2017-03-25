@@ -20,10 +20,10 @@ namespace GMH.Map {
    */
   export function setBounds(type: string | Object[], ids: any): GMH.Obj.Map {
     if (jQuery.isArray(type)) {
-      multiType(type)
+      _multiType(type)
     }
     else {
-      singleType(type, ids)
+      _singleType(type, ids)
     }
 
     return $.Map
@@ -41,7 +41,7 @@ namespace GMH.Map {
   // Private Functions 
   // ------------------------------------------------------------------------
    
-  function singleType(type: string, ids: any): void {
+  function _singleType(type: string, ids: any): void {
     type = Util.getObjectType(type)
 
     if (type == "initial" || type == "init") {
@@ -50,11 +50,11 @@ namespace GMH.Map {
       return
     } 
 
-    const bounds = getBounds(type, getIDs(type, ids))
+    const bounds = _getBounds(type, _getIDs(type, ids))
     $.Map.Obj.fitBounds(bounds)
   }
 
-  function multiType(types: Object[]): void {
+  function _multiType(types: Object[]): void {
     const bounds = new google.maps.LatLngBounds()
 
     for (var i = 0, i_end = types.length; i < i_end; i++) {
@@ -62,30 +62,28 @@ namespace GMH.Map {
       let ids = types[i][type]
 
       type = Util.getObjectType(type)
-      bounds.union(getBounds(type, getIDs(type, ids)))
+      bounds.union(_getBounds(type, _getIDs(type, ids)))
     }
 
     $.Map.Obj.fitBounds(bounds)
   }
 
-  function getBounds(type: string, ids: any): google.maps.LatLngBounds {
+  function _getBounds(type: string, ids: any): google.maps.LatLngBounds {
     ids = Util.toArray(ids)
 
     const bounds = new google.maps.LatLngBounds()
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
 
-      if ($[type][id] == null) {
-        continue
+      if ($[type][id]) {
+        bounds.union($[type][id].getBounds())
       }
-
-      bounds.union($[type][id].getBounds())
     }
 
     return bounds
   }
 
-  function getIDs(type: string, ids: any): any {
+  function _getIDs(type: string, ids: any): any {
     return ids == null ? Util.getIDs($[type]) : ids
   }
 

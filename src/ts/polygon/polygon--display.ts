@@ -30,7 +30,7 @@ namespace GMH.Polygon {
    * @param id The id of the polygon. Can also be an array of ids
    */
   export function hide(id: string | string[]): Obj.Polygon | Obj.PolygonArray {
-    return display(id, Action.HIDE)
+    return _display(id, Action.HIDE)
   }
 
   /**
@@ -38,7 +38,7 @@ namespace GMH.Polygon {
    * @param id The id of the polygon. Can also be an array of ids
    */
   export function show(id: string | string[]): Obj.Polygon | Obj.PolygonArray {
-    return display(id, Action.SHOW)
+    return _display(id, Action.SHOW)
   }
 
   /**
@@ -46,7 +46,7 @@ namespace GMH.Polygon {
    * @param id The id of the polygon. Can also be an array of ids
    */
   export function toggle(id: string | string[]): Obj.Polygon | Obj.PolygonArray {
-    return display(id, Action.TOGGLE)
+    return _display(id, Action.TOGGLE)
   }
 
 
@@ -54,30 +54,30 @@ namespace GMH.Polygon {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function display(id: string | string[], action: string): Obj.Polygon | Obj.PolygonArray {
+  function _display(id: string | string[], action: string): Obj.Polygon | Obj.PolygonArray {
     if (jQuery.isArray(id)) {
-      return multiDisplay(id, action)
+      return _multiDisplay(id, action)
     }
 
     if ($.Polygon[id]) {
-      return setPolygonVisibility(id, action)
+      return _setPolygonVisibility(id, action)
     }
   }
 
-  function multiDisplay(ids: string[], action: string): Obj.PolygonArray {
+  function _multiDisplay(ids: string[], action: string): Obj.PolygonArray {
     const polygonArray = new Obj.PolygonArray()
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       if ($.Polygon[id]) {
-        polygonArray[id] = setPolygonVisibility(id, action)
+        polygonArray[id] = _setPolygonVisibility(id, action)
       }
     }
 
     return polygonArray
   }
 
-  function setPolygonVisibility(id: string, action: string): Obj.Polygon {
+  function _setPolygonVisibility(id: string, action: string): Obj.Polygon {
     $.Polygon[id].Obj.setOptions({ "visible": Visibility[action](id) })
     return $.Polygon[id]
   }

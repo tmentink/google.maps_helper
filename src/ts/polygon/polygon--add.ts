@@ -27,12 +27,7 @@ namespace GMH.Polygon {
    * @param userOptions User options are merged with defaults
    */
   export function add(id: string | IAddPolygonParms[], path: any, userOptions: google.maps.PolygonOptions): Obj.Polygon | Obj.PolygonArray {
-    if (jQuery.isArray(id)) {
-      return multiAdd(id)
-    }
-    else {
-      return singleAdd(id, path, userOptions)
-    }
+    return _add(id, path, userOptions)
   }
 
 
@@ -40,13 +35,17 @@ namespace GMH.Polygon {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function singleAdd(id: string, path: any, userOptions: google.maps.PolygonOptions): Obj.Polygon {
-    if (validParameters(id, path)) {
-      return addPolygon(id, path, userOptions)
+  function _add(id: string | IAddPolygonParms[], path: any, userOptions: google.maps.PolygonOptions): Obj.Polygon | Obj.PolygonArray {
+    if (jQuery.isArray(id)) {
+      return _multiAdd(id)
+    }
+
+    if (_validParameters(id, path)) {
+      return _addPolygon(id, path, userOptions)
     }
   }
 
-  function multiAdd(objects: IAddPolygonParms[]): Obj.PolygonArray {
+  function _multiAdd(objects: IAddPolygonParms[]): Obj.PolygonArray {
     const polygonArray = new Obj.PolygonArray()
 
     for (var i = 0, i_end = objects.length; i < i_end; i++) {
@@ -54,15 +53,15 @@ namespace GMH.Polygon {
       let path = objects[i].path;
       let userOptions = objects[i].options;
 
-      if (validParameters(id, path)) {
-        polygonArray[id] = addPolygon(id, path, userOptions)
+      if (_validParameters(id, path)) {
+        polygonArray[id] = _addPolygon(id, path, userOptions)
       }
     }
 
     return polygonArray
   }
 
-  function addPolygon(id: string, paths: any, userOptions: google.maps.PolygonOptions): Obj.Polygon {
+  function _addPolygon(id: any, paths: any, userOptions: google.maps.PolygonOptions): Obj.Polygon {
     if (jQuery.type(paths) == "string") {
       paths = Util.toLatLngArray(paths)
     }
@@ -76,7 +75,7 @@ namespace GMH.Polygon {
     return $.Polygon[id]
   }
 
-  function validParameters(id: string, path: any): boolean {
+  function _validParameters(id: any, path: any): boolean {
     if ($.Polygon[id]) {
       throw "Error: ID already exists "
     }

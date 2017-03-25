@@ -19,14 +19,7 @@ namespace GMH.Polygon {
    * @param userOptions If options are null, the defaults in GMH.Config are used
    */
   export function update(id: string | string[], userOptions: google.maps.PolygonOptions): Obj.Polygon | Obj.PolygonArray {
-    const options = getOptions(userOptions)
-
-    if (jQuery.isArray(id)) {
-      return multiUpdate(id, options)
-    }
-    else {
-      return singleUpdate(id, options)
-    }
+    return _update(id, _getOptions(userOptions))
   }
 
 
@@ -34,31 +27,35 @@ namespace GMH.Polygon {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function singleUpdate(id: string, options: google.maps.PolygonOptions): Obj.Polygon {
+  function _update(id: string | string[], options: google.maps.PolygonOptions): Obj.Polygon | Obj.PolygonArray {
+    if (jQuery.isArray(id)) {
+      return _multiUpdate(id, options)
+    }
+
     if ($.Polygon[id]) {
-      return updatePolygon(id, options)
+      return _updatePolygon(id, options)
     }
   }
 
-  function multiUpdate(ids: string[], options: google.maps.PolygonOptions): Obj.PolygonArray {
+  function _multiUpdate(ids: string[], options: google.maps.PolygonOptions): Obj.PolygonArray {
     const polygonArray = new Obj.PolygonArray()
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       if ($.Polygon[id]) {
-        polygonArray[id] = updatePolygon(id, options)
+        polygonArray[id] = _updatePolygon(id, options)
       }
     }
 
     return polygonArray
   }
 
-  function updatePolygon(id: string, options: google.maps.PolygonOptions): Obj.Polygon {
+  function _updatePolygon(id: string, options: google.maps.PolygonOptions): Obj.Polygon {
     $.Polygon[id].Obj.setOptions(options);
     return $.Polygon[id];
   }
 
-  function getOptions(options: google.maps.PolygonOptions): google.maps.PolygonOptions {
+  function _getOptions(options: google.maps.PolygonOptions): google.maps.PolygonOptions {
     const defaults = Config.Default.Polygon || {}
     options = options == null ? defaults : options
 

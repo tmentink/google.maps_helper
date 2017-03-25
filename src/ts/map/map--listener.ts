@@ -19,13 +19,7 @@ namespace GMH.Map {
    * @param fn The function to be executed when event is triggered 
    */
   export function addListener(type: string | Object[], fn: Function): Obj.Map {
-    if (jQuery.isArray(type)) {
-      multiAdd(type)
-    }
-    else {
-      singleAdd(type, fn)
-    }
-
+    _addListener(type, fn)
     return $.Map
   }
 
@@ -38,7 +32,7 @@ namespace GMH.Map {
       type.split(",")
     }
 
-    removeType(type)
+    _removeListenerType(type)
     return $.Map
   }
 
@@ -55,12 +49,16 @@ namespace GMH.Map {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function singleAdd(type: string, fn: Function): void {
+  function _addListener(type: string | Object[], fn: Function): void {
+    if (jQuery.isArray(type)) {
+      return _multiAddListener(type)
+    }
+
     type = Util.getEventType(type);
     google.maps.event.addListener($.Map.Obj, type, fn);
   }
 
-  function multiAdd(types: Object[]): void {
+  function _multiAddListener(types: Object[]): void {
     for (var i = 0, i_end = types.length; i < i_end; i++) {
       let type = Object.keys(types[i])[0];
       let fn = types[i][type];
@@ -70,7 +68,7 @@ namespace GMH.Map {
     }
   }
 
-  function removeType(types: string[]): void {
+  function _removeListenerType(types: string[]): void {
     for (var i = 0, i_end = types.length; i < i_end; i++) {
       let type = Util.getEventType(types[i])
       google.maps.event.clearListeners($.Map.Obj, type);

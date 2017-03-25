@@ -21,7 +21,7 @@ namespace GMH.Polygon {
       let id = ids[i];
       
       if ($.Polygon[id]) { 
-        bounds.union(getPolygonsBounds(id));
+        bounds.union(_getPolygonsBounds(id));
       }
     }
 
@@ -37,7 +37,7 @@ namespace GMH.Polygon {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function getPolygonsBounds(id) {
+  function _getPolygonsBounds(id) {
     const bounds = new google.maps.LatLngBounds();
     const paths = $.Polygon[id].Obj.getPaths();
     

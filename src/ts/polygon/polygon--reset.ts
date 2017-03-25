@@ -19,12 +19,7 @@ namespace GMH.Polygon {
    * @param id The id of the polygon. Can also be an array of ids
    */
   export function reset(id: string | string[]): Obj.Polygon | Obj.PolygonArray {
-    if (jQuery.isArray(id)) {
-      return multiReset(id)
-    }
-    else {
-      return singleReset(id)
-    }
+    return _reset(id)
   }
 
 
@@ -32,26 +27,30 @@ namespace GMH.Polygon {
   // Private Functions 
   // ----------------------------------------------------------------------
 
-  function singleReset(id: string): Obj.Polygon {
+  function _reset(id: string | string[]): Obj.Polygon | Obj.PolygonArray {
+    if (jQuery.isArray(id)) {
+      return _multiReset(id)
+    }
+
     if ($.Polygon[id]) {
-      return resetPolygon(id)
+      return _resetPolygon(id)
     }
   }
 
-  function multiReset(ids: string[]): Obj.PolygonArray {
+  function _multiReset(ids: string[]): Obj.PolygonArray {
     const polygonArray = new Obj.PolygonArray()
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       if ($.Polygon[id]) {
-        polygonArray[id] = resetPolygon(id)
+        polygonArray[id] = _resetPolygon(id)
       }
     }
 
     return polygonArray
   }
 
-  function resetPolygon(id: string): any {
+  function _resetPolygon(id: string): any {
     return GMH.Polygon.update(id, $.Polygon[id].Init.Options);
   }
  
