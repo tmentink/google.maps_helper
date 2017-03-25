@@ -9,13 +9,6 @@
 namespace GMH.Marker {
 
 
-  interface IAddMarkerParms {
-    id       : string
-    position : any
-    options  : google.maps.MarkerOptions
-  }
-
-
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------

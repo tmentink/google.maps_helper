@@ -9,13 +9,6 @@
 namespace GMH.Polygon {
 
 
-  interface IAddPolygonParms {
-    id      : string
-    path    : any
-    options : google.maps.PolygonOptions
-  }
-
-
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
