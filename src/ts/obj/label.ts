@@ -12,14 +12,26 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class Label {
-    ID: number | string
+    ID: string
+    Init: {
+      Options: IGoogleLabelOptions
+    }
     Obj: google.maps.OverlayView
     Type: string 
 
-    constructor(id:number | string, obj:any) {
+    constructor(id: string, options: IGoogleLabelOptions) {
       this.ID = id
-      this.Obj = obj
+      this.Init = {
+        Options: options
+      }
+      this.Obj = new Obj.googleLabel(options)
+      this.Obj["GMH"] = { 
+        ID: id,
+        Parent: function(){ return $.Label[id] }
+      }
       this.Type = _C.Object.Type.LABEL
     }
+
   }
+
 }
