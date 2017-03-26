@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Label {
 
-  import _D = GMH.__gmh__.Data
-    
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -33,7 +31,7 @@ namespace GMH.__gmh__.Label {
       return _multiUpdate(id, options)
     }
 
-    if (_D.Label[id]) {
+    if (Data.Label[id]) {
       return _updateLabel(id, options)
     }
   }
@@ -43,7 +41,7 @@ namespace GMH.__gmh__.Label {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Label[id]) {
+      if (Data.Label[id]) {
         labelArray[id] = _updateLabel(id, options)
       }
     }
@@ -52,8 +50,8 @@ namespace GMH.__gmh__.Label {
   }
 
   function _updateLabel(id: string, options: IGoogleLabelOptions): Obj.Label {
-    _D.Label[id].Obj.setOptions(options);
-    return _D.Label[id];
+    Data.Label[id].Obj.setOptions(options);
+    return Data.Label[id];
   }
 
   function _getOptions(options: any): IGoogleLabelOptions {

@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Marker {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -57,12 +55,12 @@ namespace GMH.__gmh__.Marker {
   }
 
   function _updateMarkerPosition(id: string, position: any): Obj.Marker {
-    _D.Marker[id].Obj.setOptions({"position": position});
-    return _D.Marker[id];
+    Data.Marker[id].Obj.setOptions({"position": position});
+    return Data.Marker[id];
   }
 
   function _validParameters(id: any, position: any): boolean {
-    if (_D.Marker[id]) {
+    if (!Data.Marker[id]) {
       throw "Error: ID does not exist"
     }
     if (!position) {

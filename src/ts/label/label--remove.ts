@@ -7,15 +7,13 @@
 
 namespace GMH.__gmh__.Label {
 
-  import _D = GMH.__gmh__.Data
 
-  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
   
   /**
-   * Removes the label from the map and GMH._D.Label
+   * Removes the label from the map
    * @param id The id of the label. Can also be an array of ids
    */
   export function remove(id: string | string[]): Obj.Label | Obj.LabelArray {
@@ -32,7 +30,7 @@ namespace GMH.__gmh__.Label {
       return _multiRemove(id)
     }
 
-    if (_D.Label[id]) {
+    if (Data.Label[id]) {
       return _removeLabel(id)
     }
   }
@@ -42,7 +40,7 @@ namespace GMH.__gmh__.Label {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Label[id]) {
+      if (Data.Label[id]) {
         labelArray[id] = _removeLabel(id)
       }
     }
@@ -51,10 +49,10 @@ namespace GMH.__gmh__.Label {
   }
 
   function _removeLabel(id: string): Obj.Label {
-      const Label = _D.Label[id]            
+      const Label = Data.Label[id]            
       Label.Obj.setMap(null)
       
-      delete _D.Label[id]
+      delete Data.Label[id]
       return Label
   }
 

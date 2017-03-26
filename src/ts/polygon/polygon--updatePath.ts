@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Polygon {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -57,12 +55,12 @@ namespace GMH.__gmh__.Polygon {
   }
 
   function _updatePolygonPath(id: string, path: any): Obj.Polygon {
-    _D.Polygon[id].Obj.setOptions({"paths": path});
-    return _D.Polygon[id];
+    Data.Polygon[id].Obj.setOptions({"paths": path});
+    return Data.Polygon[id];
   }
 
   function _validParameters(id: any, path: any): boolean {
-    if (_D.Polygon[id]) {
+    if (!Data.Polygon[id]) {
       throw "Error: ID does not exist"
     }
     if (!path) {

@@ -7,8 +7,6 @@
 
 namespace GMH.__gmh__.Label {
 
-  import _D = GMH.__gmh__.Data
-  
 
   // ----------------------------------------------------------------------
   // Public Functions 
@@ -25,7 +23,7 @@ namespace GMH.__gmh__.Label {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       
-      if (_D.Label[id]) { 
+      if (Data.Label[id]) { 
         bounds.union(_getLabelsBounds(id))
       }
     }
@@ -48,7 +46,7 @@ namespace GMH.__gmh__.Label {
   
   function _getLabelsBounds(id) {
     const bounds = new google.maps.LatLngBounds()
-    bounds.extend(_D.Label[id].Obj.position)
+    bounds.extend(Data.Label[id].Obj.position)
     return bounds
   }
 

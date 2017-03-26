@@ -7,8 +7,6 @@
 
 namespace GMH.__gmh__.Label {
 
-  import _D = GMH.__gmh__.Data
-
 
   // ----------------------------------------------------------------------
   // Constants 
@@ -22,8 +20,8 @@ namespace GMH.__gmh__.Label {
 
   const Visibility = {
     hide   : function(id) { return null },
-    show   : function(id) { return _D.Map.Obj },
-    toggle : function(id) { return _D.Label[id].Obj.map == null ? _D.Map.Obj : null }
+    show   : function(id) { return Data.Map.Obj },
+    toggle : function(id) { return Data.Label[id].Obj.map == null ? Data.Map.Obj : null }
   }
 
 
@@ -65,7 +63,7 @@ namespace GMH.__gmh__.Label {
       return _multiDisplay(id, action)
     }
 
-    if (_D.Label[id]) {
+    if (Data.Label[id]) {
       return _setLabelVisibility(id, action)
     }
   }
@@ -75,7 +73,7 @@ namespace GMH.__gmh__.Label {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Label[id]) {
+      if (Data.Label[id]) {
         labelArray[id] = _setLabelVisibility(id, action)
       }
     }
@@ -84,8 +82,8 @@ namespace GMH.__gmh__.Label {
   }
 
   function _setLabelVisibility(id: string, action: string): Obj.Label {
-    _D.Label[id].Obj.setMap(Visibility[action](id))
-    return _D.Label[id]
+    Data.Label[id].Obj.setMap(Visibility[action](id))
+    return Data.Label[id]
   }
 
 }

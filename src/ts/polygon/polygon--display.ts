@@ -7,8 +7,6 @@
 
 namespace GMH.__gmh__.Polygon {
 
-  import _D = GMH.__gmh__.Data
-
 
   // ----------------------------------------------------------------------
   // Constants 
@@ -23,7 +21,7 @@ namespace GMH.__gmh__.Polygon {
   const Visibility = {
     hide   : function(id) { return false },
     show   : function(id) { return true },
-    toggle : function(id) { return !_D.Polygon[id].Obj.getVisible() }
+    toggle : function(id) { return !Data.Polygon[id].Obj.getVisible() }
   }
 
 
@@ -65,7 +63,7 @@ namespace GMH.__gmh__.Polygon {
       return _multiDisplay(id, action)
     }
 
-    if (_D.Polygon[id]) {
+    if (Data.Polygon[id]) {
       return _setPolygonVisibility(id, action)
     }
   }
@@ -75,7 +73,7 @@ namespace GMH.__gmh__.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Polygon[id]) {
+      if (Data.Polygon[id]) {
         polygonArray[id] = _setPolygonVisibility(id, action)
       }
     }
@@ -84,8 +82,8 @@ namespace GMH.__gmh__.Polygon {
   }
 
   function _setPolygonVisibility(id: string, action: string): Obj.Polygon {
-    _D.Polygon[id].Obj.setOptions({ "visible": Visibility[action](id) })
-    return _D.Polygon[id]
+    Data.Polygon[id].Obj.setOptions({ "visible": Visibility[action](id) })
+    return Data.Polygon[id]
   }
 
 }

@@ -7,15 +7,13 @@
 
 namespace GMH.__gmh__.Map {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
 
   /**
-   * Sets the map's bounds to objects in GMH._D 
+   * Sets the map's bounds to objects stored in Data
    * @param type A string or an object of types
    * @param ids A string, number or array of object ids. Can be left null to get all ids 
    */
@@ -27,14 +25,14 @@ namespace GMH.__gmh__.Map {
       _singleType(type, ids)
     }
 
-    return _D.Map
+    return Data.Map
   }
 
   /**
    * Returns the map's center LatLng object 
    */
   export function getCenter(): google.maps.LatLng {
-    return _D.Map.Obj.getCenter()
+    return Data.Map.Obj.getCenter()
   }
 
 
@@ -46,13 +44,13 @@ namespace GMH.__gmh__.Map {
     type = Util.getObjectType(type)
 
     if (type == "initial" || type == "init") {
-      _D.Map.Obj.fitBounds(_D.Map.Init.Bounds)
-      _D.Map.Obj.setZoom(_D.Map.Init.Options.zoom)
+      Data.Map.Obj.fitBounds(Data.Map.Init.Bounds)
+      Data.Map.Obj.setZoom(Data.Map.Init.Options.zoom)
       return
     } 
 
     const bounds = _getBounds(type, _getIDs(type, ids))
-    _D.Map.Obj.fitBounds(bounds)
+    Data.Map.Obj.fitBounds(bounds)
   }
 
   function _multiType(obj: any): void {
@@ -67,7 +65,7 @@ namespace GMH.__gmh__.Map {
       bounds.union(_getBounds(type, _getIDs(type, ids)))
     }
 
-    _D.Map.Obj.fitBounds(bounds)
+    Data.Map.Obj.fitBounds(bounds)
   }
 
   function _getBounds(type: string, ids: any): google.maps.LatLngBounds {
@@ -77,8 +75,8 @@ namespace GMH.__gmh__.Map {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
 
-      if (_D[type][id]) {
-        bounds.union(_D[type][id].getBounds())
+      if (Data[type][id]) {
+        bounds.union(Data[type][id].getBounds())
       }
     }
 
@@ -86,7 +84,7 @@ namespace GMH.__gmh__.Map {
   }
 
   function _getIDs(type: string, ids: any): any {
-    return ids == null ? Util.getIDs(_D[type]) : ids
+    return ids == null ? Util.getIDs(Data[type]) : ids
   }
 
 }

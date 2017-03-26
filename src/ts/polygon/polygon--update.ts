@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Polygon {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -33,7 +31,7 @@ namespace GMH.__gmh__.Polygon {
       return _multiUpdate(id, options)
     }
 
-    if (_D.Polygon[id]) {
+    if (Data.Polygon[id]) {
       return _updatePolygon(id, options)
     }
   }
@@ -43,7 +41,7 @@ namespace GMH.__gmh__.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Polygon[id]) {
+      if (Data.Polygon[id]) {
         polygonArray[id] = _updatePolygon(id, options)
       }
     }
@@ -52,8 +50,8 @@ namespace GMH.__gmh__.Polygon {
   }
 
   function _updatePolygon(id: string, options: google.maps.PolygonOptions): Obj.Polygon {
-    _D.Polygon[id].Obj.setOptions(options);
-    return _D.Polygon[id];
+    Data.Polygon[id].Obj.setOptions(options);
+    return Data.Polygon[id];
   }
 
   function _getOptions(options: google.maps.PolygonOptions): google.maps.PolygonOptions {

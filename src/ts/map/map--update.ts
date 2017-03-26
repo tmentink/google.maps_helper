@@ -7,10 +7,7 @@
 
 namespace GMH.__gmh__.Map {
 
-  import _C = GMH.__gmh__.Constants
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -20,23 +17,23 @@ namespace GMH.__gmh__.Map {
    * @param options google.map.MapOptions object. If null, options will be set to defaults
    */
   export function update(options: google.maps.MapOptions): Obj.Map {
-    const defaults = Config.Default.Map || _C.Default.Map
+    const defaults = Config.Default.Map || Constants.Default.Map
     options = options == null ? defaults : options
 
     if (jQuery.type(options.center) == "string") {
       options.center = Util.toLatLng(options.center)
     }
 
-    _D.Map.Obj.setOptions(options)
-    return _D.Map
+    Data.Map.Obj.setOptions(options)
+    return Data.Map
   }
 
   /**
    * Resets the map to its initialized state
    */
   export function reset() {
-    _D.Map.Obj.fitBounds(_D.Map.Init.Bounds)
-    return update(_D.Map.Init.Options)
+    Data.Map.Obj.fitBounds(Data.Map.Init.Bounds)
+    return update(Data.Map.Init.Options)
   }
   
 }

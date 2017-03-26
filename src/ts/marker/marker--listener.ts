@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Marker {
 
-  import _D = GMH.__gmh__.Data
 
-  
   // ----------------------------------------------------------------------
   // Constants 
   // ----------------------------------------------------------------------
@@ -70,7 +68,7 @@ namespace GMH.__gmh__.Marker {
       return _multiListener(id, type, fn, action)
     }
 
-    if (_D.Marker[id]) {
+    if (Data.Marker[id]) {
       return Execute[action](id, type, fn)
     }
   }
@@ -80,7 +78,7 @@ namespace GMH.__gmh__.Marker {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Marker[id]) {
+      if (Data.Marker[id]) {
         markerArray[id] = Execute[action](id, type, fn)
       }
     }
@@ -89,18 +87,18 @@ namespace GMH.__gmh__.Marker {
   }
 
   function _add(id: string, type: string, fn: Function): Obj.Marker {
-    google.maps.event.addListener(_D.Marker[id].Obj, type, fn)
-    return _D.Marker[id]
+    google.maps.event.addListener(Data.Marker[id].Obj, type, fn)
+    return Data.Marker[id]
   }
 
   function _removeType(id: string, type: string): Obj.Marker {
-    google.maps.event.clearListeners(_D.Marker[id].Obj, type)
-    return _D.Marker[id]
+    google.maps.event.clearListeners(Data.Marker[id].Obj, type)
+    return Data.Marker[id]
   }
 
   function _removeAll(id: string): Obj.Marker {
-    google.maps.event.clearInstanceListeners(_D.Marker[id].Obj)
-    return _D.Marker[id]
+    google.maps.event.clearInstanceListeners(Data.Marker[id].Obj)
+    return Data.Marker[id]
   }
   
 }

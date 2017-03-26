@@ -7,15 +7,13 @@
 
 namespace GMH.__gmh__.Marker {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
   
   /**
-   * Removes the marker from the map and GMH._D.Marker
+   * Removes the marker from the map
    * @param id The id of the marker. Can also be an array of ids
    */
   export function remove(id: string | string[]): Obj.Marker | Obj.MarkerArray {
@@ -32,7 +30,7 @@ namespace GMH.__gmh__.Marker {
       return _multiRemove(id)
     }
 
-    if (_D.Marker[id]) {
+    if (Data.Marker[id]) {
       return _removeMarker(id)
     }
   }
@@ -42,7 +40,7 @@ namespace GMH.__gmh__.Marker {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Marker[id]) {
+      if (Data.Marker[id]) {
         markerArray[id] = _removeMarker(id)
       }
     }
@@ -51,10 +49,10 @@ namespace GMH.__gmh__.Marker {
   }
 
   function _removeMarker(id: string): Obj.Marker {
-      const marker = _D.Marker[id]            
+      const marker = Data.Marker[id]            
       marker.Obj.setMap(null)
       
-      delete _D.Marker[id]
+      delete Data.Marker[id]
       return marker
   }
 

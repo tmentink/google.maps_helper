@@ -415,7 +415,6 @@ var GMH;
   (function(__gmh__) {
     var Label;
     (function(Label) {
-      var _D = GMH.__gmh__.Data;
       function updatePosition(id, position) {
         if (jQuery.type(position) == "string") {
           position = GMH.Util.toLatLngArray(position);
@@ -442,13 +441,13 @@ var GMH;
         return labelArray;
       }
       function _updateLabelPosition(id, position) {
-        _D.Label[id].Obj.setOptions({
+        __gmh__.Data.Label[id].Obj.setOptions({
           position: position
         });
-        return _D.Label[id];
+        return __gmh__.Data.Label[id];
       }
       function _validParameters(id, position) {
-        if (_D.Label[id]) {
+        if (!__gmh__.Data.Label[id]) {
           throw "Error: ID does not exist";
         }
         if (!position) {
@@ -491,7 +490,6 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       var Action = {
         ADD: "add",
         REMOVE_ALL: "remove_all",
@@ -526,7 +524,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiListener(id, type, fn, action);
         }
-        if (_D.Marker[id]) {
+        if (__gmh__.Data.Marker[id]) {
           return Execute[action](id, type, fn);
         }
       }
@@ -534,23 +532,23 @@ var GMH;
         var markerArray = new __gmh__.Obj.MarkerArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Marker[id]) {
+          if (__gmh__.Data.Marker[id]) {
             markerArray[id] = Execute[action](id, type, fn);
           }
         }
         return markerArray;
       }
       function _add(id, type, fn) {
-        google.maps.event.addListener(_D.Marker[id].Obj, type, fn);
-        return _D.Marker[id];
+        google.maps.event.addListener(__gmh__.Data.Marker[id].Obj, type, fn);
+        return __gmh__.Data.Marker[id];
       }
       function _removeType(id, type) {
-        google.maps.event.clearListeners(_D.Marker[id].Obj, type);
-        return _D.Marker[id];
+        google.maps.event.clearListeners(__gmh__.Data.Marker[id].Obj, type);
+        return __gmh__.Data.Marker[id];
       }
       function _removeAll(id) {
-        google.maps.event.clearInstanceListeners(_D.Marker[id].Obj);
-        return _D.Marker[id];
+        google.maps.event.clearInstanceListeners(__gmh__.Data.Marker[id].Obj);
+        return __gmh__.Data.Marker[id];
       }
     })(Marker = __gmh__.Marker || (__gmh__.Marker = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -563,7 +561,6 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       function updatePosition(id, position) {
         if (jQuery.type(position) == "string") {
           position = GMH.Util.toLatLngArray(position);
@@ -590,13 +587,13 @@ var GMH;
         return markerArray;
       }
       function _updateMarkerPosition(id, position) {
-        _D.Marker[id].Obj.setOptions({
+        __gmh__.Data.Marker[id].Obj.setOptions({
           position: position
         });
-        return _D.Marker[id];
+        return __gmh__.Data.Marker[id];
       }
       function _validParameters(id, position) {
-        if (_D.Marker[id]) {
+        if (!__gmh__.Data.Marker[id]) {
           throw "Error: ID does not exist";
         }
         if (!position) {
@@ -648,7 +645,6 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       var Action = {
         ADD: "add",
         REMOVE_ALL: "remove_all",
@@ -683,7 +679,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiListener(id, type, fn, action);
         }
-        if (_D.Polygon[id]) {
+        if (__gmh__.Data.Polygon[id]) {
           return Execute[action](id, type, fn);
         }
       }
@@ -691,23 +687,23 @@ var GMH;
         var polygonArray = new __gmh__.Obj.PolygonArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Polygon[id]) {
+          if (__gmh__.Data.Polygon[id]) {
             polygonArray[id] = Execute[action](id, type, fn);
           }
         }
         return polygonArray;
       }
       function _add(id, type, fn) {
-        google.maps.event.addListener(_D.Polygon[id].Obj, type, fn);
-        return _D.Polygon[id];
+        google.maps.event.addListener(__gmh__.Data.Polygon[id].Obj, type, fn);
+        return __gmh__.Data.Polygon[id];
       }
       function _removeType(id, type) {
-        google.maps.event.clearListeners(_D.Polygon[id].Obj, type);
-        return _D.Polygon[id];
+        google.maps.event.clearListeners(__gmh__.Data.Polygon[id].Obj, type);
+        return __gmh__.Data.Polygon[id];
       }
       function _removeAll(id) {
-        google.maps.event.clearInstanceListeners(_D.Polygon[id].Obj);
-        return _D.Polygon[id];
+        google.maps.event.clearInstanceListeners(__gmh__.Data.Polygon[id].Obj);
+        return __gmh__.Data.Polygon[id];
       }
     })(Polygon = __gmh__.Polygon || (__gmh__.Polygon = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -720,7 +716,6 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       function updatePath(id, path) {
         if (jQuery.type(path) == "string") {
           path = GMH.Util.toLatLngArray(path);
@@ -747,13 +742,13 @@ var GMH;
         return polygonArray;
       }
       function _updatePolygonPath(id, path) {
-        _D.Polygon[id].Obj.setOptions({
+        __gmh__.Data.Polygon[id].Obj.setOptions({
           paths: path
         });
-        return _D.Polygon[id];
+        return __gmh__.Data.Polygon[id];
       }
       function _validParameters(id, path) {
-        if (_D.Polygon[id]) {
+        if (!__gmh__.Data.Polygon[id]) {
           throw "Error: ID does not exist";
         }
         if (!path) {
@@ -820,13 +815,12 @@ var GMH;
   (function(__gmh__) {
     var Label;
     (function(Label) {
-      var _D = GMH.__gmh__.Data;
       function getBounds(ids) {
         ids = GMH.Util.toArray(ids);
         var bounds = new google.maps.LatLngBounds();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Label[id]) {
+          if (__gmh__.Data.Label[id]) {
             bounds.union(_getLabelsBounds(id));
           }
         }
@@ -839,7 +833,7 @@ var GMH;
       Label.getCenter = getCenter;
       function _getLabelsBounds(id) {
         var bounds = new google.maps.LatLngBounds();
-        bounds.extend(_D.Label[id].Obj.position);
+        bounds.extend(__gmh__.Data.Label[id].Obj.position);
         return bounds;
       }
     })(Label = __gmh__.Label || (__gmh__.Label = {}));
@@ -853,7 +847,6 @@ var GMH;
   (function(__gmh__) {
     var Label;
     (function(Label) {
-      var _D = GMH.__gmh__.Data;
       var Action = {
         HIDE: "hide",
         SHOW: "show",
@@ -864,10 +857,10 @@ var GMH;
           return null;
         },
         show: function(id) {
-          return _D.Map.Obj;
+          return __gmh__.Data.Map.Obj;
         },
         toggle: function(id) {
-          return _D.Label[id].Obj.map == null ? _D.Map.Obj : null;
+          return __gmh__.Data.Label[id].Obj.map == null ? __gmh__.Data.Map.Obj : null;
         }
       };
       function hide(id) {
@@ -886,7 +879,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiDisplay(id, action);
         }
-        if (_D.Label[id]) {
+        if (__gmh__.Data.Label[id]) {
           return _setLabelVisibility(id, action);
         }
       }
@@ -894,15 +887,15 @@ var GMH;
         var labelArray = new __gmh__.Obj.LabelArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Label[id]) {
+          if (__gmh__.Data.Label[id]) {
             labelArray[id] = _setLabelVisibility(id, action);
           }
         }
         return labelArray;
       }
       function _setLabelVisibility(id, action) {
-        _D.Label[id].Obj.setMap(Visibility[action](id));
-        return _D.Label[id];
+        __gmh__.Data.Label[id].Obj.setMap(Visibility[action](id));
+        return __gmh__.Data.Label[id];
       }
     })(Label = __gmh__.Label || (__gmh__.Label = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -915,7 +908,6 @@ var GMH;
   (function(__gmh__) {
     var Label;
     (function(Label_1) {
-      var _D = GMH.__gmh__.Data;
       function remove(id) {
         return _remove(id);
       }
@@ -924,7 +916,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiRemove(id);
         }
-        if (_D.Label[id]) {
+        if (__gmh__.Data.Label[id]) {
           return _removeLabel(id);
         }
       }
@@ -932,16 +924,16 @@ var GMH;
         var labelArray = new __gmh__.Obj.LabelArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Label[id]) {
+          if (__gmh__.Data.Label[id]) {
             labelArray[id] = _removeLabel(id);
           }
         }
         return labelArray;
       }
       function _removeLabel(id) {
-        var Label = _D.Label[id];
+        var Label = __gmh__.Data.Label[id];
         Label.Obj.setMap(null);
-        delete _D.Label[id];
+        delete __gmh__.Data.Label[id];
         return Label;
       }
     })(Label = __gmh__.Label || (__gmh__.Label = {}));
@@ -955,7 +947,6 @@ var GMH;
   (function(__gmh__) {
     var Label;
     (function(Label) {
-      var _D = GMH.__gmh__.Data;
       function reset(id) {
         return _reset(id);
       }
@@ -964,7 +955,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiReset(id);
         }
-        if (_D.Label[id]) {
+        if (__gmh__.Data.Label[id]) {
           return _resetLabel(id);
         }
       }
@@ -972,14 +963,14 @@ var GMH;
         var labelArray = new __gmh__.Obj.LabelArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Label[id]) {
+          if (__gmh__.Data.Label[id]) {
             labelArray[id] = _resetLabel(id);
           }
         }
         return labelArray;
       }
       function _resetLabel(id) {
-        return Label.update(id, _D.Label[id].Init.Options);
+        return Label.update(id, __gmh__.Data.Label[id].Init.Options);
       }
     })(Label = __gmh__.Label || (__gmh__.Label = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -992,7 +983,6 @@ var GMH;
   (function(__gmh__) {
     var Label;
     (function(Label) {
-      var _D = GMH.__gmh__.Data;
       function update(id, userOptions) {
         return _update(id, _getOptions(userOptions));
       }
@@ -1001,7 +991,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiUpdate(id, options);
         }
-        if (_D.Label[id]) {
+        if (__gmh__.Data.Label[id]) {
           return _updateLabel(id, options);
         }
       }
@@ -1009,15 +999,15 @@ var GMH;
         var labelArray = new __gmh__.Obj.LabelArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Label[id]) {
+          if (__gmh__.Data.Label[id]) {
             labelArray[id] = _updateLabel(id, options);
           }
         }
         return labelArray;
       }
       function _updateLabel(id, options) {
-        _D.Label[id].Obj.setOptions(options);
-        return _D.Label[id];
+        __gmh__.Data.Label[id].Obj.setOptions(options);
+        return __gmh__.Data.Label[id];
       }
       function _getOptions(options) {
         var defaults = GMH.Config.Default.Label || {};
@@ -1179,29 +1169,28 @@ var GMH;
   (function(__gmh__) {
     var Map;
     (function(Map) {
-      var _D = GMH.__gmh__.Data;
       function setBounds(type, ids) {
         if (jQuery.type(type) == "object") {
           _multiType(type);
         } else {
           _singleType(type, ids);
         }
-        return _D.Map;
+        return __gmh__.Data.Map;
       }
       Map.setBounds = setBounds;
       function getCenter() {
-        return _D.Map.Obj.getCenter();
+        return __gmh__.Data.Map.Obj.getCenter();
       }
       Map.getCenter = getCenter;
       function _singleType(type, ids) {
         type = GMH.Util.getObjectType(type);
         if (type == "initial" || type == "init") {
-          _D.Map.Obj.fitBounds(_D.Map.Init.Bounds);
-          _D.Map.Obj.setZoom(_D.Map.Init.Options.zoom);
+          __gmh__.Data.Map.Obj.fitBounds(__gmh__.Data.Map.Init.Bounds);
+          __gmh__.Data.Map.Obj.setZoom(__gmh__.Data.Map.Init.Options.zoom);
           return;
         }
         var bounds = _getBounds(type, _getIDs(type, ids));
-        _D.Map.Obj.fitBounds(bounds);
+        __gmh__.Data.Map.Obj.fitBounds(bounds);
       }
       function _multiType(obj) {
         var bounds = new google.maps.LatLngBounds();
@@ -1212,21 +1201,21 @@ var GMH;
           type = GMH.Util.getObjectType(type);
           bounds.union(_getBounds(type, _getIDs(type, ids)));
         }
-        _D.Map.Obj.fitBounds(bounds);
+        __gmh__.Data.Map.Obj.fitBounds(bounds);
       }
       function _getBounds(type, ids) {
         ids = GMH.Util.toArray(ids);
         var bounds = new google.maps.LatLngBounds();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D[type][id]) {
-            bounds.union(_D[type][id].getBounds());
+          if (__gmh__.Data[type][id]) {
+            bounds.union(__gmh__.Data[type][id].getBounds());
           }
         }
         return bounds;
       }
       function _getIDs(type, ids) {
-        return ids == null ? GMH.Util.getIDs(_D[type]) : ids;
+        return ids == null ? GMH.Util.getIDs(__gmh__.Data[type]) : ids;
       }
     })(Map = __gmh__.Map || (__gmh__.Map = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -1254,10 +1243,9 @@ var GMH;
   (function(__gmh__) {
     var Map;
     (function(Map) {
-      var _D = GMH.__gmh__.Data;
       function addListener(type, fn) {
         _addListener(type, fn);
-        return _D.Map;
+        return __gmh__.Data.Map;
       }
       Map.addListener = addListener;
       function removeListenerType(type) {
@@ -1265,12 +1253,12 @@ var GMH;
           type.split(",");
         }
         _removeListenerType(type);
-        return _D.Map;
+        return __gmh__.Data.Map;
       }
       Map.removeListenerType = removeListenerType;
       function removeAllListeners() {
-        google.maps.event.clearInstanceListeners(_D.Map.Obj);
-        return _D.Map;
+        google.maps.event.clearInstanceListeners(__gmh__.Data.Map.Obj);
+        return __gmh__.Data.Map;
       }
       Map.removeAllListeners = removeAllListeners;
       function _addListener(type, fn) {
@@ -1278,20 +1266,20 @@ var GMH;
           return _multiAddListener(type);
         }
         type = GMH.Util.getEventType(type);
-        google.maps.event.addListener(_D.Map.Obj, type, fn);
+        google.maps.event.addListener(__gmh__.Data.Map.Obj, type, fn);
       }
       function _multiAddListener(types) {
         for (var i = 0, i_end = types.length; i < i_end; i++) {
           var type = Object.keys(types[i])[0];
           var fn = types[i][type];
           type = GMH.Util.getEventType(type);
-          google.maps.event.addListener(_D.Map.Obj, type, fn);
+          google.maps.event.addListener(__gmh__.Data.Map.Obj, type, fn);
         }
       }
       function _removeListenerType(types) {
         for (var i = 0, i_end = types.length; i < i_end; i++) {
           var type = GMH.Util.getEventType(types[i]);
-          google.maps.event.clearListeners(_D.Map.Obj, type);
+          google.maps.event.clearListeners(__gmh__.Data.Map.Obj, type);
         }
       }
     })(Map = __gmh__.Map || (__gmh__.Map = {}));
@@ -1305,21 +1293,19 @@ var GMH;
   (function(__gmh__) {
     var Map;
     (function(Map) {
-      var _C = GMH.__gmh__.Constants;
-      var _D = GMH.__gmh__.Data;
       function update(options) {
-        var defaults = GMH.Config.Default.Map || _C.Default.Map;
+        var defaults = GMH.Config.Default.Map || __gmh__.Constants.Default.Map;
         options = options == null ? defaults : options;
         if (jQuery.type(options.center) == "string") {
           options.center = GMH.Util.toLatLng(options.center);
         }
-        _D.Map.Obj.setOptions(options);
-        return _D.Map;
+        __gmh__.Data.Map.Obj.setOptions(options);
+        return __gmh__.Data.Map;
       }
       Map.update = update;
       function reset() {
-        _D.Map.Obj.fitBounds(_D.Map.Init.Bounds);
-        return update(_D.Map.Init.Options);
+        __gmh__.Data.Map.Obj.fitBounds(__gmh__.Data.Map.Init.Bounds);
+        return update(__gmh__.Data.Map.Init.Options);
       }
       Map.reset = reset;
     })(Map = __gmh__.Map || (__gmh__.Map = {}));
@@ -1333,13 +1319,12 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       function getBounds(ids) {
         ids = GMH.Util.toArray(ids);
         var bounds = new google.maps.LatLngBounds();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Marker[id]) {
+          if (__gmh__.Data.Marker[id]) {
             bounds.union(_getMarkersBounds(id));
           }
         }
@@ -1352,7 +1337,7 @@ var GMH;
       Marker.getCenter = getCenter;
       function _getMarkersBounds(id) {
         var bounds = new google.maps.LatLngBounds();
-        bounds.extend(_D.Marker[id].Obj.getPosition());
+        bounds.extend(__gmh__.Data.Marker[id].Obj.getPosition());
         return bounds;
       }
     })(Marker = __gmh__.Marker || (__gmh__.Marker = {}));
@@ -1366,7 +1351,6 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       var Action = {
         HIDE: "hide",
         SHOW: "show",
@@ -1380,7 +1364,7 @@ var GMH;
           return true;
         },
         toggle: function(id) {
-          return !_D.Marker[id].Obj.getVisible();
+          return !__gmh__.Data.Marker[id].Obj.getVisible();
         }
       };
       function hide(id) {
@@ -1399,7 +1383,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiDisplay(id, action);
         }
-        if (_D.Marker[id]) {
+        if (__gmh__.Data.Marker[id]) {
           return _setMarkerVisibility(id, action);
         }
       }
@@ -1407,17 +1391,17 @@ var GMH;
         var markerArray = new __gmh__.Obj.MarkerArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Marker[id]) {
+          if (__gmh__.Data.Marker[id]) {
             markerArray[id] = _setMarkerVisibility(id, action);
           }
         }
         return markerArray;
       }
       function _setMarkerVisibility(id, action) {
-        _D.Marker[id].Obj.setOptions({
+        __gmh__.Data.Marker[id].Obj.setOptions({
           visible: Visibility[action](id)
         });
-        return _D.Marker[id];
+        return __gmh__.Data.Marker[id];
       }
     })(Marker = __gmh__.Marker || (__gmh__.Marker = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -1430,7 +1414,6 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       function remove(id) {
         return _remove(id);
       }
@@ -1439,7 +1422,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiRemove(id);
         }
-        if (_D.Marker[id]) {
+        if (__gmh__.Data.Marker[id]) {
           return _removeMarker(id);
         }
       }
@@ -1447,16 +1430,16 @@ var GMH;
         var markerArray = new __gmh__.Obj.MarkerArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Marker[id]) {
+          if (__gmh__.Data.Marker[id]) {
             markerArray[id] = _removeMarker(id);
           }
         }
         return markerArray;
       }
       function _removeMarker(id) {
-        var marker = _D.Marker[id];
+        var marker = __gmh__.Data.Marker[id];
         marker.Obj.setMap(null);
-        delete _D.Marker[id];
+        delete __gmh__.Data.Marker[id];
         return marker;
       }
     })(Marker = __gmh__.Marker || (__gmh__.Marker = {}));
@@ -1470,7 +1453,6 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       function reset(id) {
         return _reset(id);
       }
@@ -1479,7 +1461,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiReset(id);
         }
-        if (_D.Marker[id]) {
+        if (__gmh__.Data.Marker[id]) {
           return _resetMarker(id);
         }
       }
@@ -1487,14 +1469,14 @@ var GMH;
         var markerArray = new __gmh__.Obj.MarkerArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Marker[id]) {
+          if (__gmh__.Data.Marker[id]) {
             markerArray[id] = _resetMarker(id);
           }
         }
         return markerArray;
       }
       function _resetMarker(id) {
-        return Marker.update(id, _D.Marker[id].Init.Options);
+        return Marker.update(id, __gmh__.Data.Marker[id].Init.Options);
       }
     })(Marker = __gmh__.Marker || (__gmh__.Marker = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -1507,7 +1489,6 @@ var GMH;
   (function(__gmh__) {
     var Marker;
     (function(Marker) {
-      var _D = GMH.__gmh__.Data;
       function update(id, userOptions) {
         return _update(id, _getOptions(userOptions));
       }
@@ -1516,7 +1497,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiUpdate(id, options);
         }
-        if (_D.Marker[id]) {
+        if (__gmh__.Data.Marker[id]) {
           return _updateMarker(id, options);
         }
       }
@@ -1524,15 +1505,15 @@ var GMH;
         var markerArray = new __gmh__.Obj.MarkerArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Marker[id]) {
+          if (__gmh__.Data.Marker[id]) {
             markerArray[id] = _updateMarker(id, options);
           }
         }
         return markerArray;
       }
       function _updateMarker(id, options) {
-        _D.Marker[id].Obj.setOptions(options);
-        return _D.Marker[id];
+        __gmh__.Data.Marker[id].Obj.setOptions(options);
+        return __gmh__.Data.Marker[id];
       }
       function _getOptions(options) {
         var defaults = GMH.Config.Default.Marker || {};
@@ -1840,13 +1821,12 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       function getBounds(ids) {
         ids = GMH.Util.toArray(ids);
         var bounds = new google.maps.LatLngBounds();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Polygon[id]) {
+          if (__gmh__.Data.Polygon[id]) {
             bounds.union(_getPolygonsBounds(id));
           }
         }
@@ -1859,7 +1839,7 @@ var GMH;
       Polygon.getCenter = getCenter;
       function _getPolygonsBounds(id) {
         var bounds = new google.maps.LatLngBounds();
-        var paths = _D.Polygon[id].Obj.getPaths();
+        var paths = __gmh__.Data.Polygon[id].Obj.getPaths();
         for (var i = 0, i_end = paths.length; i < i_end; i++) {
           var path = paths.getAt(i);
           for (var j = 0, j_end = path.getLength(); j < j_end; j++) {
@@ -1879,7 +1859,6 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       var Action = {
         HIDE: "hide",
         SHOW: "show",
@@ -1893,7 +1872,7 @@ var GMH;
           return true;
         },
         toggle: function(id) {
-          return !_D.Polygon[id].Obj.getVisible();
+          return !__gmh__.Data.Polygon[id].Obj.getVisible();
         }
       };
       function hide(id) {
@@ -1912,7 +1891,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiDisplay(id, action);
         }
-        if (_D.Polygon[id]) {
+        if (__gmh__.Data.Polygon[id]) {
           return _setPolygonVisibility(id, action);
         }
       }
@@ -1920,17 +1899,17 @@ var GMH;
         var polygonArray = new __gmh__.Obj.PolygonArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Polygon[id]) {
+          if (__gmh__.Data.Polygon[id]) {
             polygonArray[id] = _setPolygonVisibility(id, action);
           }
         }
         return polygonArray;
       }
       function _setPolygonVisibility(id, action) {
-        _D.Polygon[id].Obj.setOptions({
+        __gmh__.Data.Polygon[id].Obj.setOptions({
           visible: Visibility[action](id)
         });
-        return _D.Polygon[id];
+        return __gmh__.Data.Polygon[id];
       }
     })(Polygon = __gmh__.Polygon || (__gmh__.Polygon = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -1943,7 +1922,6 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       function remove(id) {
         return _remove(id);
       }
@@ -1952,7 +1930,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiRemove(id);
         }
-        if (_D.Polygon[id]) {
+        if (__gmh__.Data.Polygon[id]) {
           return _removePolygon(id);
         }
       }
@@ -1960,16 +1938,16 @@ var GMH;
         var polygonArray = new __gmh__.Obj.PolygonArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Polygon[id]) {
+          if (__gmh__.Data.Polygon[id]) {
             polygonArray[id] = _removePolygon(id);
           }
         }
         return polygonArray;
       }
       function _removePolygon(id) {
-        var polygon = _D.Polygon[id];
+        var polygon = __gmh__.Data.Polygon[id];
         polygon.Obj.setMap(null);
-        delete _D.Polygon[id];
+        delete __gmh__.Data.Polygon[id];
         return polygon;
       }
     })(Polygon = __gmh__.Polygon || (__gmh__.Polygon = {}));
@@ -1983,7 +1961,6 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       function reset(id) {
         return _reset(id);
       }
@@ -1992,7 +1969,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiReset(id);
         }
-        if (_D.Polygon[id]) {
+        if (__gmh__.Data.Polygon[id]) {
           return _resetPolygon(id);
         }
       }
@@ -2000,14 +1977,14 @@ var GMH;
         var polygonArray = new __gmh__.Obj.PolygonArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Polygon[id]) {
+          if (__gmh__.Data.Polygon[id]) {
             polygonArray[id] = _resetPolygon(id);
           }
         }
         return polygonArray;
       }
       function _resetPolygon(id) {
-        return Polygon.update(id, _D.Polygon[id].Init.Options);
+        return Polygon.update(id, __gmh__.Data.Polygon[id].Init.Options);
       }
     })(Polygon = __gmh__.Polygon || (__gmh__.Polygon = {}));
   })(__gmh__ = GMH.__gmh__ || (GMH.__gmh__ = {}));
@@ -2020,7 +1997,6 @@ var GMH;
   (function(__gmh__) {
     var Polygon;
     (function(Polygon) {
-      var _D = GMH.__gmh__.Data;
       function update(id, userOptions) {
         return _update(id, _getOptions(userOptions));
       }
@@ -2029,7 +2005,7 @@ var GMH;
         if (jQuery.isArray(id)) {
           return _multiUpdate(id, options);
         }
-        if (_D.Polygon[id]) {
+        if (__gmh__.Data.Polygon[id]) {
           return _updatePolygon(id, options);
         }
       }
@@ -2037,15 +2013,15 @@ var GMH;
         var polygonArray = new __gmh__.Obj.PolygonArray();
         for (var i = 0, i_end = ids.length; i < i_end; i++) {
           var id = ids[i];
-          if (_D.Polygon[id]) {
+          if (__gmh__.Data.Polygon[id]) {
             polygonArray[id] = _updatePolygon(id, options);
           }
         }
         return polygonArray;
       }
       function _updatePolygon(id, options) {
-        _D.Polygon[id].Obj.setOptions(options);
-        return _D.Polygon[id];
+        __gmh__.Data.Polygon[id].Obj.setOptions(options);
+        return __gmh__.Data.Polygon[id];
       }
       function _getOptions(options) {
         var defaults = GMH.Config.Default.Polygon || {};

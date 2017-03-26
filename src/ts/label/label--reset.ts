@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Label {
 
-  import _D = GMH.__gmh__.Data
 
-  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -32,7 +30,7 @@ namespace GMH.__gmh__.Label {
       return _multiReset(id)
     }
 
-    if (_D.Label[id]) {
+    if (Data.Label[id]) {
       return _resetLabel(id)
     }
   }
@@ -42,7 +40,7 @@ namespace GMH.__gmh__.Label {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Label[id]) {
+      if (Data.Label[id]) {
         labelArray[id] = _resetLabel(id)
       }
     }
@@ -51,7 +49,7 @@ namespace GMH.__gmh__.Label {
   }
 
   function _resetLabel(id: string): any {
-    return update(id, _D.Label[id].Init.Options);
+    return update(id, Data.Label[id].Init.Options);
   }
  
 }

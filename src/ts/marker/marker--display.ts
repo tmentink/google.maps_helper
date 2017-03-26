@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Marker {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Constants 
   // ----------------------------------------------------------------------
@@ -23,7 +21,7 @@ namespace GMH.__gmh__.Marker {
   const Visibility = {
     hide   : function(id) { return false },
     show   : function(id) { return true },
-    toggle : function(id) { return !_D.Marker[id].Obj.getVisible() }
+    toggle : function(id) { return !Data.Marker[id].Obj.getVisible() }
   }
 
 
@@ -65,7 +63,7 @@ namespace GMH.__gmh__.Marker {
       return _multiDisplay(id, action)
     }
 
-    if (_D.Marker[id]) {
+    if (Data.Marker[id]) {
       return _setMarkerVisibility(id, action)
     }
   }
@@ -75,7 +73,7 @@ namespace GMH.__gmh__.Marker {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Marker[id]) {
+      if (Data.Marker[id]) {
         markerArray[id] = _setMarkerVisibility(id, action)
       }
     }
@@ -84,8 +82,8 @@ namespace GMH.__gmh__.Marker {
   }
 
   function _setMarkerVisibility(id: string, action: string): Obj.Marker {
-    _D.Marker[id].Obj.setOptions({ "visible": Visibility[action](id) })
-    return _D.Marker[id]
+    Data.Marker[id].Obj.setOptions({ "visible": Visibility[action](id) })
+    return Data.Marker[id]
   }
 
 }

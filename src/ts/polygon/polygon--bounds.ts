@@ -7,8 +7,6 @@
 
 namespace GMH.__gmh__.Polygon {
 
-  import _D = GMH.__gmh__.Data
-  
 
   // ----------------------------------------------------------------------
   // Public Functions 
@@ -25,7 +23,7 @@ namespace GMH.__gmh__.Polygon {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       
-      if (_D.Polygon[id]) { 
+      if (Data.Polygon[id]) { 
         bounds.union(_getPolygonsBounds(id))
       }
     }
@@ -48,7 +46,7 @@ namespace GMH.__gmh__.Polygon {
   
   function _getPolygonsBounds(id) {
     const bounds = new google.maps.LatLngBounds()
-    const paths = _D.Polygon[id].Obj.getPaths()
+    const paths = Data.Polygon[id].Obj.getPaths()
     
     for (var i = 0, i_end = paths.length; i < i_end; i++) {
       let path = paths.getAt(i)

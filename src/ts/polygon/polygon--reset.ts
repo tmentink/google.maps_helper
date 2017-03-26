@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Polygon {
 
-  import _D = GMH.__gmh__.Data
 
-  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -32,7 +30,7 @@ namespace GMH.__gmh__.Polygon {
       return _multiReset(id)
     }
 
-    if (_D.Polygon[id]) {
+    if (Data.Polygon[id]) {
       return _resetPolygon(id)
     }
   }
@@ -42,7 +40,7 @@ namespace GMH.__gmh__.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Polygon[id]) {
+      if (Data.Polygon[id]) {
         polygonArray[id] = _resetPolygon(id)
       }
     }
@@ -51,7 +49,7 @@ namespace GMH.__gmh__.Polygon {
   }
 
   function _resetPolygon(id: string): any {
-    return update(id, _D.Polygon[id].Init.Options);
+    return update(id, Data.Polygon[id].Init.Options);
   }
  
 }

@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Polygon {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Constants 
   // ----------------------------------------------------------------------
@@ -70,7 +68,7 @@ namespace GMH.__gmh__.Polygon {
       return _multiListener(id, type, fn, action)
     }
 
-    if (_D.Polygon[id]) {
+    if (Data.Polygon[id]) {
       return Execute[action](id, type, fn)
     }
   }
@@ -80,7 +78,7 @@ namespace GMH.__gmh__.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if (_D.Polygon[id]) {
+      if (Data.Polygon[id]) {
         polygonArray[id] = Execute[action](id, type, fn)
       }
     }
@@ -89,18 +87,18 @@ namespace GMH.__gmh__.Polygon {
   }
 
   function _add(id: string, type: string, fn: Function): Obj.Polygon {
-    google.maps.event.addListener(_D.Polygon[id].Obj, type, fn)
-    return _D.Polygon[id]
+    google.maps.event.addListener(Data.Polygon[id].Obj, type, fn)
+    return Data.Polygon[id]
   }
 
   function _removeType(id: string, type: string): Obj.Polygon {
-    google.maps.event.clearListeners(_D.Polygon[id].Obj, type)
-    return _D.Polygon[id]
+    google.maps.event.clearListeners(Data.Polygon[id].Obj, type)
+    return Data.Polygon[id]
   }
 
   function _removeAll(id: string): Obj.Polygon {
-    google.maps.event.clearInstanceListeners(_D.Polygon[id].Obj)
-    return _D.Polygon[id]
+    google.maps.event.clearInstanceListeners(Data.Polygon[id].Obj)
+    return Data.Polygon[id]
   }
   
 }

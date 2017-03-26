@@ -7,9 +7,7 @@
 
 namespace GMH.__gmh__.Label {
 
-  import _D = GMH.__gmh__.Data
-  
-  
+
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -57,12 +55,12 @@ namespace GMH.__gmh__.Label {
   }
 
   function _updateLabelPosition(id: string, position: any): Obj.Label {
-    _D.Label[id].Obj.setOptions({"position": position});
-    return _D.Label[id];
+    Data.Label[id].Obj.setOptions({"position": position});
+    return Data.Label[id];
   }
 
   function _validParameters(id: any, position: any): boolean {
-    if (_D.Label[id]) {
+    if (!Data.Label[id]) {
       throw "Error: ID does not exist"
     }
     if (!position) {
