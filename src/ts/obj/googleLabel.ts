@@ -173,5 +173,6 @@ namespace GMH.Obj {
       canvas.parentNode.removeChild(canvas)
     }
   }
+  
 }
 

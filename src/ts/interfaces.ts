@@ -6,6 +6,7 @@
 // ------------------------------------------------------------------------
 // Function Parameters
 // ------------------------------------------------------------------------
+
 interface IAddLabelParms {
   id       : string
   text     : string
@@ -29,6 +30,7 @@ interface IAddPolygonParms {
 // ------------------------------------------------------------------------
 // Global Constants
 // ------------------------------------------------------------------------
+
 interface IDefaultConstants {
   Map: google.maps.MapOptions
   Marker?: google.maps.MarkerOptions
@@ -92,6 +94,7 @@ interface IObjectConstants {
 // ------------------------------------------------------------------------
 // Object Options 
 // ------------------------------------------------------------------------
+
 interface IGoogleLabelOptions {
   align        : string
   fontColor    : string

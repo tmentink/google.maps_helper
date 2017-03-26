@@ -14,3 +14,4 @@ namespace GMH.$ {
   export const Polygon: Obj.PolygonArray = new Obj.PolygonArray()
 
 }
+

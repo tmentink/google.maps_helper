@@ -13,7 +13,6 @@ namespace GMH.Label {
   // Public Functions 
   // ----------------------------------------------------------------------
   
-
   /**
    * Resets the label to its initialized state
    * @param id The id of the label. Can also be an array of ids

@@ -17,7 +17,7 @@ namespace GMH.Obj {
     Obj: google.maps.MVCObject
     Type: string
 
-    constructor(id: string, options: any, obj: google.maps.MVCObject, type: string = "BaseObject") {
+    constructor(id: string, options: any, obj: google.maps.MVCObject, type: string) {
       this.ID = id
       this.Init = {
         Options: options
@@ -31,9 +31,9 @@ namespace GMH.Obj {
     }
 
 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
     // Public Methods 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     public getBounds() {
       return GMH[this.Type].getBounds(this.ID)

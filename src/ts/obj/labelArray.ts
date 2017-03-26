@@ -13,14 +13,15 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
   
   export class LabelArray extends BaseObjectArray {
+    
     constructor() {
       super(_C.Object.Type.LABEL_ARRAY, _C.Object.Type.LABEL)
     }
 
 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
     // Public Methods 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     public updatePosition(position: any) {
       return GMH.Label.updatePosition(this.getIDs(), position)
