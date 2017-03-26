@@ -10,7 +10,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: {
-      js: ['src/js/main.js', 'src/js/ts-compile.js', 'src/js/ts-compile.js.map']
+      js: ['src/js/main.js', 'src/js/ts-compile.js', 'src/js/ts-compile.js.map'],
+      dist: ['dist/**/*.js']
     },
     concat: {
       js: {
@@ -70,7 +71,6 @@ module.exports = function(grunt) {
 
 
   // Register tasks
-  grunt.registerTask('default', ['ts:dev', 'concat','uglify:dev', 'clean'])
-  grunt.registerTask('dist', ['ts:dev', 'concat','uglify', 'clean'])
+  grunt.registerTask('default', ['clean:dist', 'ts:dev', 'concat','uglify', 'clean:js'])
   grunt.registerTask('ts-compile', ['ts:dev'])
 };
