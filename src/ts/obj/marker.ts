@@ -12,7 +12,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C      = GMH.__gmh__.Constants
   import _Marker = GMH.__gmh__.Marker
 
 
@@ -24,7 +23,7 @@ namespace GMH.__gmh__.Obj {
 
     constructor(id: string, options: google.maps.MarkerOptions) {
       const obj = new google.maps.Marker(options)
-      super(id, options, obj, _C.Object.Type.MARKER)
+      super(id, options, obj, Constants.Object.Type.MARKER)
     }
 
 

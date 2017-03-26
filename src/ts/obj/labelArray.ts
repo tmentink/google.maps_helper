@@ -8,7 +8,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C     = GMH.__gmh__.Constants
   import _Label = GMH.__gmh__.Label
 
 
@@ -19,7 +18,7 @@ namespace GMH.__gmh__.Obj {
   export class LabelArray extends BaseObjectArray {
     
     constructor() {
-      super(_C.Object.Type.LABEL_ARRAY, _C.Object.Type.LABEL)
+      super(Constants.Object.Type.LABEL_ARRAY, Constants.Object.Type.LABEL)
     }
 
 

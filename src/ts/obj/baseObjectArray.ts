@@ -4,7 +4,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _D   = GMH.__gmh__.Data
   import _GMH = GMH.__gmh__
 
 
@@ -47,7 +46,7 @@ namespace GMH.__gmh__.Obj {
     }
 
     public not() {
-      return Util.copy(_D[this.ChildType], this.getIDs())
+      return Util.copy(Data[this.ChildType], this.getIDs())
     }
 
     public remove() {

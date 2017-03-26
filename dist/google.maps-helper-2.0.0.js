@@ -226,7 +226,6 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _D = GMH.__gmh__.Data;
       var _GMH = GMH.__gmh__;
       var BaseObjectArray = function() {
         function BaseObjectArray(type, childType) {
@@ -249,7 +248,7 @@ var GMH;
           return _GMH[this.ChildType].hide(this.getIDs());
         };
         BaseObjectArray.prototype.not = function() {
-          return GMH.Util.copy(_D[this.ChildType], this.getIDs());
+          return GMH.Util.copy(__gmh__.Data[this.ChildType], this.getIDs());
         };
         BaseObjectArray.prototype.remove = function() {
           return _GMH[this.ChildType].remove(this.getIDs());
@@ -466,12 +465,11 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
       var _Label = GMH.__gmh__.Label;
       var LabelArray = function(_super) {
         __extends(LabelArray, _super);
         function LabelArray() {
-          return _super.call(this, _C.Object.Type.LABEL_ARRAY, _C.Object.Type.LABEL) || this;
+          return _super.call(this, __gmh__.Constants.Object.Type.LABEL_ARRAY, __gmh__.Constants.Object.Type.LABEL) || this;
         }
         LabelArray.prototype.updatePosition = function(position) {
           return _Label.updatePosition(this.getIDs(), position);
@@ -612,12 +610,11 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
       var _Marker = GMH.__gmh__.Marker;
       var MarkerArray = function(_super) {
         __extends(MarkerArray, _super);
         function MarkerArray() {
-          return _super.call(this, _C.Object.Type.MARKER_ARRAY, _C.Object.Type.MARKER) || this;
+          return _super.call(this, __gmh__.Constants.Object.Type.MARKER_ARRAY, __gmh__.Constants.Object.Type.MARKER) || this;
         }
         MarkerArray.prototype.addListener = function(type, fn) {
           return _Marker.addListener(this.getIDs(), type, fn);
@@ -767,12 +764,11 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
       var _Polygon = GMH.__gmh__.Polygon;
       var PolygonArray = function(_super) {
         __extends(PolygonArray, _super);
         function PolygonArray() {
-          return _super.call(this, _C.Object.Type.POLYGON_ARRAY, _C.Object.Type.POLYGON) || this;
+          return _super.call(this, __gmh__.Constants.Object.Type.POLYGON_ARRAY, __gmh__.Constants.Object.Type.POLYGON) || this;
         }
         PolygonArray.prototype.addListener = function(type, fn) {
           return _Polygon.addListener(this.getIDs(), type, fn);
@@ -1028,7 +1024,6 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _D = GMH.__gmh__.Data;
       var _GMH = GMH.__gmh__;
       var BaseObject = function() {
         function BaseObject(id, options, obj, type) {
@@ -1040,7 +1035,7 @@ var GMH;
           this.Obj["GMH"] = {
             ID: id,
             Parent: function() {
-              return _D[type][id];
+              return __gmh__.Data[type][id];
             }
           };
           this.Type = type;
@@ -1055,7 +1050,7 @@ var GMH;
           return _GMH[this.Type].hide(this.ID);
         };
         BaseObject.prototype.not = function() {
-          return GMH.Util.copy(_D[this.Type], this.ID);
+          return GMH.Util.copy(__gmh__.Data[this.Type], this.ID);
         };
         BaseObject.prototype.remove = function() {
           return _GMH[this.Type].remove(this.ID);
@@ -1086,14 +1081,13 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
       var _Label = GMH.__gmh__.Label;
       var Label = function(_super) {
         __extends(Label, _super);
         function Label(id, options) {
           var _this = this;
           var obj = new Obj.googleLabel(options);
-          _this = _super.call(this, id, options, obj, _C.Object.Type.LABEL) || this;
+          _this = _super.call(this, id, options, obj, __gmh__.Constants.Object.Type.LABEL) || this;
           return _this;
         }
         Label.prototype.updatePosition = function(position) {
@@ -1534,14 +1528,13 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
       var _Marker = GMH.__gmh__.Marker;
       var Marker = function(_super) {
         __extends(Marker, _super);
         function Marker(id, options) {
           var _this = this;
           var obj = new google.maps.Marker(options);
-          _this = _super.call(this, id, options, obj, _C.Object.Type.MARKER) || this;
+          _this = _super.call(this, id, options, obj, __gmh__.Constants.Object.Type.MARKER) || this;
           return _this;
         }
         Marker.prototype.addListener = function(type, fn) {
@@ -1765,8 +1758,6 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
-      var _D = GMH.__gmh__.Data;
       var _Map = GMH.__gmh__.Map;
       var Map = function() {
         function Map(containerID, options) {
@@ -1778,11 +1769,11 @@ var GMH;
           this.Obj = new google.maps.Map(document.getElementById(containerID), options);
           this.Obj["GMH"] = {
             Parent: function() {
-              return _D.Map;
+              return __gmh__.Data.Map;
             }
           };
-          this.Type = _C.Object.Type.MAP;
-          google.maps.event.addListenerOnce(this.Obj, _C.Event.Type.TILES_LOADED, function() {
+          this.Type = __gmh__.Constants.Object.Type.MAP;
+          google.maps.event.addListenerOnce(this.Obj, __gmh__.Constants.Event.Type.TILES_LOADED, function() {
             _this.Init.Bounds = _this.Obj.getBounds();
           });
         }
@@ -2042,14 +2033,13 @@ var GMH;
   (function(__gmh__) {
     var Obj;
     (function(Obj) {
-      var _C = GMH.__gmh__.Constants;
       var _Polygon = GMH.__gmh__.Polygon;
       var Polygon = function(_super) {
         __extends(Polygon, _super);
         function Polygon(id, options) {
           var _this = this;
           var obj = new google.maps.Polygon(options);
-          _this = _super.call(this, id, options, obj, _C.Object.Type.POLYGON) || this;
+          _this = _super.call(this, id, options, obj, __gmh__.Constants.Object.Type.POLYGON) || this;
           return _this;
         }
         Polygon.prototype.addListener = function(type, fn) {

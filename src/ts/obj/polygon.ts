@@ -12,7 +12,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C       = GMH.__gmh__.Constants
   import _Polygon = GMH.__gmh__.Polygon
 
   
@@ -24,7 +23,7 @@ namespace GMH.__gmh__.Obj {
 
     constructor(id: string, options: google.maps.PolygonOptions) {
       const obj = new google.maps.Polygon(options)
-      super(id, options, obj, _C.Object.Type.POLYGON)
+      super(id, options, obj, Constants.Object.Type.POLYGON)
     }
 
 

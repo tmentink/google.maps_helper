@@ -9,7 +9,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C       = GMH.__gmh__.Constants
   import _Polygon = GMH.__gmh__.Polygon
 
   
@@ -20,7 +19,7 @@ namespace GMH.__gmh__.Obj {
   export class PolygonArray extends BaseObjectArray {
     
     constructor() {
-      super(_C.Object.Type.POLYGON_ARRAY, _C.Object.Type.POLYGON)
+      super(Constants.Object.Type.POLYGON_ARRAY, Constants.Object.Type.POLYGON)
     }
 
     

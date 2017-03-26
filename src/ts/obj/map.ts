@@ -10,8 +10,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C   = GMH.__gmh__.Constants
-  import _D   = GMH.__gmh__.Data
   import _Map = GMH.__gmh__.Map
 
 
@@ -34,12 +32,12 @@ namespace GMH.__gmh__.Obj {
       }
       this.Obj = new google.maps.Map(document.getElementById(containerID), options)
       this.Obj["GMH"] = { 
-        Parent: function() { return _D.Map } 
+        Parent: function() { return Data.Map } 
       }
-      this.Type = _C.Object.Type.MAP
+      this.Type = Constants.Object.Type.MAP
 
       // Save bounds after map has finished loading
-      google.maps.event.addListenerOnce(this.Obj, _C.Event.Type.TILES_LOADED, () =>{
+      google.maps.event.addListenerOnce(this.Obj, Constants.Event.Type.TILES_LOADED, () =>{
         this.Init.Bounds = this.Obj.getBounds()
       })
     }

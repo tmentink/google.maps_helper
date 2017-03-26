@@ -9,7 +9,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C      = GMH.__gmh__.Constants
   import _Marker = GMH.__gmh__.Marker
 
 
@@ -20,7 +19,7 @@ namespace GMH.__gmh__.Obj {
   export class MarkerArray extends BaseObjectArray {
     
     constructor() {
-      super(_C.Object.Type.MARKER_ARRAY, _C.Object.Type.MARKER)
+      super(Constants.Object.Type.MARKER_ARRAY, Constants.Object.Type.MARKER)
     }
 
 

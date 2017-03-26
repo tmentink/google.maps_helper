@@ -12,7 +12,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _C     = GMH.__gmh__.Constants
   import _Label = GMH.__gmh__.Label
   
 
@@ -24,7 +23,7 @@ namespace GMH.__gmh__.Obj {
     
     constructor(id: string, options: IGoogleLabelOptions) {
       const obj = new Obj.googleLabel(options)
-      super(id, options, obj, _C.Object.Type.LABEL)
+      super(id, options, obj, Constants.Object.Type.LABEL)
     }
 
 

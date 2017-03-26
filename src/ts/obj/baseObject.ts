@@ -4,7 +4,6 @@
 
 namespace GMH.__gmh__.Obj {
 
-  import _D   = GMH.__gmh__.Data
   import _GMH = GMH.__gmh__
 
   
@@ -28,7 +27,7 @@ namespace GMH.__gmh__.Obj {
       this.Obj = obj
       this.Obj["GMH"] = { 
         ID: id,
-        Parent: function(){ return _D[type][id] }
+        Parent: function(){ return Data[type][id] }
       }
       this.Type = type
     }
@@ -51,7 +50,7 @@ namespace GMH.__gmh__.Obj {
     }
 
     public not() {
-      return Util.copy(_D[this.Type], this.ID)
+      return Util.copy(Data[this.Type], this.ID)
     }
 
     public remove() {
