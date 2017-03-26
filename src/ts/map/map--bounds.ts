@@ -15,11 +15,11 @@ namespace GMH.Map {
 
   /**
    * Sets the map's bounds to objects in GMH.$ 
-   * @param type A string or array of object types
+   * @param type A string or an object of types
    * @param ids A string, number or array of object ids. Can be left null to get all ids 
    */
-  export function setBounds(type: string | Object[], ids: any): GMH.Obj.Map {
-    if (jQuery.isArray(type)) {
+  export function setBounds(type: any, ids: any): GMH.Obj.Map {
+    if (jQuery.type(type) == "object") {
       _multiType(type)
     }
     else {
@@ -41,7 +41,7 @@ namespace GMH.Map {
   // Private Functions 
   // ----------------------------------------------------------------------
    
-  function _singleType(type: string, ids: any): void {
+  function _singleType(type: any, ids: any): void {
     type = Util.getObjectType(type)
 
     if (type == "initial" || type == "init") {
@@ -54,12 +54,13 @@ namespace GMH.Map {
     $.Map.Obj.fitBounds(bounds)
   }
 
-  function _multiType(types: Object[]): void {
+  function _multiType(obj: any): void {
     const bounds = new google.maps.LatLngBounds()
 
+    const types = Object.keys(obj)
     for (var i = 0, i_end = types.length; i < i_end; i++) {
-      let type = Object.keys(types[i])[0]
-      let ids = types[i][type]
+      let type = types[i]
+      let ids = obj[type]
 
       type = Util.getObjectType(type)
       bounds.union(_getBounds(type, _getIDs(type, ids)))
