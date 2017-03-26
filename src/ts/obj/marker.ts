@@ -1,3 +1,8 @@
+/// <reference path="../marker/marker--bounds.ts" />
+/// <reference path="../marker/marker--display.ts" />
+/// <reference path="../marker/marker--remove.ts" />
+/// <reference path="../marker/marker--reset.ts" />
+/// <reference path="../marker/marker--update.ts" />
 /// <reference path="../constants.ts" />
 /// <reference path="baseObject.ts" />
 

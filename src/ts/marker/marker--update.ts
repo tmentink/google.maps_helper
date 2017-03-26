@@ -1,4 +1,3 @@
-/// <reference path="../obj/marker.ts" />
 /// <reference path="../util.ts" />
 /// <reference path="../data.ts" />
 

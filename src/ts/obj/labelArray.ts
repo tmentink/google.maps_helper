@@ -1,3 +1,4 @@
+/// <reference path="../label/label--updatePosition.ts" />
 /// <reference path="../constants.ts" />
 /// <reference path="baseObjectArray.ts" />
 

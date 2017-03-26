@@ -1,3 +1,8 @@
+/// <reference path="../label/label--bounds.ts" />
+/// <reference path="../label/label--display.ts" />
+/// <reference path="../label/label--remove.ts" />
+/// <reference path="../label/label--reset.ts" />
+/// <reference path="../label/label--update.ts" />
 /// <reference path="../constants.ts" />
 /// <reference path="baseObject.ts" />
 

@@ -1,4 +1,8 @@
+/// <reference path="../map/map--bounds.ts" />
+/// <reference path="../map/map--listener.ts" />
+/// <reference path="../map/map--update.ts" />
 /// <reference path="../constants.ts" />
+/// <reference path="../data.ts" />
 
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: map.ts 

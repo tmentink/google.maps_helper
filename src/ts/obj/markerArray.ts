@@ -1,3 +1,5 @@
+/// <reference path="../marker/marker--listener.ts" />
+/// <reference path="../marker/marker--updatePosition.ts" />
 /// <reference path="../constants.ts" />
 /// <reference path="baseObjectArray.ts" />
 

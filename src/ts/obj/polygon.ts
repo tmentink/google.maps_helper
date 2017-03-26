@@ -1,3 +1,8 @@
+/// <reference path="../polygon/polygon--bounds.ts" />
+/// <reference path="../polygon/polygon--display.ts" />
+/// <reference path="../polygon/polygon--remove.ts" />
+/// <reference path="../polygon/polygon--reset.ts" />
+/// <reference path="../polygon/polygon--update.ts" />
 /// <reference path="../constants.ts" />
 /// <reference path="baseObject.ts" />
 

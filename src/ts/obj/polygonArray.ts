@@ -1,3 +1,5 @@
+/// <reference path="../polygon/polygon--listener.ts" />
+/// <reference path="../polygon/polygon--updatePath.ts" />
 /// <reference path="../constants.ts" />
 /// <reference path="baseObjectArray.ts" />
 
