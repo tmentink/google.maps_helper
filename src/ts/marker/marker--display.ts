@@ -22,7 +22,7 @@ namespace GMH.Marker {
   const Visibility = {
     hide   : function(id) { return false },
     show   : function(id) { return true },
-    toggle : function(id) { return !$.Marker[id].Obj.getVisible() }
+    toggle : function(id) { return !_D.Marker[id].Obj.getVisible() }
   }
 
 
@@ -64,7 +64,7 @@ namespace GMH.Marker {
       return _multiDisplay(id, action)
     }
 
-    if ($.Marker[id]) {
+    if (_D.Marker[id]) {
       return _setMarkerVisibility(id, action)
     }
   }
@@ -74,7 +74,7 @@ namespace GMH.Marker {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Marker[id]) {
+      if (_D.Marker[id]) {
         markerArray[id] = _setMarkerVisibility(id, action)
       }
     }
@@ -83,8 +83,8 @@ namespace GMH.Marker {
   }
 
   function _setMarkerVisibility(id: string, action: string): Obj.Marker {
-    $.Marker[id].Obj.setOptions({ "visible": Visibility[action](id) })
-    return $.Marker[id]
+    _D.Marker[id].Obj.setOptions({ "visible": Visibility[action](id) })
+    return _D.Marker[id]
   }
 
 }

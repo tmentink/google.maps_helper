@@ -24,7 +24,7 @@ namespace GMH.Polygon {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       
-      if ($.Polygon[id]) { 
+      if (_D.Polygon[id]) { 
         bounds.union(_getPolygonsBounds(id))
       }
     }
@@ -47,7 +47,7 @@ namespace GMH.Polygon {
   
   function _getPolygonsBounds(id) {
     const bounds = new google.maps.LatLngBounds()
-    const paths = $.Polygon[id].Obj.getPaths()
+    const paths = _D.Polygon[id].Obj.getPaths()
     
     for (var i = 0, i_end = paths.length; i < i_end; i++) {
       let path = paths.getAt(i)

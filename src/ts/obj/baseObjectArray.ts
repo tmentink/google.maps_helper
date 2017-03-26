@@ -44,7 +44,7 @@ namespace GMH.Obj {
     }
 
     public not() {
-      return GMH.Util.copy($[this.ChildType], this.getIDs())
+      return GMH.Util.copy(_D[this.ChildType], this.getIDs())
     }
 
     public remove() {

@@ -56,12 +56,12 @@ namespace GMH.Marker {
   }
 
   function _updateMarkerPosition(id: string, position: any): Obj.Marker {
-    $.Marker[id].Obj.setOptions({"position": position});
-    return $.Marker[id];
+    _D.Marker[id].Obj.setOptions({"position": position});
+    return _D.Marker[id];
   }
 
   function _validParameters(id: any, position: any): boolean {
-    if ($.Marker[id]) {
+    if (_D.Marker[id]) {
       throw "Error: ID does not exist"
     }
     if (!position) {

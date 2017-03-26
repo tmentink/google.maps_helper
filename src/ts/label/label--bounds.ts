@@ -24,7 +24,7 @@ namespace GMH.Label {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       
-      if ($.Label[id]) { 
+      if (_D.Label[id]) { 
         bounds.union(_getLabelsBounds(id))
       }
     }
@@ -47,7 +47,7 @@ namespace GMH.Label {
   
   function _getLabelsBounds(id) {
     const bounds = new google.maps.LatLngBounds()
-    bounds.extend($.Label[id].Obj.position)
+    bounds.extend(_D.Label[id].Obj.position)
     return bounds
   }
 

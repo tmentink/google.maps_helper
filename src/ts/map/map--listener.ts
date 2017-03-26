@@ -20,7 +20,7 @@ namespace GMH.Map {
    */
   export function addListener(type: string | Object[], fn: Function): Obj.Map {
     _addListener(type, fn)
-    return $.Map
+    return _D.Map
   }
 
   /**
@@ -33,15 +33,15 @@ namespace GMH.Map {
     }
 
     _removeListenerType(type)
-    return $.Map
+    return _D.Map
   }
 
   /**
    * Removes all listeners from the map 
    */
   export function removeAllListeners(): Obj.Map {
-    google.maps.event.clearInstanceListeners($.Map.Obj)
-    return $.Map
+    google.maps.event.clearInstanceListeners(_D.Map.Obj)
+    return _D.Map
   }
 
 
@@ -55,7 +55,7 @@ namespace GMH.Map {
     }
 
     type = Util.getEventType(type)
-    google.maps.event.addListener($.Map.Obj, type, fn)
+    google.maps.event.addListener(_D.Map.Obj, type, fn)
   }
 
   function _multiAddListener(types: Object[]): void {
@@ -64,14 +64,14 @@ namespace GMH.Map {
       let fn = types[i][type]
 
       type = Util.getEventType(type)
-      google.maps.event.addListener($.Map.Obj, type, fn)
+      google.maps.event.addListener(_D.Map.Obj, type, fn)
     }
   }
 
   function _removeListenerType(types: string[]): void {
     for (var i = 0, i_end = types.length; i < i_end; i++) {
       let type = Util.getEventType(types[i])
-      google.maps.event.clearListeners($.Map.Obj, type)
+      google.maps.event.clearListeners(_D.Map.Obj, type)
     }
   }
 

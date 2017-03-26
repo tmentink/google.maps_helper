@@ -69,7 +69,7 @@ namespace GMH.Polygon {
       return _multiListener(id, type, fn, action)
     }
 
-    if ($.Polygon[id]) {
+    if (_D.Polygon[id]) {
       return Execute[action](id, type, fn)
     }
   }
@@ -79,7 +79,7 @@ namespace GMH.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Polygon[id]) {
+      if (_D.Polygon[id]) {
         polygonArray[id] = Execute[action](id, type, fn)
       }
     }
@@ -88,18 +88,18 @@ namespace GMH.Polygon {
   }
 
   function _add(id: string, type: string, fn: Function): Obj.Polygon {
-    google.maps.event.addListener($.Polygon[id].Obj, type, fn)
-    return $.Polygon[id]
+    google.maps.event.addListener(_D.Polygon[id].Obj, type, fn)
+    return _D.Polygon[id]
   }
 
   function _removeType(id: string, type: string): Obj.Polygon {
-    google.maps.event.clearListeners($.Polygon[id].Obj, type)
-    return $.Polygon[id]
+    google.maps.event.clearListeners(_D.Polygon[id].Obj, type)
+    return _D.Polygon[id]
   }
 
   function _removeAll(id: string): Obj.Polygon {
-    google.maps.event.clearInstanceListeners($.Polygon[id].Obj)
-    return $.Polygon[id]
+    google.maps.event.clearInstanceListeners(_D.Polygon[id].Obj)
+    return _D.Polygon[id]
   }
   
 }

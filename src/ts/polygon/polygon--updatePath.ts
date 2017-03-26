@@ -56,12 +56,12 @@ namespace GMH.Polygon {
   }
 
   function _updatePolygonPath(id: string, path: any): Obj.Polygon {
-    $.Polygon[id].Obj.setOptions({"paths": path});
-    return $.Polygon[id];
+    _D.Polygon[id].Obj.setOptions({"paths": path});
+    return _D.Polygon[id];
   }
 
   function _validParameters(id: any, path: any): boolean {
-    if ($.Polygon[id]) {
+    if (_D.Polygon[id]) {
       throw "Error: ID does not exist"
     }
     if (!path) {

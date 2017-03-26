@@ -14,7 +14,7 @@ namespace GMH.Map {
   // ----------------------------------------------------------------------
 
   /**
-   * Creates a map at the given HTML container and saves it in GMH.$.Map
+   * Creates a map at the given HTML container and saves it in GMH._D.Map
    * @param containerID The id of the HTML container
    * @param userOptions User options are merged with defaults
    */
@@ -22,8 +22,8 @@ namespace GMH.Map {
     const defaults = Config.Default.Map || _C.Default.Map
     const options = jQuery.extend({}, defaults, userOptions)
     
-    $.Map = new Obj.Map(containerID, options)
-    return $.Map
+    _D.Map = new Obj.Map(containerID, options)
+    return _D.Map
   }
 
 }

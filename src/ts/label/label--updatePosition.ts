@@ -56,12 +56,12 @@ namespace GMH.Label {
   }
 
   function _updateLabelPosition(id: string, position: any): Obj.Label {
-    $.Label[id].Obj.setOptions({"position": position});
-    return $.Label[id];
+    _D.Label[id].Obj.setOptions({"position": position});
+    return _D.Label[id];
   }
 
   function _validParameters(id: any, position: any): boolean {
-    if ($.Label[id]) {
+    if (_D.Label[id]) {
       throw "Error: ID does not exist"
     }
     if (!position) {

@@ -32,7 +32,7 @@ namespace GMH.Marker {
       return _multiReset(id)
     }
 
-    if ($.Marker[id]) {
+    if (_D.Marker[id]) {
       return _resetMarker(id)
     }
   }
@@ -42,7 +42,7 @@ namespace GMH.Marker {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Marker[id]) {
+      if (_D.Marker[id]) {
         markerArray[id] = _resetMarker(id)
       }
     }
@@ -51,7 +51,7 @@ namespace GMH.Marker {
   }
 
   function _resetMarker(id: string): any {
-    return GMH.Marker.update(id, $.Marker[id].Init.Options);
+    return GMH.Marker.update(id, _D.Marker[id].Init.Options);
   }
  
 }

@@ -32,7 +32,7 @@ namespace GMH.Marker {
       return _multiUpdate(id, options)
     }
 
-    if ($.Marker[id]) {
+    if (_D.Marker[id]) {
       return _updateMarker(id, options)
     }
   }
@@ -42,7 +42,7 @@ namespace GMH.Marker {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Marker[id]) {
+      if (_D.Marker[id]) {
         markerArray[id] = _updateMarker(id, options)
       }
     }
@@ -51,8 +51,8 @@ namespace GMH.Marker {
   }
 
   function _updateMarker(id: string, options: google.maps.MarkerOptions): Obj.Marker {
-    $.Marker[id].Obj.setOptions(options);
-    return $.Marker[id];
+    _D.Marker[id].Obj.setOptions(options);
+    return _D.Marker[id];
   }
 
   function _getOptions(options: any): google.maps.MarkerOptions {

@@ -31,7 +31,7 @@ namespace GMH.Polygon {
       return _multiReset(id)
     }
 
-    if ($.Polygon[id]) {
+    if (_D.Polygon[id]) {
       return _resetPolygon(id)
     }
   }
@@ -41,7 +41,7 @@ namespace GMH.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Polygon[id]) {
+      if (_D.Polygon[id]) {
         polygonArray[id] = _resetPolygon(id)
       }
     }
@@ -50,7 +50,7 @@ namespace GMH.Polygon {
   }
 
   function _resetPolygon(id: string): any {
-    return GMH.Polygon.update(id, $.Polygon[id].Init.Options);
+    return GMH.Polygon.update(id, _D.Polygon[id].Init.Options);
   }
  
 }

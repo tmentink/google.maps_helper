@@ -25,7 +25,7 @@ namespace GMH.Obj {
       this.Obj = obj
       this.Obj["GMH"] = { 
         ID: id,
-        Parent: function(){ return $[type][id] }
+        Parent: function(){ return _D[type][id] }
       }
       this.Type = type
     }
@@ -48,7 +48,7 @@ namespace GMH.Obj {
     }
 
     public not() {
-      return GMH.Util.copy($[this.Type], this.ID)
+      return GMH.Util.copy(_D[this.Type], this.ID)
     }
 
     public remove() {

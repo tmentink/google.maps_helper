@@ -14,7 +14,7 @@ namespace GMH.Polygon {
   // ----------------------------------------------------------------------
   
   /**
-   * Removes the polygon from the map and GMH.$.Polygon
+   * Removes the polygon from the map and GMH._D.Polygon
    * @param id The id of the polygon. Can also be an array of ids
    */
   export function remove(id: string | string[]): Obj.Polygon | Obj.PolygonArray {
@@ -31,7 +31,7 @@ namespace GMH.Polygon {
       return _multiRemove(id)
     }
 
-    if ($.Polygon[id]) {
+    if (_D.Polygon[id]) {
       return _removePolygon(id)
     }
   }
@@ -41,7 +41,7 @@ namespace GMH.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Polygon[id]) {
+      if (_D.Polygon[id]) {
         polygonArray[id] = _removePolygon(id)
       }
     }
@@ -50,10 +50,10 @@ namespace GMH.Polygon {
   }
 
   function _removePolygon(id: string): Obj.Polygon {
-      const polygon = $.Polygon[id]            
+      const polygon = _D.Polygon[id]            
       polygon.Obj.setMap(null)
       
-      delete $.Polygon[id]
+      delete _D.Polygon[id]
       return polygon
   }
 

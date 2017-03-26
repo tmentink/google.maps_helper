@@ -26,7 +26,7 @@ namespace GMH.Obj {
       }
       this.Obj = new google.maps.Map(document.getElementById(containerID), options)
       this.Obj["GMH"] = { 
-        Parent: function() { return GMH.$.Map } 
+        Parent: function() { return GMH._D.Map } 
       }
       this.Type = _C.Object.Type.MAP
 

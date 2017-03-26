@@ -14,7 +14,7 @@ namespace GMH.Map {
   // ----------------------------------------------------------------------
 
   /**
-   * Sets the map's bounds to objects in GMH.$ 
+   * Sets the map's bounds to objects in GMH._D 
    * @param type A string or an object of types
    * @param ids A string, number or array of object ids. Can be left null to get all ids 
    */
@@ -26,14 +26,14 @@ namespace GMH.Map {
       _singleType(type, ids)
     }
 
-    return $.Map
+    return _D.Map
   }
 
   /**
    * Returns the map's center LatLng object 
    */
   export function getCenter(): google.maps.LatLng {
-    return $.Map.Obj.getCenter()
+    return _D.Map.Obj.getCenter()
   }
 
 
@@ -45,13 +45,13 @@ namespace GMH.Map {
     type = Util.getObjectType(type)
 
     if (type == "initial" || type == "init") {
-      $.Map.Obj.fitBounds($.Map.Init.Bounds)
-      $.Map.Obj.setZoom($.Map.Init.Options.zoom)
+      _D.Map.Obj.fitBounds(_D.Map.Init.Bounds)
+      _D.Map.Obj.setZoom(_D.Map.Init.Options.zoom)
       return
     } 
 
     const bounds = _getBounds(type, _getIDs(type, ids))
-    $.Map.Obj.fitBounds(bounds)
+    _D.Map.Obj.fitBounds(bounds)
   }
 
   function _multiType(obj: any): void {
@@ -66,7 +66,7 @@ namespace GMH.Map {
       bounds.union(_getBounds(type, _getIDs(type, ids)))
     }
 
-    $.Map.Obj.fitBounds(bounds)
+    _D.Map.Obj.fitBounds(bounds)
   }
 
   function _getBounds(type: string, ids: any): google.maps.LatLngBounds {
@@ -76,8 +76,8 @@ namespace GMH.Map {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
 
-      if ($[type][id]) {
-        bounds.union($[type][id].getBounds())
+      if (_D[type][id]) {
+        bounds.union(_D[type][id].getBounds())
       }
     }
 
@@ -85,7 +85,7 @@ namespace GMH.Map {
   }
 
   function _getIDs(type: string, ids: any): any {
-    return ids == null ? Util.getIDs($[type]) : ids
+    return ids == null ? Util.getIDs(_D[type]) : ids
   }
 
 }

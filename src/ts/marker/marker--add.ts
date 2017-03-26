@@ -14,7 +14,7 @@ namespace GMH.Marker {
   // ----------------------------------------------------------------------
   
   /**
-   * Creates a marker object, adds it to the map and stores it in GMH.$.Marker
+   * Creates a marker object, adds it to the map and stores it in GMH._D.Marker
    * @param id The string id of the marker. Can also pass in an array of IAddMarkerParms 
    * @param position The position of the marker. Can be a string, a LatLng or a LatLngLiteral
    * @param userOptions User options are merged with defaults
@@ -61,15 +61,15 @@ namespace GMH.Marker {
 
     const defaults = Config.Default.Marker || {}
     const options = jQuery.extend({}, defaults, userOptions)
-    options.map = $.Map.Obj
+    options.map = _D.Map.Obj
     options.position = position
 
-    $.Marker[id] = new Obj.Marker(id, options)
-    return $.Marker[id]
+    _D.Marker[id] = new Obj.Marker(id, options)
+    return _D.Marker[id]
   }
 
   function _validParameters(id: any, position: any): boolean {
-    if ($.Marker[id]) {
+    if (_D.Marker[id]) {
       throw "Error: ID already exists"
     }
     if (!position) {

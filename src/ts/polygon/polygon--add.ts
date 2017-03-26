@@ -14,7 +14,7 @@ namespace GMH.Polygon {
   // ----------------------------------------------------------------------
   
   /**
-   * Creates a polygon object, adds it to the map and stores it in GMH.$.Polygons
+   * Creates a polygon object, adds it to the map and stores it in GMH._D.Polygons
    * @param id The string id of the polygon. Can also pass in an array of IAddPolygonParms 
    * @param path The path of the polygon. Can be a string or a LatLngArray
    * @param userOptions User options are merged with defaults
@@ -61,15 +61,15 @@ namespace GMH.Polygon {
 
     const defaults = Config.Default.Polygon || {}
     const options = jQuery.extend({}, defaults, userOptions)
-    options.map = $.Map.Obj
+    options.map = _D.Map.Obj
     options.paths = paths
 
-    $.Polygon[id] = new Obj.Polygon(id, options)
-    return $.Polygon[id]
+    _D.Polygon[id] = new Obj.Polygon(id, options)
+    return _D.Polygon[id]
   }
 
   function _validParameters(id: any, path: any): boolean {
-    if ($.Polygon[id]) {
+    if (_D.Polygon[id]) {
       throw "Error: ID already exists"
     }
     if (!path) {

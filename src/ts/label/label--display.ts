@@ -21,8 +21,8 @@ namespace GMH.Label {
 
   const Visibility = {
     hide   : function(id) { return null },
-    show   : function(id) { return $.Map.Obj },
-    toggle : function(id) { return $.Label[id].Obj.map == null ? $.Map.Obj : null }
+    show   : function(id) { return _D.Map.Obj },
+    toggle : function(id) { return _D.Label[id].Obj.map == null ? _D.Map.Obj : null }
   }
 
 
@@ -64,7 +64,7 @@ namespace GMH.Label {
       return _multiDisplay(id, action)
     }
 
-    if ($.Label[id]) {
+    if (_D.Label[id]) {
       return _setLabelVisibility(id, action)
     }
   }
@@ -74,7 +74,7 @@ namespace GMH.Label {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Label[id]) {
+      if (_D.Label[id]) {
         labelArray[id] = _setLabelVisibility(id, action)
       }
     }
@@ -83,8 +83,8 @@ namespace GMH.Label {
   }
 
   function _setLabelVisibility(id: string, action: string): Obj.Label {
-    $.Label[id].Obj.setMap(Visibility[action](id))
-    return $.Label[id]
+    _D.Label[id].Obj.setMap(Visibility[action](id))
+    return _D.Label[id]
   }
 
 }

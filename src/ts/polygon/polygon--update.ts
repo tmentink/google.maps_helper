@@ -32,7 +32,7 @@ namespace GMH.Polygon {
       return _multiUpdate(id, options)
     }
 
-    if ($.Polygon[id]) {
+    if (_D.Polygon[id]) {
       return _updatePolygon(id, options)
     }
   }
@@ -42,7 +42,7 @@ namespace GMH.Polygon {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Polygon[id]) {
+      if (_D.Polygon[id]) {
         polygonArray[id] = _updatePolygon(id, options)
       }
     }
@@ -51,8 +51,8 @@ namespace GMH.Polygon {
   }
 
   function _updatePolygon(id: string, options: google.maps.PolygonOptions): Obj.Polygon {
-    $.Polygon[id].Obj.setOptions(options);
-    return $.Polygon[id];
+    _D.Polygon[id].Obj.setOptions(options);
+    return _D.Polygon[id];
   }
 
   function _getOptions(options: google.maps.PolygonOptions): google.maps.PolygonOptions {

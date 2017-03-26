@@ -24,7 +24,7 @@ namespace GMH.Marker {
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
       
-      if ($.Marker[id]) { 
+      if (_D.Marker[id]) { 
         bounds.union(_getMarkersBounds(id))
       }
     }
@@ -47,7 +47,7 @@ namespace GMH.Marker {
   
   function _getMarkersBounds(id) {
     const bounds = new google.maps.LatLngBounds()
-    bounds.extend($.Marker[id].Obj.getPosition())
+    bounds.extend(_D.Marker[id].Obj.getPosition())
     return bounds
   }
 

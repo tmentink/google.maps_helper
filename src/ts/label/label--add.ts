@@ -14,7 +14,7 @@ namespace GMH.Label {
   // ----------------------------------------------------------------------
   
   /**
-   * Creates a label object, adds it to the map and stores it in GMH.$.Label
+   * Creates a label object, adds it to the map and stores it in GMH._D.Label
    * @param id The id of the label. Can also pass in an array of IAddLabelParms
    * @param text The label text. If null, text will be the label's id 
    * @param position The position of the label. Can be a string, a LatLng or a LatLngLiteral
@@ -63,12 +63,12 @@ namespace GMH.Label {
 
     const defaults = Config.Default.Label || {}
     const options = jQuery.extend({}, defaults, userOptions)
-    options.map = $.Map.Obj
+    options.map = _D.Map.Obj
     options.text = _getText(id, text)
     options.position = position
 
-    $.Label[id] = new Obj.Label(id, options)
-    return $.Label[id]
+    _D.Label[id] = new Obj.Label(id, options)
+    return _D.Label[id]
   }
 
   function _getText(id: any, text: string) {
@@ -76,7 +76,7 @@ namespace GMH.Label {
   }
 
   function _validParameters(id: any, position: any): boolean {
-    if ($.Label[id]) {
+    if (_D.Label[id]) {
       throw "Error: ID already exists"
     }
     if (!position) {

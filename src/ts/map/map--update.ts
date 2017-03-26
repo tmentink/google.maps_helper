@@ -25,16 +25,16 @@ namespace GMH.Map {
       options.center = Util.toLatLng(options.center)
     }
 
-    $.Map.Obj.setOptions(options)
-    return $.Map
+    _D.Map.Obj.setOptions(options)
+    return _D.Map
   }
 
   /**
    * Resets the map to its initialized state
    */
   export function reset() {
-    $.Map.Obj.fitBounds($.Map.Init.Bounds)
-    return update($.Map.Init.Options)
+    _D.Map.Obj.fitBounds(_D.Map.Init.Bounds)
+    return update(_D.Map.Init.Options)
   }
   
 }

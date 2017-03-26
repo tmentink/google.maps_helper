@@ -31,7 +31,7 @@ namespace GMH.Label {
       return _multiReset(id)
     }
 
-    if ($.Label[id]) {
+    if (_D.Label[id]) {
       return _resetLabel(id)
     }
   }
@@ -41,7 +41,7 @@ namespace GMH.Label {
 
     for (var i = 0, i_end = ids.length; i < i_end; i++) {
       let id = ids[i]
-      if ($.Label[id]) {
+      if (_D.Label[id]) {
         labelArray[id] = _resetLabel(id)
       }
     }
@@ -50,7 +50,7 @@ namespace GMH.Label {
   }
 
   function _resetLabel(id: string): any {
-    return GMH.Label.update(id, $.Label[id].Init.Options);
+    return GMH.Label.update(id, _D.Label[id].Init.Options);
   }
  
 }
