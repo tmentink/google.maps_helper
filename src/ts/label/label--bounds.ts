@@ -47,7 +47,7 @@ namespace GMH.Label {
   
   function _getLabelsBounds(id) {
     const bounds = new google.maps.LatLngBounds()
-    bounds.extend($.Label[id].Obj.getPosition())
+    bounds.extend($.Label[id].Obj.position)
     return bounds
   }
 
