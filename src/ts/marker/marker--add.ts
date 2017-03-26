@@ -3,7 +3,7 @@
 /// <reference path="../data.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: marker--add.ts 
+// Google Maps Helper v2.0.0: marker--add.ts 
 // ------------------------------------------------------------------------
 
 namespace GMH {

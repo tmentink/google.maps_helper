@@ -7,7 +7,7 @@
 /// <reference path="baseObject.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: marker.ts 
+// Google Maps Helper v2.0.0: marker.ts 
 // ------------------------------------------------------------------------
 
 namespace GMH.__gmh__.Obj {

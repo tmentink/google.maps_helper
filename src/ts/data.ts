@@ -3,7 +3,7 @@
 /// <reference path="obj/polygonArray.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: data.ts 
+// Google Maps Helper v2.0.0: data.ts 
 // ------------------------------------------------------------------------
 
 namespace GMH.__gmh__.Data {

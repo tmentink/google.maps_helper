@@ -1,7 +1,7 @@
 <h4 align="center">
 <b><a href="#getting-started">Getting Started</a></b>
 |
-<b><a href="http://projects.trentmentink.com/projects/google_maps_helper/">Demo</a></b>
+<b><a href="http://projects.trentmentink.com/google_maps_helper/">Demo</a></b>
 |
 <b><a href="#documentation">Documentation</a></b>
 |

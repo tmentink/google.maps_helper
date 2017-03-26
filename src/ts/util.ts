@@ -2,7 +2,7 @@
 /// <reference path="constants.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: util.ts 
+// Google Maps Helper v2.0.0: util.ts 
 // ------------------------------------------------------------------------
  
 namespace GMH.Util {

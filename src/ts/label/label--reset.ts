@@ -2,7 +2,7 @@
 /// <reference path="../data.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: label--reset.ts 
+// Google Maps Helper v2.0.0: label--reset.ts 
 // ------------------------------------------------------------------------
 
 namespace GMH.__gmh__.Label {

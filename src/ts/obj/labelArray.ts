@@ -3,7 +3,7 @@
 /// <reference path="baseObjectArray.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: labelArray.ts 
+// Google Maps Helper v2.0.0: labelArray.ts 
 // ------------------------------------------------------------------------
 
 namespace GMH.__gmh__.Obj {

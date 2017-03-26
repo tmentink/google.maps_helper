@@ -2,7 +2,7 @@
 /// <reference path="../data.ts" />
 
 // ------------------------------------------------------------------------
-// Google Maps Helper v1.0.0: polygon--listener.ts 
+// Google Maps Helper v2.0.0: polygon--listener.ts 
 // ------------------------------------------------------------------------
 
 namespace GMH.__gmh__.Polygon {
