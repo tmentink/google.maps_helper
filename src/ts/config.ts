@@ -32,7 +32,7 @@ namespace GMH.Config {
     }
   }
 
-  export const Delimeter = {
+  export const Delimiter = {
     LatLng: ",",
     LatLngPair: "|"
   }

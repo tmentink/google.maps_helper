@@ -161,11 +161,11 @@ namespace GMH.Util {
    * @param str A comma separated string of x and y coordinates 
    */
   export function toLatLng(str: any): google.maps.LatLng {  
-    const Delimeter = {
-      LatLng: Config.Delimeter.LatLng || ","
+    const Delimiter = {
+      LatLng: Config.Delimiter.LatLng || ","
     }
 
-    const points = str.split(Delimeter.LatLng)
+    const points = str.split(Delimiter.LatLng)
     return new google.maps.LatLng(parseFloat(points[0]), parseFloat(points[1]))
   }
 
@@ -174,16 +174,16 @@ namespace GMH.Util {
    * @param str A custom formatted string of x and y coordinate pairs 
    */
   export function toLatLngArray(str: any): google.maps.LatLng[] {
-    const Delimeter = {
-      LatLng: Config.Delimeter.LatLng || ",",
-      LatLngPair: Config.Delimeter.LatLngPair || "|"
+    const Delimiter = {
+      LatLng: Config.Delimiter.LatLng || ",",
+      LatLngPair: Config.Delimiter.LatLngPair || "|"
     }
 
     const latLngArray = []
-    const coordPairs = str.split(Delimeter.LatLngPair)
+    const coordPairs = str.split(Delimiter.LatLngPair)
 
     for (var i = 0, i_end = coordPairs.length; i < i_end; i++) {
-      let points = coordPairs[i].split(Delimeter.LatLng)
+      let points = coordPairs[i].split(Delimiter.LatLng)
       let latLng = new google.maps.LatLng(parseFloat(points[0]), parseFloat(points[1]))
       latLngArray.push(latLng)
     }
