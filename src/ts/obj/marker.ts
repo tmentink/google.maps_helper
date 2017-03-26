@@ -16,7 +16,7 @@ namespace GMH.Obj {
 
     constructor(id: string, options: google.maps.MarkerOptions) {
       const obj = new google.maps.Marker(options)
-      super(id, options, obj, _C.Object.Type.LABEL)
+      super(id, options, obj, _C.Object.Type.MARKER)
     }
 
 
