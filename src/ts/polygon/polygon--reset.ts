@@ -13,7 +13,6 @@ namespace GMH.Polygon {
   // Public Functions 
   // ----------------------------------------------------------------------
   
-
   /**
    * Resets the polygon to its initialized state
    * @param id The id of the polygon. Can also be an array of ids

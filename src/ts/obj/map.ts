@@ -35,6 +35,40 @@ namespace GMH.Obj {
         this.Init.Bounds = this.Obj.getBounds()
       })
     }
+
+
+    // ----------------------------------------------------------------------
+    // Public Methods 
+    // ----------------------------------------------------------------------
+    
+    public addListener(type: string, fn: Function) {
+      return GMH.Map.addListener(type, fn)
+    }
+
+    public getCenter() {
+      return GMH.Map.getCenter()
+    }
+
+    public removeAllListeners() {
+      return GMH.Map.removeAllListeners()
+    }
+
+    public removeListenerType(type: string) {
+      return GMH.Map.removeListenerType(type)
+    }
+
+    public reset() {
+      return GMH.Map.reset()
+    }
+
+    public setBounds(type: string | Object[], ids) {
+      return GMH.Map.setBounds(type, ids)
+    }
+
+    public update(options: google.maps.MapOptions) {
+      return GMH.Map.update(options)
+    }
   }
+
 }
 
