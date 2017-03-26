@@ -14,7 +14,7 @@ namespace GMH.Obj {
   
   export class LabelArray extends BaseObjectArray {
     constructor() {
-      super(_C.Object.Type.LABEL_ARRAY)
+      super(_C.Object.Type.LABEL_ARRAY, _C.Object.Type.LABEL)
     }
 
 

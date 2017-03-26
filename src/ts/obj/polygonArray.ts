@@ -14,7 +14,7 @@ namespace GMH.Obj {
 
   export class PolygonArray extends BaseObjectArray {
     constructor() {
-      super(_C.Object.Type.POLYGON_ARRAY)
+      super(_C.Object.Type.POLYGON_ARRAY, _C.Object.Type.POLYGON)
     }
 
     
@@ -40,3 +40,4 @@ namespace GMH.Obj {
   }
   
 }
+

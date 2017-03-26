@@ -55,6 +55,7 @@ namespace GMH._C {
 
   export const Object: IObjectConstants = {
     Properties: {
+      CHILD_TYPE    : "ChildType",
       TYPE          : "Type"
     },
     Type: {

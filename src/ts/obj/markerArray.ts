@@ -14,7 +14,7 @@ namespace GMH.Obj {
 
   export class MarkerArray extends BaseObjectArray {
     constructor() {
-      super(_C.Object.Type.MARKER_ARRAY)
+      super(_C.Object.Type.MARKER_ARRAY, _C.Object.Type.MARKER)
     }
 
 
@@ -40,3 +40,4 @@ namespace GMH.Obj {
   }
 
 }
+

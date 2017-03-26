@@ -74,13 +74,14 @@ interface IEventConstants {
 
 interface IObjectConstants {
   Properties: {
+    readonly CHILD_TYPE    : string
     readonly TYPE          : string
   }
   Type: {
-    readonly LABEL         : string,
-    readonly LABEL_ARRAY   : string,
-    readonly MAP           : string,
-    readonly MARKER        : string,
+    readonly LABEL         : string
+    readonly LABEL_ARRAY   : string
+    readonly MAP           : string
+    readonly MARKER        : string
     readonly MARKER_ARRAY  : string
     readonly POLYGON       : string
     readonly POLYGON_ARRAY : string

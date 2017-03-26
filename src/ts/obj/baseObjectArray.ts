@@ -10,9 +10,11 @@ namespace GMH.Obj {
   // ----------------------------------------------------------------------
 
   export class BaseObjectArray {
+    ChildType: string
     Type: string
 
-    constructor(type: string = "BaseObjectArray") {
+    constructor(type: string, childType: string) {
+      this.ChildType = childType
       this.Type = type
     }
 
@@ -22,11 +24,11 @@ namespace GMH.Obj {
     // ----------------------------------------------------------------------
 
     public getBounds() {
-      return GMH[this.Type].getBounds(this.getIDs())
+      return GMH[this.ChildType].getBounds(this.getIDs())
     }
 
     public getCenter() {
-      return GMH[this.Type].getCenter(this.getIDs())
+      return GMH[this.ChildType].getCenter(this.getIDs())
     }
 
     public getGoogleObjects() {
@@ -38,31 +40,31 @@ namespace GMH.Obj {
     }
 
     public hide() {
-      return GMH[this.Type].hide(this.getIDs())
+      return GMH[this.ChildType].hide(this.getIDs())
     }
 
     public not() {
-      return GMH.Util.copy($[this.Type], this.getIDs())
+      return GMH.Util.copy($[this.ChildType], this.getIDs())
     }
 
     public remove() {
-      return GMH[this.Type].remove(this.getIDs())
+      return GMH[this.ChildType].remove(this.getIDs())
     }
 
     public reset() {
-      return GMH[this.Type].reset(this.getIDs())
+      return GMH[this.ChildType].reset(this.getIDs())
     }
 
     public show() {
-      return GMH[this.Type].show(this.getIDs())
+      return GMH[this.ChildType].show(this.getIDs())
     }
 
     public toggle() {
-      return GMH[this.Type].toggle(this.getIDs())
+      return GMH[this.ChildType].toggle(this.getIDs())
     }
 
     public update(options: any) {
-      return GMH[this.Type].update(this.getIDs(), options)
+      return GMH[this.ChildType].update(this.getIDs(), options)
     }
   }
 
