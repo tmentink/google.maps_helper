@@ -79,10 +79,15 @@ namespace GMH.Util {
       exclude = exclude.split(",")
     }
 
-    const src_proto = Object.keys(Object.getPrototypeOf(source));
+    // get the source object's prototype
+    const src_proto  = Object.keys(Object.getPrototypeOf(source));
     
-    // merge the src_proto and exclude arrays
-    exclude = src_proto.concat(exclude);
+    // get the baseObjectArray class' prototype
+    const base_proto = Object.keys(Object.getPrototypeOf(new Obj.BaseObjectArray("", "")))
+
+    // merge the src_proto and base_proto into the exclude array
+    exclude = src_proto.concat(exclude)
+    exclude = base_proto.concat(exclude)
 
     for (var i = 0, i_end = exclude.length; i < i_end; i++) {
       delete src_copy[exclude[i]]
@@ -151,6 +156,9 @@ namespace GMH.Util {
     }
     else if (jQuery.type(value) == "string") {
       value = value.split()
+    }
+    else if (jQuery.type(value) == "array") {
+      value = value.toString().split(",")
     }
 
     return value
