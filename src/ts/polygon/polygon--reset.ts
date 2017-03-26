@@ -6,9 +6,11 @@
 // Google Maps Helper v1.0.0: polygon--reset.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Polygon {
+namespace GMH.__gmh__.Polygon {
 
+  import _D = GMH.__gmh__.Data
 
+  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -50,7 +52,7 @@ namespace GMH.Polygon {
   }
 
   function _resetPolygon(id: string): any {
-    return GMH.Polygon.update(id, _D.Polygon[id].Init.Options);
+    return update(id, _D.Polygon[id].Init.Options);
   }
  
 }

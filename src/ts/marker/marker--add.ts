@@ -6,7 +6,10 @@
 // Google Maps Helper v1.0.0: marker--add.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Marker {
+namespace GMH {
+
+  import _D   = GMH.__gmh__.Data
+  import _Obj = GMH.__gmh__.Obj
 
 
   // ----------------------------------------------------------------------
@@ -19,7 +22,7 @@ namespace GMH.Marker {
    * @param position The position of the marker. Can be a string, a LatLng or a LatLngLiteral
    * @param userOptions User options are merged with defaults
    */
-  export function add(id: string | IAddMarkerParms[], position: any, userOptions: google.maps.MarkerOptions): Obj.Marker | Obj.MarkerArray {
+  export function addMarker(id: string | IAddMarkerParms[], position: any, userOptions: google.maps.MarkerOptions): _Obj.Marker | _Obj.MarkerArray {
     return _add(id, position, userOptions)
   }
 
@@ -28,7 +31,7 @@ namespace GMH.Marker {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function _add(id: string | IAddMarkerParms[], position: any, userOptions: google.maps.MarkerOptions): Obj.Marker | Obj.MarkerArray {
+  function _add(id: string | IAddMarkerParms[], position: any, userOptions: google.maps.MarkerOptions): _Obj.Marker | _Obj.MarkerArray {
     if (jQuery.isArray(id)) {
       return _multiAdd(id)
     }
@@ -38,8 +41,8 @@ namespace GMH.Marker {
     }
   }
 
-  function _multiAdd(objects: IAddMarkerParms[]): Obj.MarkerArray {
-    const markerArray = new Obj.MarkerArray()
+  function _multiAdd(objects: IAddMarkerParms[]): _Obj.MarkerArray {
+    const markerArray = new _Obj.MarkerArray()
 
     for (var i = 0, i_end = objects.length; i < i_end; i++) {
       let id = objects[i].id
@@ -54,7 +57,7 @@ namespace GMH.Marker {
     return markerArray
   }
 
-  function _addMarker(id: any, position: any, userOptions: google.maps.MarkerOptions): Obj.Marker {
+  function _addMarker(id: any, position: any, userOptions: google.maps.MarkerOptions): _Obj.Marker {
     if (jQuery.type(position) == "string") {
       position = Util.toLatLng(position)
     }
@@ -64,7 +67,7 @@ namespace GMH.Marker {
     options.map = _D.Map.Obj
     options.position = position
 
-    _D.Marker[id] = new Obj.Marker(id, options)
+    _D.Marker[id] = new _Obj.Marker(id, options)
     return _D.Marker[id]
   }
 

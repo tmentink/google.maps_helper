@@ -5,8 +5,8 @@
 // ------------------------------------------------------------------------
 // Google Maps Helper v1.0.0: data.ts 
 // ------------------------------------------------------------------------
- 
-namespace GMH._D {
+
+namespace GMH.__gmh__.Data {
 
   export let Map: Obj.Map                = undefined
   export const Label: Obj.LabelArray     = new Obj.LabelArray()

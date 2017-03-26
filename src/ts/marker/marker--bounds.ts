@@ -6,7 +6,9 @@
 // Google Maps Helper v1.0.0: marker--bounds.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Marker {
+namespace GMH.__gmh__.Marker {
+
+  import _D = GMH.__gmh__.Data
 
 
   // ----------------------------------------------------------------------

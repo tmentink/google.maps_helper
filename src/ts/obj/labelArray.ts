@@ -5,7 +5,10 @@
 // Google Maps Helper v1.0.0: labelArray.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
+
+  import _C     = GMH.__gmh__.Constants
+  import _Label = GMH.__gmh__.Label
 
 
   // ----------------------------------------------------------------------
@@ -24,7 +27,7 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
 
     public updatePosition(position: any) {
-      return GMH.Label.updatePosition(this.getIDs(), position)
+      return _Label.updatePosition(this.getIDs(), position)
     }
   }
 

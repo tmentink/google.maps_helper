@@ -6,9 +6,12 @@
 // Google Maps Helper v1.0.0: label--add.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Label {
+namespace GMH {
 
+  import _D   = GMH.__gmh__.Data
+  import _Obj = GMH.__gmh__.Obj
 
+  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -20,7 +23,7 @@ namespace GMH.Label {
    * @param position The position of the label. Can be a string, a LatLng or a LatLngLiteral
    * @param userOptions User options are merged with defaults
    */
-  export function add(id: string | IAddLabelParms[], text: string, position: any, userOptions: IGoogleLabelOptions): Obj.Label | Obj.LabelArray {
+  export function addLabel(id: string | IAddLabelParms[], text: string, position: any, userOptions: IGoogleLabelOptions): _Obj.Label | _Obj.LabelArray {
     return _add(id, text, position, userOptions)
   }
 
@@ -29,7 +32,7 @@ namespace GMH.Label {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function _add(id: string | IAddLabelParms[], text: string, position: any, userOptions: IGoogleLabelOptions): Obj.Label | Obj.LabelArray {
+  function _add(id: string | IAddLabelParms[], text: string, position: any, userOptions: IGoogleLabelOptions): _Obj.Label | _Obj.LabelArray {
     if (jQuery.isArray(id)) {
       return _multiAdd(id)
     }
@@ -39,8 +42,8 @@ namespace GMH.Label {
     }
   }
 
-  function _multiAdd(objects: IAddLabelParms[]): Obj.LabelArray {
-    const labelArray = new Obj.LabelArray()
+  function _multiAdd(objects: IAddLabelParms[]): _Obj.LabelArray {
+    const labelArray = new _Obj.LabelArray()
 
     for (var i = 0, i_end = objects.length; i < i_end; i++) {
       let id = objects[i].id
@@ -56,7 +59,7 @@ namespace GMH.Label {
     return labelArray
   }
 
-  function _addLabel(id: any, text: string, position: any, userOptions: IGoogleLabelOptions): Obj.Label {
+  function _addLabel(id: any, text: string, position: any, userOptions: IGoogleLabelOptions): _Obj.Label {
     if (jQuery.type(position) == "string") {
       position = Util.toLatLng(position)
     }
@@ -67,7 +70,7 @@ namespace GMH.Label {
     options.text = _getText(id, text)
     options.position = position
 
-    _D.Label[id] = new Obj.Label(id, options)
+    _D.Label[id] = new _Obj.Label(id, options)
     return _D.Label[id]
   }
 

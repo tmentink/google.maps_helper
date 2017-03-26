@@ -5,7 +5,10 @@
 // Google Maps Helper v1.0.0: markerArray.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
+
+  import _C      = GMH.__gmh__.Constants
+  import _Marker = GMH.__gmh__.Marker
 
 
   // ----------------------------------------------------------------------
@@ -24,19 +27,19 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
 
     public addListener(type: string, fn: Function) {
-      return GMH.Marker.addListener(this.getIDs(), type, fn)
+      return _Marker.addListener(this.getIDs(), type, fn)
     }
 
     public removeAllListeners() {
-      return GMH.Marker.removeAllListeners(this.getIDs())
+      return _Marker.removeAllListeners(this.getIDs())
     }
 
     public removeListenerType(type: string) {
-      return GMH.Marker.removeListenerType(this.getIDs(), type)
+      return _Marker.removeListenerType(this.getIDs(), type)
     }
 
     public updatePosition(position: any) {
-      return GMH.Marker.updatePosition(this.getIDs(), position)
+      return _Marker.updatePosition(this.getIDs(), position)
     }
   }
 

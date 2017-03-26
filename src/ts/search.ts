@@ -4,6 +4,9 @@
 
 namespace GMH {
 
+  import _C = GMH.__gmh__.Constants
+  import _D = GMH.__gmh__.Data
+
 
   // ----------------------------------------------------------------------
   // Public Functions 
@@ -20,7 +23,7 @@ namespace GMH {
     }
 
     const exclude = getIDsToExclude(type, Util.toArray(ids))
-    return Util.copy(GMH._D[type], exclude)
+    return Util.copy(_D[type], exclude)
   }
 
 
@@ -32,7 +35,7 @@ namespace GMH {
     let exclude
     
     if (ids) {
-      const allIDs = GMH._D[type].getIDs()
+      const allIDs = _D[type].getIDs()
       exclude = allIDs.filter(function(i){
         return ids.indexOf(i) === -1
       })

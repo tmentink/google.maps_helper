@@ -2,7 +2,10 @@
 // Google Maps Helper v1.0.0: baseObjectArray.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
+
+  import _D   = GMH.__gmh__.Data
+  import _GMH = GMH.__gmh__
 
 
   // ----------------------------------------------------------------------
@@ -24,47 +27,47 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
 
     public getBounds() {
-      return GMH[this.ChildType].getBounds(this.getIDs())
+      return _GMH[this.ChildType].getBounds(this.getIDs())
     }
 
     public getCenter() {
-      return GMH[this.ChildType].getCenter(this.getIDs())
+      return _GMH[this.ChildType].getCenter(this.getIDs())
     }
 
     public getGoogleObjects() {
-      return GMH.Util.getGoogleObjects(this)
+      return Util.getGoogleObjects(this)
     }
 
     public getIDs() {
-      return GMH.Util.getIDs(this)
+      return Util.getIDs(this)
     }
 
     public hide() {
-      return GMH[this.ChildType].hide(this.getIDs())
+      return _GMH[this.ChildType].hide(this.getIDs())
     }
 
     public not() {
-      return GMH.Util.copy(_D[this.ChildType], this.getIDs())
+      return Util.copy(_D[this.ChildType], this.getIDs())
     }
 
     public remove() {
-      return GMH[this.ChildType].remove(this.getIDs())
+      return _GMH[this.ChildType].remove(this.getIDs())
     }
 
     public reset() {
-      return GMH[this.ChildType].reset(this.getIDs())
+      return _GMH[this.ChildType].reset(this.getIDs())
     }
 
     public show() {
-      return GMH[this.ChildType].show(this.getIDs())
+      return _GMH[this.ChildType].show(this.getIDs())
     }
 
     public toggle() {
-      return GMH[this.ChildType].toggle(this.getIDs())
+      return _GMH[this.ChildType].toggle(this.getIDs())
     }
 
     public update(options: any) {
-      return GMH[this.ChildType].update(this.getIDs(), options)
+      return _GMH[this.ChildType].update(this.getIDs(), options)
     }
   }
 

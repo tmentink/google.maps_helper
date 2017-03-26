@@ -6,9 +6,12 @@
 // Google Maps Helper v1.0.0: polygon--add.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Polygon {
+namespace GMH {
 
-
+  import _D   = GMH.__gmh__.Data
+  import _Obj = GMH.__gmh__.Obj
+  
+  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -19,7 +22,7 @@ namespace GMH.Polygon {
    * @param path The path of the polygon. Can be a string or a LatLngArray
    * @param userOptions User options are merged with defaults
    */
-  export function add(id: string | IAddPolygonParms[], path: any, userOptions: google.maps.PolygonOptions): Obj.Polygon | Obj.PolygonArray {
+  export function addPolygon(id: string | IAddPolygonParms[], path: any, userOptions: google.maps.PolygonOptions): _Obj.Polygon | _Obj.PolygonArray {
     return _add(id, path, userOptions)
   }
 
@@ -28,7 +31,7 @@ namespace GMH.Polygon {
   // Private Functions 
   // ----------------------------------------------------------------------
   
-  function _add(id: string | IAddPolygonParms[], path: any, userOptions: google.maps.PolygonOptions): Obj.Polygon | Obj.PolygonArray {
+  function _add(id: string | IAddPolygonParms[], path: any, userOptions: google.maps.PolygonOptions): _Obj.Polygon | _Obj.PolygonArray {
     if (jQuery.isArray(id)) {
       return _multiAdd(id)
     }
@@ -38,8 +41,8 @@ namespace GMH.Polygon {
     }
   }
 
-  function _multiAdd(objects: IAddPolygonParms[]): Obj.PolygonArray {
-    const polygonArray = new Obj.PolygonArray()
+  function _multiAdd(objects: IAddPolygonParms[]): _Obj.PolygonArray {
+    const polygonArray = new _Obj.PolygonArray()
 
     for (var i = 0, i_end = objects.length; i < i_end; i++) {
       let id = objects[i].id
@@ -54,7 +57,7 @@ namespace GMH.Polygon {
     return polygonArray
   }
 
-  function _addPolygon(id: any, paths: any, userOptions: google.maps.PolygonOptions): Obj.Polygon {
+  function _addPolygon(id: any, paths: any, userOptions: google.maps.PolygonOptions): _Obj.Polygon {
     if (jQuery.type(paths) == "string") {
       paths = Util.toLatLngArray(paths)
     }
@@ -64,7 +67,7 @@ namespace GMH.Polygon {
     options.map = _D.Map.Obj
     options.paths = paths
 
-    _D.Polygon[id] = new Obj.Polygon(id, options)
+    _D.Polygon[id] = new _Obj.Polygon(id, options)
     return _D.Polygon[id]
   }
 

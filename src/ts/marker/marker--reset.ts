@@ -6,9 +6,11 @@
 // Google Maps Helper v1.0.0: marker--reset.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Marker {
+namespace GMH.__gmh__.Marker {
 
-
+  import _D = GMH.__gmh__.Data
+  
+  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -51,7 +53,7 @@ namespace GMH.Marker {
   }
 
   function _resetMarker(id: string): any {
-    return GMH.Marker.update(id, _D.Marker[id].Init.Options);
+    return update(id, _D.Marker[id].Init.Options);
   }
  
 }

@@ -5,8 +5,11 @@
 // Google Maps Helper v1.0.0: label.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
 
+  import _C     = GMH.__gmh__.Constants
+  import _Label = GMH.__gmh__.Label
+  
 
   // ----------------------------------------------------------------------
   // Class Definition
@@ -25,7 +28,7 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
 
     public updatePosition(position: any) {
-      return GMH.Label.updatePosition(this.ID, position)
+      return _Label.updatePosition(this.ID, position)
     }
   }
 

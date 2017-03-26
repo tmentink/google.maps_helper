@@ -7,7 +7,10 @@
  
 namespace GMH.Util {
 
+  import _C   = GMH.__gmh__.Constants
+  import _Obj = GMH.__gmh__.Obj
 
+  
   // ----------------------------------------------------------------------
   // Constants 
   // ----------------------------------------------------------------------
@@ -68,7 +71,7 @@ namespace GMH.Util {
    * @param source A GMH BaseObjectArray 
    * @param exclude Can be a comma separated string, an array or an object
    */
-  export function copy(source: Obj.BaseObjectArray, exclude?: any) {
+  export function copy(source: _Obj.BaseObjectArray, exclude?: any) {
     const src_copy = jQuery.extend(true, {}, source)
  
     // convert exclude into an array
@@ -83,7 +86,7 @@ namespace GMH.Util {
     const src_proto  = Object.keys(Object.getPrototypeOf(source));
     
     // get the baseObjectArray class' prototype
-    const base_proto = Object.keys(Object.getPrototypeOf(new Obj.BaseObjectArray("", "")))
+    const base_proto = Object.keys(Object.getPrototypeOf(new _Obj.BaseObjectArray("", "")))
 
     // merge the src_proto and base_proto into the exclude array
     exclude = src_proto.concat(exclude)
@@ -93,7 +96,7 @@ namespace GMH.Util {
       delete src_copy[exclude[i]]
     }
 
-    const GMH_Obj = source.Type ? new GMH.Obj[source.Type] : {}
+    const GMH_Obj = source.Type ? new _Obj[source.Type] : {}
     return jQuery.extend(GMH_Obj, src_copy)
   }
 
@@ -110,7 +113,7 @@ namespace GMH.Util {
    * Returns an array of the object array's google objects
    * @param obj A GMH ObjectArray 
    */
-  export function getGoogleObjects(objectArray: Obj.BaseObjectArray): string[] {
+  export function getGoogleObjects(objectArray: _Obj.BaseObjectArray): string[] {
     const ids = getIDs(objectArray)
     const googleObjects = ids.map(function(id) {
       return objectArray[id].Obj
@@ -123,7 +126,7 @@ namespace GMH.Util {
    * Returns an array of the object's ids 
    * @param obj A GMH ObjectArray 
    */
-  export function getIDs(objectArray: Obj.BaseObjectArray): string[] {
+  export function getIDs(objectArray: _Obj.BaseObjectArray): string[] {
     let ids = Object.keys(objectArray)
 
     // remove object properties from array

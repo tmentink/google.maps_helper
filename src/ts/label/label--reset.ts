@@ -6,9 +6,11 @@
 // Google Maps Helper v1.0.0: label--reset.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Label {
+namespace GMH.__gmh__.Label {
 
+  import _D = GMH.__gmh__.Data
 
+  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -50,7 +52,7 @@ namespace GMH.Label {
   }
 
   function _resetLabel(id: string): any {
-    return GMH.Label.update(id, _D.Label[id].Init.Options);
+    return update(id, _D.Label[id].Init.Options);
   }
  
 }

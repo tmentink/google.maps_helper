@@ -2,9 +2,12 @@
 // Google Maps Helper v1.0.0: baseObject.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
 
+  import _D   = GMH.__gmh__.Data
+  import _GMH = GMH.__gmh__
 
+  
   // ----------------------------------------------------------------------
   // Class Definition 
   // ----------------------------------------------------------------------
@@ -36,39 +39,39 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
 
     public getBounds() {
-      return GMH[this.Type].getBounds(this.ID)
+      return _GMH[this.Type].getBounds(this.ID)
     }
 
     public getCenter() {
-      return GMH[this.Type].getCenter(this.ID)
+      return _GMH[this.Type].getCenter(this.ID)
     }
 
     public hide() {
-      return GMH[this.Type].hide(this.ID)
+      return _GMH[this.Type].hide(this.ID)
     }
 
     public not() {
-      return GMH.Util.copy(_D[this.Type], this.ID)
+      return Util.copy(_D[this.Type], this.ID)
     }
 
     public remove() {
-      return GMH[this.Type].remove(this.ID)
+      return _GMH[this.Type].remove(this.ID)
     }
 
     public reset() {
-      return GMH[this.Type].reset(this.ID)
+      return _GMH[this.Type].reset(this.ID)
     }
 
     public show() {
-      return GMH[this.Type].show(this.ID)
+      return _GMH[this.Type].show(this.ID)
     }
 
     public toggle() {
-      return GMH[this.Type].toggle(this.ID)
+      return _GMH[this.Type].toggle(this.ID)
     }
 
     public update(options: any) {
-      return GMH[this.Type].update(this.ID, options)
+      return _GMH[this.Type].update(this.ID, options)
     }
   }
 

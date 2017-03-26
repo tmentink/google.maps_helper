@@ -5,9 +5,12 @@
 // Google Maps Helper v1.0.0: polygon.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
 
+  import _C       = GMH.__gmh__.Constants
+  import _Polygon = GMH.__gmh__.Polygon
 
+  
   // ----------------------------------------------------------------------
   // Class Definition 
   // ----------------------------------------------------------------------
@@ -25,19 +28,19 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
 
     public addListener(type: string, fn: Function) {
-      return GMH.Polygon.addListener(this.ID, type, fn)
+      return _Polygon.addListener(this.ID, type, fn)
     }
 
     public removeAllListeners() {
-      return GMH.Polygon.removeAllListeners(this.ID)
+      return _Polygon.removeAllListeners(this.ID)
     }
 
     public removeListenerType(type: string) {
-      return GMH.Polygon.removeListenerType(this.ID, type)
+      return _Polygon.removeListenerType(this.ID, type)
     }
 
     public updatePath(path: any) {
-      return GMH.Polygon.updatePath(this.ID, path)
+      return _Polygon.updatePath(this.ID, path)
     }
   }
 

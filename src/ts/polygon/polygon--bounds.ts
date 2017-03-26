@@ -6,8 +6,10 @@
 // Google Maps Helper v1.0.0: polygon--bounds.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Polygon {
+namespace GMH.__gmh__.Polygon {
 
+  import _D = GMH.__gmh__.Data
+  
 
   // ----------------------------------------------------------------------
   // Public Functions 

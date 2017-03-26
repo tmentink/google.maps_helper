@@ -6,8 +6,10 @@
 // Google Maps Helper v1.0.0: label--bounds.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Label {
+namespace GMH.__gmh__.Label {
 
+  import _D = GMH.__gmh__.Data
+  
 
   // ----------------------------------------------------------------------
   // Public Functions 

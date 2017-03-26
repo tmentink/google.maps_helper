@@ -4,7 +4,11 @@
 // Google Maps Helper v1.0.0: map.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Obj {
+namespace GMH.__gmh__.Obj {
+
+  import _C   = GMH.__gmh__.Constants
+  import _D   = GMH.__gmh__.Data
+  import _Map = GMH.__gmh__.Map
 
 
   // ----------------------------------------------------------------------
@@ -26,7 +30,7 @@ namespace GMH.Obj {
       }
       this.Obj = new google.maps.Map(document.getElementById(containerID), options)
       this.Obj["GMH"] = { 
-        Parent: function() { return GMH._D.Map } 
+        Parent: function() { return _D.Map } 
       }
       this.Type = _C.Object.Type.MAP
 
@@ -42,31 +46,31 @@ namespace GMH.Obj {
     // --------------------------------------------------------------------
     
     public addListener(type: string, fn: Function) {
-      return GMH.Map.addListener(type, fn)
+      return _Map.addListener(type, fn)
     }
 
     public getCenter() {
-      return GMH.Map.getCenter()
+      return _Map.getCenter()
     }
 
     public removeAllListeners() {
-      return GMH.Map.removeAllListeners()
+      return _Map.removeAllListeners()
     }
 
     public removeListenerType(type: string) {
-      return GMH.Map.removeListenerType(type)
+      return _Map.removeListenerType(type)
     }
 
     public reset() {
-      return GMH.Map.reset()
+      return _Map.reset()
     }
 
     public setBounds(type: string | Object[], ids) {
-      return GMH.Map.setBounds(type, ids)
+      return _Map.setBounds(type, ids)
     }
 
     public update(options: google.maps.MapOptions) {
-      return GMH.Map.update(options)
+      return _Map.update(options)
     }
   }
 

@@ -6,9 +6,11 @@
 // Google Maps Helper v1.0.0: map--bounds.ts 
 // ------------------------------------------------------------------------
 
-namespace GMH.Map {
+namespace GMH.__gmh__.Map {
 
-
+  import _D = GMH.__gmh__.Data
+  
+  
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
@@ -18,7 +20,7 @@ namespace GMH.Map {
    * @param type A string or an object of types
    * @param ids A string, number or array of object ids. Can be left null to get all ids 
    */
-  export function setBounds(type: any, ids: any): GMH.Obj.Map {
+  export function setBounds(type: any, ids: any): Obj.Map {
     if (jQuery.type(type) == "object") {
       _multiType(type)
     }
