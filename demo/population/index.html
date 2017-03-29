@@ -124,7 +124,7 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 
     <!-- Google Maps Helper -->
-    <script src="../../dist/google.maps-helper.js"></script>
+    <script src="../../dist/google.maps-helper-2.0.0.js"></script>
 
     <!-- Dummy Ajax -->
     <script src="ajax.js"></script>
@@ -140,7 +140,7 @@
 
       $(document).ready(function(){
         // initialize the map
-        GMH.Map.init("map");
+        GMH.initMap("map");
 
         // draw the polygons
         drawCounties();
@@ -167,17 +167,17 @@
         var polygons = counties.map(_buildPolyOptions);
 
         // add polygons to map
-        GMH.Polygon.add(polygons);
+        GMH.addPolygon(polygons);
 
         // labels need to be made after polygons 
         // so the position can be calculated
         var labels = counties.map(_buildLabelOptions);
 
         // add labels to map
-        GMH.Label.add(labels);
+        GMH.addLabel(labels);
 
         // store a reference of the ids
-        page.ids = GMH.Data.Polygon.IDs();
+        page.ids = GMH.Polygons().getIDs();
 
 
         // private functions for building option arrays
@@ -197,7 +197,7 @@
 
         function _buildLabelOptions(county) {
           // calculate the center of the polygon for the given ID
-          var center = GMH.Polygon.getCenter(county.countyID);
+          var center = GMH.Polygons(county.countyID).getCenter();
 
           // build options needed to create label
           var labelOptions = { 
@@ -247,17 +247,17 @@
           }
 
           // update the label's text
-          GMH.Label.update(id, {text: text});
+          GMH.Labels(id).update({text: text});
         }
 
         // show the selected labels and hide the others
-        GMH.Label.show(page.ids).not().hide();
+        GMH.Labels(page.ids).show().not().hide();
       }
 
       function showPolygons() {
         switch (page.polygons) {
           case "all":
-            page.ids = GMH.Data.Polygon.IDs();
+            page.ids = GMH.Polygons().getIDs();
             break;
 
           case "300+":
@@ -278,14 +278,14 @@
         }
 
         // set the map's bounds to the selected polygons
-        GMH.Map.setBounds("polygon", page.ids);
+        GMH.Map().setBounds("polygon", page.ids);
 
         // show the selected polygons and hide the others
-        GMH.Polygon.show(page.ids).not().hide();
+        GMH.Polygons(page.ids).show().not().hide();
 
         if (page.labels != "hide") {  
           // show the selected labels and hide the others
-          GMH.Label.show(page.ids).not().hide();
+          GMH.Labels(page.ids).show().not().hide();
         }
       }
     </script>

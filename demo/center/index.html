@@ -103,7 +103,7 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 
     <!-- Google Maps Helper -->
-    <script src="../../dist/google.maps-helper.js"></script>
+    <script src="../../dist/google.maps-helper-2.0.0.js"></script>
 
     <!-- Dummy Ajax -->
     <script src="ajax.js"></script>
@@ -117,7 +117,7 @@
 
       $(document).ready(function(){
         // initialize the map
-        GMH.Map.init("map");
+        GMH.initMap("map");
 
         // draw the polygons
         drawCounties();
@@ -155,14 +155,14 @@
         var polygons = counties.map(_buildPolyOptions);
 
         // add polygons to map
-        GMH.Polygon.add(polygons);
+        GMH.addPolygon(polygons);
 
         // labels need to be made after polygons 
         // so the position can be calculated
         var labels = counties.map(_buildLabelOptions);
 
         // add labels to map
-        GMH.Label.add(labels);
+        GMH.addLabel(labels);
 
 
         // private functions for building option arrays
@@ -179,7 +179,7 @@
 
         function _buildLabelOptions(county) {
           // calculate the center of the polygon for the given ID if field is null
-          var center = county.center ? county.center : GMH.Polygon.getCenter(county.countyID);
+          var center = county.center ? county.center : GMH.Polygons(county.countyID).getCenter();
 
           // build options needed to create label
           var labelOptions = { 
@@ -200,7 +200,7 @@
         var markers = counties.map(_buildMarkerOptions);
 
         // add markers with listeners to map
-        GMH.Marker.add(markers).addListener("dragend", function(){
+        GMH.addMarker(markers).addListener("dragend", function(){
           var id = this.GMH.ID;
           var center = this.getPosition().toUrlValue(5);
 
@@ -209,14 +209,14 @@
 
           // update the label's position
           if (page.autoUpdate) {
-            GMH.Label.updatePosition(id, center);
+            GMH.Labels(id).updatePosition(center);
           }
         });
 
         // private function for building option array
         function _buildMarkerOptions(county) {
           // calculate the center of the polygon for the given ID if field is null
-          var center = county.center ? county.center : GMH.Polygon.getCenter(county.countyID);
+          var center = county.center ? county.center : GMH.Polygons(county.countyID).getCenter();
 
           // build options needed to create marker
           var markerOptions = { 
@@ -233,7 +233,7 @@
 
 
       function deleteMarkers() {
-        GMH.Data.Marker.delete();
+        GMH.Markers().remove();
       }
 
       function updateLabels() {
@@ -244,10 +244,10 @@
           var county = counties[i];
         
           // calculate the center of the polygon for the given ID if field is null
-          var center = county.center ? county.center : GMH.Polygon.getCenter(county.countyID);
+          var center = county.center ? county.center : GMH.Polygons(county.countyID).getCenter();
     
           // update the label's position
-          GMH.Label.updatePosition(county.countyID, center);
+          GMH.Labels(county.countyID).updatePosition(center);
         }
       }
     </script>
