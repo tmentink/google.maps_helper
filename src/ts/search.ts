@@ -11,19 +11,51 @@ namespace GMH {
   // ----------------------------------------------------------------------
   // Public Functions 
   // ----------------------------------------------------------------------
+  
   /**
-   * Returns any matching ids for the given object type
-   * @param type A string of the object type 
-   * @param ids An object id or an array of object ids 
+   * Returns a label array containing any matching ids
+   * @param ids An id or an array of ids 
    */
-  export function $(type: string, ids: any){
-    type = Util.getObjectType(type)
-    if (type == _C.Object.Type.MAP) {
-      return _D.Map;
+  export function Labels(ids: any) {
+    if (ids) {
+      const exclude = getIDsToExclude(_C.Object.Type.LABEL, Util.toArray(ids))
+      return Util.copy(_D.Label, exclude)
     }
 
-    const exclude = getIDsToExclude(type, Util.toArray(ids))
-    return Util.copy(_D[type], exclude)
+    return _D.Label;
+  }
+
+  /**
+   * Returns the map 
+   */
+  export function Map() {
+    return _D.Map; 
+  }
+
+  /**
+   * Returns a marker array containing any matching ids
+   * @param ids An id or an array of ids 
+   */
+  export function Markers(ids: any) {
+    if (ids) {
+      const exclude = getIDsToExclude(_C.Object.Type.MARKER, Util.toArray(ids))
+      return Util.copy(_D.Marker, exclude)
+    }
+
+    return _D.Marker;
+  }
+
+  /**
+   * Returns a polygon array containing any matching ids
+   * @param ids An id or an array of ids 
+   */
+  export function Polygons(ids: any) {
+    if (ids) {
+      const exclude = getIDsToExclude(_C.Object.Type.POLYGON, Util.toArray(ids))
+      return Util.copy(_D.Polygon, exclude)
+    }
+
+    return _D.Polygon;
   }
 
 
@@ -32,14 +64,10 @@ namespace GMH {
   // ----------------------------------------------------------------------
   
   function getIDsToExclude(type: string, ids: any) {
-    let exclude
-    
-    if (ids) {
-      const allIDs = _D[type].getIDs()
-      exclude = allIDs.filter(function(i){
-        return ids.indexOf(i) === -1
-      })
-    }
+    const allIDs = _D[type].getIDs()
+    const exclude = allIDs.filter(function(i){
+      return ids.indexOf(i) === -1
+    })
 
     return exclude
   }

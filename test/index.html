@@ -8,12 +8,28 @@
     <meta name="author" content="Trent Mentink">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <!--  -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0SLOL7qb7Ch3gVhP0yBCVYCp1_lVwF60"></script>
+    <style type="text/css">
+      #map {
+        height: calc(100vh - 10px);
+        width: calc(100vw - 10px);
+        background: #5bc0de;
+        float: left;
+      }
+
+      #map span {
+        display: block;
+        margin-top: 43vh;
+        text-align: center;
+        font-size: 35px;
+      }
+    </style>
   </head>
   <body style="margin: 5px;">
 
-    <div id="map" style="height: calc(100vh - 10px); width: calc(100vw - 10px); background: rgba(28,148,196,.8); float: left;"><span style="display: block; margin-top: 43vh; text-align:center; font-size: 34px;">GMH.Map.init("map")</span></div>
+    <div id="map">
+      <span>GMH.initMap("map")</span>
+    </div>
 
 <!-- SCRIPTS
 ===========================================-->

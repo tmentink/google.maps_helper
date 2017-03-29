@@ -2117,23 +2117,39 @@ var GMH;
 (function(GMH) {
   var _C = GMH.__gmh__.Constants;
   var _D = GMH.__gmh__.Data;
-  function $(type, ids) {
-    type = GMH.Util.getObjectType(type);
-    if (type == _C.Object.Type.MAP) {
-      return _D.Map;
-    }
-    var exclude = getIDsToExclude(type, GMH.Util.toArray(ids));
-    return GMH.Util.copy(_D[type], exclude);
-  }
-  GMH.$ = $;
-  function getIDsToExclude(type, ids) {
-    var exclude;
+  function Labels(ids) {
     if (ids) {
-      var allIDs = _D[type].getIDs();
-      exclude = allIDs.filter(function(i) {
-        return ids.indexOf(i) === -1;
-      });
+      var exclude = getIDsToExclude(_C.Object.Type.LABEL, GMH.Util.toArray(ids));
+      return GMH.Util.copy(_D.Label, exclude);
     }
+    return _D.Label;
+  }
+  GMH.Labels = Labels;
+  function Map() {
+    return _D.Map;
+  }
+  GMH.Map = Map;
+  function Markers(ids) {
+    if (ids) {
+      var exclude = getIDsToExclude(_C.Object.Type.MARKER, GMH.Util.toArray(ids));
+      return GMH.Util.copy(_D.Marker, exclude);
+    }
+    return _D.Marker;
+  }
+  GMH.Markers = Markers;
+  function Polygons(ids) {
+    if (ids) {
+      var exclude = getIDsToExclude(_C.Object.Type.POLYGON, GMH.Util.toArray(ids));
+      return GMH.Util.copy(_D.Polygon, exclude);
+    }
+    return _D.Polygon;
+  }
+  GMH.Polygons = Polygons;
+  function getIDsToExclude(type, ids) {
+    var allIDs = _D[type].getIDs();
+    var exclude = allIDs.filter(function(i) {
+      return ids.indexOf(i) === -1;
+    });
     return exclude;
   }
 })(GMH || (GMH = {}));
