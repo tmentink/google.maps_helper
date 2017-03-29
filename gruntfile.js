@@ -42,14 +42,14 @@ module.exports = function(grunt) {
           banner: banner
         },
         src: 'src/js/main.js',
-        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.js',
+        dest: 'dist/<%= pkg.name %>.js',
       },
       dist: {
         options: {
           banner: banner
         },
         src: 'src/js/main.js',
-        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js',
+        dest: 'dist/<%= pkg.name %>.min.js',
       }
     },
     watch: {
