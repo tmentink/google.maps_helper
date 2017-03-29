@@ -19,7 +19,7 @@ namespace GMH.__gmh__.Label {
    */
   export function updatePosition(id: string | string[], position: any): Obj.Label | Obj.LabelArray {
     if (jQuery.type(position) == "string") {
-      position = Util.toLatLngArray(position)
+      position = Util.toLatLng(position)
     }
 
     return _updatePosition(id, position)

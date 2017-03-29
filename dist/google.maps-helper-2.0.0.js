@@ -416,7 +416,7 @@ var GMH;
     (function(Label) {
       function updatePosition(id, position) {
         if (jQuery.type(position) == "string") {
-          position = GMH.Util.toLatLngArray(position);
+          position = GMH.Util.toLatLng(position);
         }
         return _updatePosition(id, position);
       }
