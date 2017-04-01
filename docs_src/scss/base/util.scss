@@ -1,0 +1,18 @@
+// ------------------------------------------------------------------------
+// Google Maps Helper Docs: util.scss 
+// ------------------------------------------------------------------------
+
+
+// ------------------------------------------------------------------------
+// Unit Calculations 
+// ------------------------------------------------------------------------
+
+  @function em($target: $font-size--base, $context: $font-size--base) {
+    @return ($target / $context) * 1em;
+  }
+
+  @function rem($target: $font-size--base, $context: $font-size--base) {
+    @return ($target / $context) * 1rem;
+  }
+  
+  
